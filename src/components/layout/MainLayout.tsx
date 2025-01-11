@@ -4,14 +4,15 @@ import { Timer } from "lucide-react"
 import { StudyTimerDialog } from "@/components/StudyTimerDialog"
 import { useState } from "react"
 import { useAuth } from "@/hooks/useAuth"
+import { Outlet } from "react-router-dom"
 
-const MainLayout = ({ children }: { children: React.ReactNode }) => {
+const MainLayout = () => {
   const [timerDialogOpen, setTimerDialogOpen] = useState(false)
   const { user } = useAuth()
 
   // Se não houver usuário, renderiza apenas o conteúdo sem o layout
   if (!user) {
-    return <>{children}</>
+    return <Outlet />
   }
 
   return (
@@ -19,7 +20,7 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
       <TopNavigation />
       <main className="flex-1">
         <div className="container py-6">
-          {children}
+          <Outlet />
         </div>
       </main>
 
