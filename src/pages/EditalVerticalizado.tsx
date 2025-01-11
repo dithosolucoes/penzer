@@ -69,7 +69,12 @@ const EditalVerticalizado = () => {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">EDITAL VERTICALIZADO</h1>
           <div className="flex items-center gap-2">
-            <AddStudyDialog />
+            <AddStudyDialog>
+              <Button variant="secondary">
+                <Plus className="h-4 w-4" />
+                ADICIONAR ESTUDO
+              </Button>
+            </AddStudyDialog>
           </div>
         </div>
 
