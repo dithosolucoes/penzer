@@ -7,7 +7,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import { Input } from "@/components/ui/input"
-import { Plus, Save, Trash2 } from "lucide-react"
+import { Plus, Save, Trash2, GripVertical, MoreHorizontal } from "lucide-react"
 import { useState } from "react"
 
 interface EditEditalSheetProps {
@@ -20,12 +20,24 @@ export function EditEditalSheet({ open, onOpenChange, editalTitle }: EditEditalS
   const [disciplines, setDisciplines] = useState([
     { 
       id: 1,
-      code: "D1",
-      name: "DIREITO CONSTITUCIONAL",
+      code: "MAT",
+      name: "CLINICA MÉDICA",
       weight: 1,
       topics: [
-        { id: 1, name: "Constituição: conceito, objeto e elementos" },
-        { id: 2, name: "Supremacia da Constituição" }
+        { 
+          id: 1, 
+          name: "Sepse",
+          subtopics: [
+            { id: 1, name: "Sepse" }
+          ]
+        },
+        { 
+          id: 2, 
+          name: "HIV (Vírus da Imunodeficiência Humana)",
+          subtopics: [
+            { id: 1, name: "HIV (Vírus da Imunodeficiência Humana)" }
+          ]
+        }
       ]
     }
   ])
@@ -34,7 +46,7 @@ export function EditEditalSheet({ open, onOpenChange, editalTitle }: EditEditalS
     const newId = disciplines.length + 1
     setDisciplines([...disciplines, {
       id: newId,
-      code: `D${newId}`,
+      code: "",
       name: "",
       weight: 1,
       topics: []
@@ -47,23 +59,28 @@ export function EditEditalSheet({ open, onOpenChange, editalTitle }: EditEditalS
         const newTopicId = disc.topics.length + 1
         return {
           ...disc,
-          topics: [...disc.topics, { id: newTopicId, name: "" }]
+          topics: [...disc.topics, { id: newTopicId, name: "", subtopics: [] }]
         }
       }
       return disc
     }))
   }
 
-  const removeDiscipline = (id: number) => {
-    setDisciplines(disciplines.filter(d => d.id !== id))
-  }
-
-  const removeTopic = (disciplineId: number, topicId: number) => {
+  const addSubtopic = (disciplineId: number, topicId: number) => {
     setDisciplines(disciplines.map(disc => {
       if (disc.id === disciplineId) {
         return {
           ...disc,
-          topics: disc.topics.filter(t => t.id !== topicId)
+          topics: disc.topics.map(topic => {
+            if (topic.id === topicId) {
+              const newSubtopicId = topic.subtopics.length + 1
+              return {
+                ...topic,
+                subtopics: [...topic.subtopics, { id: newSubtopicId, name: "" }]
+              }
+            }
+            return topic
+          })
         }
       }
       return disc
@@ -82,48 +99,117 @@ export function EditEditalSheet({ open, onOpenChange, editalTitle }: EditEditalS
 
         <div className="space-y-6">
           {disciplines.map((discipline) => (
-            <div key={discipline.id} className="p-4 border rounded-lg space-y-4">
-              <div className="flex items-center gap-4">
-                <Input 
-                  placeholder="Código" 
-                  value={discipline.code}
-                  className="w-24"
-                />
-                <Input 
-                  placeholder="Nome da Disciplina" 
-                  value={discipline.name}
-                  className="flex-1"
-                />
-                <Input 
-                  type="number" 
-                  placeholder="Peso" 
-                  value={discipline.weight}
-                  className="w-24"
-                />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => removeDiscipline(discipline.id)}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
+            <div key={discipline.id} className="space-y-4">
+              <div className="flex items-start gap-4 bg-gray-50 p-4 rounded-lg">
+                <div className="space-y-1">
+                  <div className="text-xs font-medium text-gray-500">SIGLA</div>
+                  <Input 
+                    placeholder="Sigla" 
+                    value={discipline.code}
+                    className="w-24 bg-white"
+                  />
+                </div>
+                <div className="space-y-1 flex-1">
+                  <div className="text-xs font-medium text-gray-500">NOME DA DISCIPLINA</div>
+                  <Input 
+                    placeholder="Nome da Disciplina" 
+                    value={discipline.name}
+                    className="bg-white"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <div className="text-xs font-medium text-gray-500">PESO</div>
+                  <Input 
+                    type="number" 
+                    placeholder="Peso" 
+                    value={discipline.weight}
+                    className="w-24 bg-white"
+                  />
+                </div>
+                <div className="flex items-center gap-2 mt-6">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                  >
+                    <GripVertical className="h-4 w-4 text-gray-500" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                  >
+                    <MoreHorizontal className="h-4 w-4 text-gray-500" />
+                  </Button>
+                </div>
               </div>
 
-              <div className="space-y-2 pl-4">
+              <div className="space-y-3 pl-8">
                 {discipline.topics.map((topic) => (
-                  <div key={topic.id} className="flex items-center gap-4">
-                    <Input 
-                      placeholder="Nome do Tópico" 
-                      value={topic.name}
-                      className="flex-1"
-                    />
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => removeTopic(discipline.id, topic.id)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                  <div key={topic.id} className="space-y-3">
+                    <div className="flex items-center gap-4">
+                      <div className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                        TÓPICO
+                      </div>
+                      <Input 
+                        placeholder="Nome do Tópico" 
+                        value={topic.name}
+                        className="flex-1"
+                      />
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8"
+                          onClick={() => addSubtopic(discipline.id, topic.id)}
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8"
+                        >
+                          <GripVertical className="h-4 w-4 text-gray-500" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8"
+                        >
+                          <MoreHorizontal className="h-4 w-4 text-gray-500" />
+                        </Button>
+                      </div>
+                    </div>
+
+                    {topic.subtopics.map((subtopic) => (
+                      <div key={subtopic.id} className="flex items-center gap-4 pl-8">
+                        <div className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                          SUBTÓPICO
+                        </div>
+                        <Input 
+                          placeholder="Nome do Subtópico" 
+                          value={subtopic.name}
+                          className="flex-1"
+                        />
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8"
+                          >
+                            <GripVertical className="h-4 w-4 text-gray-500" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8"
+                          >
+                            <MoreHorizontal className="h-4 w-4 text-gray-500" />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 ))}
                 <Button
