@@ -17,18 +17,21 @@ import { supabase } from "@/integrations/supabase/client"
 import { useAuth } from "@/hooks/useAuth"
 
 interface Edital {
-  id: string;
+  id: number;
   title: string;
   organization: string;
-  year: number;
+  year: string;
   image: string;
   vagas: number;
+}
+
+interface EditalWithType extends Edital {
   type: string;
 }
 
 const Editais = () => {
   const { user } = useAuth()
-  const [editingEdital, setEditingEdital] = useState<Edital | null>(null)
+  const [editingEdital, setEditingEdital] = useState<EditalWithType | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
 
   const { data: myEditais = [], isLoading: isLoadingMyEditais } = useQuery({
@@ -48,10 +51,10 @@ const Editais = () => {
       }
 
       return data.map(edital => ({
-        id: edital.id,
+        id: parseInt(edital.id),
         title: edital.title,
         organization: edital.organization,
-        year: edital.year,
+        year: edital.year.toString(),
         image: edital.logo_url || "",
         vagas: edital.vagas || 0,
         type: "EDITAR EDITAL"
@@ -162,9 +165,7 @@ const Editais = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <Carou
-
-selPrevious className="hidden md:flex" />
+            <CarouselPrevious className="hidden md:flex" />
             <CarouselNext className="hidden md:flex" />
           </Carousel>
         </div>
