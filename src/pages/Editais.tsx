@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { FileText, Plus, Search, Timer } from "lucide-react"
+import { FileText, Plus, Search } from "lucide-react"
 import {
   Carousel,
   CarouselContent,
@@ -8,8 +8,6 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { Input } from "@/components/ui/input"
-import { StudyTimerDialog } from "@/components/StudyTimerDialog"
-import { useState } from "react"
 
 interface Edital {
   id: number
@@ -65,8 +63,6 @@ const myEditais: Edital[] = [
 ]
 
 const Editais = () => {
-  const [timerDialogOpen, setTimerDialogOpen] = useState(false)
-
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-[#E8E8E8]/10">
       <div className="container py-8">
@@ -162,24 +158,6 @@ const Editais = () => {
             <CarouselNext className="hidden md:flex" />
           </Carousel>
         </div>
-
-        {/* Timer Button */}
-        <div className="fixed bottom-4 right-4">
-          <Button
-            variant="secondary"
-            size="icon"
-            className="rounded-full shadow-lg bg-white hover:bg-gray-100"
-            onClick={() => setTimerDialogOpen(true)}
-          >
-            <Timer className="h-5 w-5" />
-          </Button>
-        </div>
-
-        {/* Timer Dialog */}
-        <StudyTimerDialog
-          open={timerDialogOpen}
-          onOpenChange={setTimerDialogOpen}
-        />
       </div>
     </div>
   )
