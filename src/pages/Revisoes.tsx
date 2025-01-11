@@ -20,27 +20,35 @@ const Revisoes = () => {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">REVISÕES</h1>
           <div className="flex items-center gap-3">
-            <ReviewSettingsDialog>
-              <Button 
-                variant="secondary" 
-                size="sm"
-                type="button"
-                className="font-medium flex items-center gap-2"
-              >
-                <Settings2 className="h-4 w-4" />
-                CONFIGURAÇÕES
-              </Button>
-            </ReviewSettingsDialog>
-            <AddStudyDialog>
-              <Button 
-                variant="secondary" 
-                size="sm"
-                type="button"
-                className="font-medium"
-              >
-                ADICIONAR ESTUDO
-              </Button>
-            </AddStudyDialog>
+            <Button 
+              variant="secondary" 
+              size="sm"
+              type="button"
+              className="font-medium flex items-center gap-2"
+              onClick={() => {
+                const dialog = document.querySelector("[data-trigger='review-settings']")
+                if (dialog instanceof HTMLElement) {
+                  dialog.click()
+                }
+              }}
+            >
+              <Settings2 className="h-4 w-4" />
+              CONFIGURAÇÕES
+            </Button>
+            <Button 
+              variant="secondary" 
+              size="sm"
+              type="button"
+              className="font-medium"
+              onClick={() => {
+                const dialog = document.querySelector("[data-trigger='add-study']")
+                if (dialog instanceof HTMLElement) {
+                  dialog.click()
+                }
+              }}
+            >
+              ADICIONAR ESTUDO
+            </Button>
           </div>
         </div>
 
