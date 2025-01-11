@@ -24,6 +24,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { GoogleCalendarDialog } from "@/components/GoogleCalendarDialog"
+import { DayContent } from "react-day-picker"
 
 const Index = () => {
   const { user } = useAuth()
@@ -60,19 +61,19 @@ const Index = () => {
   }, {} as Record<string, typeof studySessions>)
 
   // Custom day render function for the calendar with proper TypeScript types
-  const renderDay = (day: Date, cellProps: { [key: string]: any }) => {
+  const renderDay = (day: Date, props: DayContent) => {
     const dateKey = format(day, 'yyyy-MM-dd')
     const sessions = studySessionsByDate?.[dateKey]
 
     if (!sessions?.length) {
-      return <div {...cellProps}>{format(day, 'd')}</div>
+      return <div {...props}>{format(day, 'd')}</div>
     }
 
     return (
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <div {...cellProps} className="relative">
+            <div {...props} className="relative">
               {format(day, 'd')}
               <div className="w-2 h-2 bg-green-500 rounded-full absolute bottom-1 left-1/2 transform -translate-x-1/2" />
             </div>
