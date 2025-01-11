@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { ReviewSettingsDialog } from "@/components/ReviewSettingsDialog"
+import { AddStudyDialog } from "@/components/AddStudyDialog"
 
 const Revisoes = () => {
   return (
@@ -20,7 +21,10 @@ const Revisoes = () => {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold">FILTROS</h2>
-            <ReviewSettingsDialog />
+            <div className="flex items-center gap-2">
+              <ReviewSettingsDialog />
+              <AddStudyDialog />
+            </div>
           </div>
           <div className="bg-white rounded-lg p-6 shadow-sm">
             <div className="space-y-4">
