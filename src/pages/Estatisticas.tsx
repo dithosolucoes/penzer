@@ -94,6 +94,34 @@ const Estatisticas = () => {
     ]
   }
 
+  // Mock data for evolution tab
+  const mockEvolutionData = {
+    dadosGerais: [
+      { title: "Total de Horas", value: "480h" },
+      { title: "Média Mensal", value: "120h" },
+      { title: "Total Páginas", value: "1800" },
+      { title: "Média Acertos", value: "78%" }
+    ],
+    horasEstudoMes: [
+      { name: 'Jan', horas: 100 },
+      { name: 'Fev', horas: 120 },
+      { name: 'Mar', horas: 90 },
+      { name: 'Abr', horas: 150 },
+    ],
+    paginasLidasMes: [
+      { name: 'Jan', paginas: 400 },
+      { name: 'Fev', paginas: 450 },
+      { name: 'Mar', paginas: 380 },
+      { name: 'Abr', paginas: 570 },
+    ],
+    acertosErrosMes: [
+      { name: 'Jan', acertos: 75, erros: 25 },
+      { name: 'Fev', acertos: 80, erros: 20 },
+      { name: 'Mar', acertos: 73, erros: 27 },
+      { name: 'Abr', acertos: 85, erros: 15 },
+    ]
+  }
+
   // Updated color palette using project colors
   const COLORS = [
     'hsl(var(--primary))',
@@ -105,7 +133,6 @@ const Estatisticas = () => {
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-background">
       <div className="container py-8">
-        {/* Page Header */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold text-foreground">ESTATÍSTICAS</h1>
           <Button 
@@ -116,7 +143,6 @@ const Estatisticas = () => {
           </Button>
         </div>
 
-        {/* Performance Tabs */}
         <Tabs defaultValue="semanal" className="mb-8">
           <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="semanal">DESEMPENHO SEMANA ATUAL</TabsTrigger>
@@ -379,11 +405,91 @@ const Estatisticas = () => {
             </Card>
           </TabsContent>
 
-          <TabsContent value="evolucao">
-            {/* Will be implemented in the next step */}
-            <div className="text-center py-8 text-muted-foreground">
-              Evolução será implementada no próximo passo
+          <TabsContent value="evolucao" className="space-y-6">
+            {/* General Data Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
+              {mockEvolutionData.dadosGerais.map((item, index) => (
+                <Card key={index}>
+                  <CardHeader className="py-4">
+                    <CardTitle className="text-sm font-medium">{item.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-2xl font-bold">{item.value}</p>
+                  </CardContent>
+                </Card>
+              ))}
             </div>
+
+            {/* Study Hours by Month */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">HORAS DE ESTUDO POR MÊS</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ChartContainer className="h-[300px]" config={{}}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={mockEvolutionData.horasEstudoMes}>
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                      <XAxis dataKey="name" className="text-muted-foreground" />
+                      <YAxis className="text-muted-foreground" />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Line 
+                        type="monotone" 
+                        dataKey="horas" 
+                        stroke="hsl(var(--primary))"
+                        strokeWidth={2}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+              </CardContent>
+            </Card>
+
+            {/* Pages Read by Month */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">PÁGINAS LIDAS POR MÊS</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ChartContainer className="h-[300px]" config={{}}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={mockEvolutionData.paginasLidasMes}>
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                      <XAxis dataKey="name" className="text-muted-foreground" />
+                      <YAxis className="text-muted-foreground" />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Line 
+                        type="monotone" 
+                        dataKey="paginas" 
+                        stroke="hsl(var(--accent))"
+                        strokeWidth={2}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+              </CardContent>
+            </Card>
+
+            {/* Hits and Misses by Month */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">ACERTOS X ERROS POR MÊS</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ChartContainer className="h-[300px]" config={{}}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={mockEvolutionData.acertosErrosMes}>
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                      <XAxis dataKey="name" className="text-muted-foreground" />
+                      <YAxis className="text-muted-foreground" />
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Bar dataKey="acertos" fill="hsl(var(--accent))" />
+                      <Bar dataKey="erros" fill="hsl(var(--destructive))" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>
