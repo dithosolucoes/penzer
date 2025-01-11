@@ -3,9 +3,16 @@ import { Button } from "@/components/ui/button"
 import { Timer } from "lucide-react"
 import { StudyTimerDialog } from "@/components/StudyTimerDialog"
 import { useState } from "react"
+import { useAuth } from "@/hooks/useAuth"
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [timerDialogOpen, setTimerDialogOpen] = useState(false)
+  const { user } = useAuth()
+
+  // Se não houver usuário, renderiza apenas o conteúdo sem o layout
+  if (!user) {
+    return <>{children}</>
+  }
 
   return (
     <div className="min-h-screen flex flex-col w-full">

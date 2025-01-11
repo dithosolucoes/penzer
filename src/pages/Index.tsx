@@ -9,13 +9,18 @@ const Index = () => {
 
   if (!user) {
     return (
-      <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-[#E8E8E8]/10">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-8">Bem-vindo ao Sistema de Estudos</h1>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="w-full max-w-md p-6 space-y-8">
+          <div className="flex flex-col items-center justify-center space-y-2">
+            <h1 className="text-2xl font-bold">Bem-vindo ao Sistema de Estudos</h1>
+            <p className="text-muted-foreground text-center">
+              Faça login para acessar sua área de estudos
+            </p>
+          </div>
           <AuthUI />
         </div>
       </div>
-    )
+    );
   }
 
   return (
