@@ -21,7 +21,6 @@ import {
 } from "recharts"
 
 const Estatisticas = () => {
-  // Mock data - replace with real data later
   const mockData = {
     horasEstudadas: [
       { name: 'Seg', horas: 4 },
@@ -95,18 +94,23 @@ const Estatisticas = () => {
     ]
   }
 
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
+  // Updated color palette using project colors
+  const COLORS = [
+    'hsl(var(--primary))',
+    'hsl(var(--accent))',
+    'hsl(var(--secondary))',
+    'hsl(var(--muted))'
+  ]
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-[#E8E8E8]/10">
+    <div className="min-h-[calc(100vh-4rem)] bg-background">
       <div className="container py-8">
         {/* Page Header */}
         <div className="flex justify-between items-center mb-8">
-          <h1 className="text-2xl font-bold">ESTATÍSTICAS</h1>
+          <h1 className="text-2xl font-bold text-foreground">ESTATÍSTICAS</h1>
           <Button 
             variant="secondary" 
             size="sm"
-            className="bg-[#E8E8E8] hover:bg-[#E8E8E8]/80"
           >
             ADICIONAR ESTUDO
           </Button>
@@ -131,11 +135,11 @@ const Estatisticas = () => {
                   <ChartContainer className="h-[300px]" config={{}}>
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={mockData.horasEstudadas}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
+                        <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                        <XAxis dataKey="name" className="text-muted-foreground" />
+                        <YAxis className="text-muted-foreground" />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        <Bar dataKey="horas" fill="#8884d8" />
+                        <Bar dataKey="horas" fill="hsl(var(--primary))" />
                       </BarChart>
                     </ResponsiveContainer>
                   </ChartContainer>
@@ -157,7 +161,7 @@ const Estatisticas = () => {
                           cy="50%"
                           labelLine={false}
                           outerRadius={80}
-                          fill="#8884d8"
+                          fill="hsl(var(--primary))"
                           dataKey="value"
                         >
                           {mockData.divisaoEstudos.map((entry, index) => (
@@ -180,11 +184,11 @@ const Estatisticas = () => {
                   <ChartContainer className="h-[300px]" config={{}}>
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={mockData.disciplinasHoras} layout="vertical">
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis type="number" />
-                        <YAxis dataKey="name" type="category" />
+                        <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                        <XAxis type="number" className="text-muted-foreground" />
+                        <YAxis dataKey="name" type="category" className="text-muted-foreground" />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        <Bar dataKey="horas" fill="#8884d8" />
+                        <Bar dataKey="horas" fill="hsl(var(--accent))" />
                       </BarChart>
                     </ResponsiveContainer>
                   </ChartContainer>
@@ -200,11 +204,16 @@ const Estatisticas = () => {
                   <ChartContainer className="h-[300px]" config={{}}>
                     <ResponsiveContainer width="100%" height="100%">
                       <LineChart data={mockData.paginasLidas}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
+                        <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                        <XAxis dataKey="name" className="text-muted-foreground" />
+                        <YAxis className="text-muted-foreground" />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        <Line type="monotone" dataKey="paginas" stroke="#8884d8" />
+                        <Line 
+                          type="monotone" 
+                          dataKey="paginas" 
+                          stroke="hsl(var(--primary))"
+                          strokeWidth={2}
+                        />
                       </LineChart>
                     </ResponsiveContainer>
                   </ChartContainer>
@@ -238,11 +247,11 @@ const Estatisticas = () => {
                   <ChartContainer className="h-[300px]" config={{}}>
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={mockTotalData.horasEstudo}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="name" />
-                        <YAxis />
+                        <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                        <XAxis dataKey="name" className="text-muted-foreground" />
+                        <YAxis className="text-muted-foreground" />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        <Bar dataKey="horas" fill="#8884d8" />
+                        <Bar dataKey="horas" fill="hsl(var(--primary))" />
                       </BarChart>
                     </ResponsiveContainer>
                   </ChartContainer>
@@ -263,7 +272,7 @@ const Estatisticas = () => {
                           cy="50%"
                           labelLine={false}
                           outerRadius={80}
-                          fill="#8884d8"
+                          fill="hsl(var(--primary))"
                           dataKey="value"
                         >
                           {mockTotalData.divisaoEstudos.map((entry, index) => (
@@ -287,12 +296,12 @@ const Estatisticas = () => {
                 <ChartContainer className="h-[300px]" config={{}}>
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={mockTotalData.acertosErros}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis />
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                      <XAxis dataKey="name" className="text-muted-foreground" />
+                      <YAxis className="text-muted-foreground" />
                       <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar dataKey="acertos" stackId="a" fill="#4CAF50" />
-                      <Bar dataKey="erros" stackId="a" fill="#f44336" />
+                      <Bar dataKey="acertos" stackId="a" fill="hsl(var(--accent))" />
+                      <Bar dataKey="erros" stackId="a" fill="hsl(var(--destructive))" />
                     </BarChart>
                   </ResponsiveContainer>
                 </ChartContainer>
@@ -309,11 +318,11 @@ const Estatisticas = () => {
                   <ChartContainer className="h-[300px]" config={{}}>
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={mockTotalData.paginasLidas} layout="vertical">
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis type="number" />
-                        <YAxis dataKey="name" type="category" />
+                        <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                        <XAxis type="number" className="text-muted-foreground" />
+                        <YAxis dataKey="name" type="category" className="text-muted-foreground" />
                         <ChartTooltip content={<ChartTooltipContent />} />
-                        <Bar dataKey="paginas" fill="#8884d8" />
+                        <Bar dataKey="paginas" fill="hsl(var(--primary))" />
                       </BarChart>
                     </ResponsiveContainer>
                   </ChartContainer>
@@ -334,7 +343,7 @@ const Estatisticas = () => {
                           cy="50%"
                           labelLine={false}
                           outerRadius={80}
-                          fill="#8884d8"
+                          fill="hsl(var(--primary))"
                           dataKey="concluido"
                         >
                           {mockTotalData.conclusaoEdital.map((entry, index) => (
@@ -358,11 +367,11 @@ const Estatisticas = () => {
                 <ChartContainer className="h-[300px]" config={{}}>
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={mockTotalData.conclusaoEdital}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis />
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                      <XAxis dataKey="name" className="text-muted-foreground" />
+                      <YAxis className="text-muted-foreground" />
                       <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar dataKey="concluido" fill="#8884d8" />
+                      <Bar dataKey="concluido" fill="hsl(var(--primary))" />
                     </BarChart>
                   </ResponsiveContainer>
                 </ChartContainer>
