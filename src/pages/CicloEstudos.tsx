@@ -37,27 +37,19 @@ const CicloEstudos = () => {
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>(["MICROBIOLOGIA MÉDICA"])
   const [isEditing, setIsEditing] = useState(false)
 
-  const handleAddSubject = (subject: Subject) => {
-    setSubjects([...subjects, subject])
-  }
-
-  const handleRemoveSubject = (id: number) => {
-    setSubjects(subjects.filter(s => s.id !== id))
-  }
-
-  const handleSelectSubject = (name: string) => {
-    if (selectedSubjects.includes(name)) {
-      setSelectedSubjects(selectedSubjects.filter(s => s !== name))
-    } else {
-      setSelectedSubjects([...selectedSubjects, name])
-    }
-  }
-
   const handleSaveCycle = () => {
     setIsEditing(false)
     toast.success("Ciclo Salvo!", {
       description: "Seu ciclo de estudos foi salvo com sucesso!"
     })
+  }
+
+  const handleClearCycle = () => {
+    setSelectedSubjects([])
+  }
+
+  const handleRemoveSubject = (subjectName: string) => {
+    setSelectedSubjects(selectedSubjects.filter(s => s !== subjectName))
   }
 
   return (
@@ -172,12 +164,22 @@ const CicloEstudos = () => {
                 >
                   {subject}
                   {isEditing && (
-                    <button onClick={() => handleSelectSubject(subject)}>
+                    <button onClick={() => handleRemoveSubject(subject)}>
                       <X className="w-4 h-4" />
                     </button>
                   )}
                 </div>
               ))}
+              {isEditing && selectedSubjects.length > 0 && (
+                <Button
+                  variant="secondary"
+                  className="w-full flex items-center justify-center gap-2"
+                  onClick={handleClearCycle}
+                >
+                  <X className="w-4 h-4" />
+                  LIMPAR CICLO
+                </Button>
+              )}
             </div>
           </div>
         </div>
