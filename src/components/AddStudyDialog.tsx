@@ -37,7 +37,11 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>
 
-export function AddStudyDialog() {
+interface AddStudyDialogProps {
+  children: React.ReactNode
+}
+
+export function AddStudyDialog({ children }: AddStudyDialogProps) {
   const [open, setOpen] = useState(false)
   const { toast } = useToast()
   const { user } = useAuth()
@@ -90,10 +94,7 @@ export function AddStudyDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="gap-2">
-          <Plus className="h-4 w-4" />
-          ADICIONAR ESTUDO
-        </Button>
+        {children}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px] bg-white max-h-[90vh] flex flex-col">
         <DialogHeader>
