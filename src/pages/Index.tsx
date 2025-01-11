@@ -16,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
 import {
   Tooltip,
   TooltipContent,
@@ -60,22 +60,22 @@ const Index = () => {
   }, {} as Record<string, typeof studySessions>)
 
   // Custom day render function for the calendar
-  const renderDay = (day: Date, props: React.HTMLProps<HTMLButtonElement> = {}) => {
+  const renderDay = (day: Date) => {
     const dateKey = format(day, 'yyyy-MM-dd')
     const sessions = studySessionsByDate?.[dateKey]
 
     if (!sessions?.length) {
-      return <button {...props}>{format(day, 'd')}</button>
+      return format(day, 'd')
     }
 
     return (
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <button {...props} className={`${props.className} relative`}>
+            <div className="relative">
               {format(day, 'd')}
               <div className="w-2 h-2 bg-green-500 rounded-full absolute bottom-1 left-1/2 transform -translate-x-1/2" />
-            </button>
+            </div>
           </TooltipTrigger>
           <TooltipContent>
             <div className="text-sm">
@@ -228,7 +228,7 @@ const Index = () => {
                 className="rounded-md border"
                 locale={ptBR}
                 components={{
-                  Day: ({ date: dayDate, ...props }) => renderDay(dayDate, props),
+                  Day: ({ date: dayDate }) => renderDay(dayDate),
                 }}
               />
             </div>
