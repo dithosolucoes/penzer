@@ -12,12 +12,18 @@ import Estatisticas from "./pages/Estatisticas"
 import CicloEstudos from "./pages/CicloEstudos"
 import Editais from "./pages/Editais"
 import { AuthTest } from "./components/AuthTest"
+import { useAuth } from "@/hooks/useAuth"
 
 const queryClient = new QueryClient()
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
+const AppContent = () => {
+  const { loading } = useAuth()
+
+  // Não renderiza nada enquanto verifica a autenticação
+  if (loading) return null
+
+  return (
+    <>
       <AuthTest />
       <Toaster />
       <Sonner />
@@ -34,6 +40,14 @@ const App = () => (
           </Routes>
         </MainLayout>
       </BrowserRouter>
+    </>
+  )
+}
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <AppContent />
     </TooltipProvider>
   </QueryClientProvider>
 )

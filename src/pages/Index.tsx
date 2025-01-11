@@ -8,19 +8,7 @@ import { ReviewSection } from "@/components/home/ReviewSection"
 import { CalendarSection } from "@/components/home/CalendarSection"
 
 const Index = () => {
-  const { user, loading } = useAuth()
-
-  // Mostra um loading state enquanto verifica a autenticação
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="animate-pulse space-y-4">
-          <div className="h-12 w-12 rounded-full bg-muted mx-auto"></div>
-          <div className="h-4 w-32 bg-muted rounded mx-auto"></div>
-        </div>
-      </div>
-    )
-  }
+  const { user } = useAuth()
 
   if (!user) {
     return (
