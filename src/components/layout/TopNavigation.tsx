@@ -1,27 +1,42 @@
 import { Button } from "@/components/ui/button"
 import { Logo } from "./Logo"
-import { HelpCircle, User } from "lucide-react"
+import { HelpCircle, User, Home, History, BookOpen, FileText, BarChart2, Book } from "lucide-react"
 
 const menuItems = [
   {
     title: "MEU DIA",
     href: "/",
+    icon: Home
   },
   {
     title: "HISTÓRICO",
     href: "/historico",
+    icon: History
   },
   {
     title: "REVISÕES",
     href: "/revisoes",
+    icon: BookOpen
+  },
+  {
+    title: "EDITAL VERTICALIZADO",
+    href: "/edital-verticalizado",
+    icon: FileText
+  },
+  {
+    title: "ESTATÍSTICAS",
+    href: "/estatisticas",
+    icon: BarChart2
   },
   {
     title: "CICLO DE ESTUDOS",
     href: "/ciclo",
+    icon: Book
   },
   {
     title: "EDITAIS",
     href: "/editais",
+    icon: FileText
   },
 ]
 
@@ -36,10 +51,13 @@ export function TopNavigation() {
             <Button
               key={item.title}
               variant="ghost"
-              className="text-sm font-medium transition-colors hover:text-[#F2CED0]"
+              className="text-sm font-medium transition-colors hover:text-[#F2CED0] flex items-center gap-2"
               asChild
             >
-              <a href={item.href}>{item.title}</a>
+              <a href={item.href}>
+                <item.icon className="h-4 w-4" />
+                {item.title}
+              </a>
             </Button>
           ))}
         </nav>
