@@ -95,13 +95,13 @@ export function AddStudyDialog() {
           ADICIONAR ESTUDO
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] bg-white">
+      <DialogContent className="sm:max-w-[600px] bg-white max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle className="text-center font-medium">O QUE FOI ESTUDADO</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 overflow-y-auto pr-4">
             <div className="space-y-4">
               <div>
                 <h3 className="font-medium mb-2">DATA DO ESTUDO</h3>
@@ -240,7 +240,7 @@ export function AddStudyDialog() {
                 )}
               />
 
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <h3 className="font-medium flex items-center gap-2">
                     EXERCÍCIOS FEITOS
@@ -432,7 +432,7 @@ export function AddStudyDialog() {
               </div>
             </div>
 
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-2 sticky bottom-0 bg-white py-4 mt-4">
               <Button
                 type="button"
                 variant="outline"
