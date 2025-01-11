@@ -17,11 +17,18 @@ import { useAuth } from "@/hooks/useAuth"
 const queryClient = new QueryClient()
 
 const AppContent = () => {
-  const { loading } = useAuth()
+  const { loading, user } = useAuth()
 
-  // Não renderiza nada enquanto verifica a autenticação
+  // Não renderiza absolutamente nada enquanto verifica a autenticação
   if (loading) return null
 
+  // Se não estiver carregando e não tiver usuário, renderiza apenas o Index
+  // que contém a tela de login
+  if (!user) {
+    return <Index />
+  }
+
+  // Se tiver usuário, renderiza a aplicação completa
   return (
     <>
       <AuthTest />
