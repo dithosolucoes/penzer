@@ -1,27 +1,19 @@
 import { Button } from "@/components/ui/button"
 import { BookOpen } from "lucide-react"
-import { AuthUI } from "@/components/auth/AuthUI"
 import { useAuth } from "@/hooks/useAuth"
 import { AddStudyDialog } from "@/components/AddStudyDialog"
+import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
 
 const Index = () => {
   const { user } = useAuth()
+  const navigate = useNavigate()
 
-  if (!user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="w-full max-w-md p-6 space-y-8">
-          <div className="flex flex-col items-center justify-center space-y-2">
-            <h1 className="text-2xl font-bold">Bem-vindo ao Sistema de Estudos</h1>
-            <p className="text-muted-foreground text-center">
-              Faça login para acessar sua área de estudos
-            </p>
-          </div>
-          <AuthUI />
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (!user) {
+      navigate("/auth")
+    }
+  }, [user, navigate])
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-[#E8E8E8]/10">

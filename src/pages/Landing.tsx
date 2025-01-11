@@ -60,13 +60,13 @@ const Landing = () => {
           <div className="space-x-4">
             <Button 
               variant="ghost"
-              onClick={() => navigate("/dashboard")}
+              onClick={() => navigate("/auth")}
             >
               Login
             </Button>
             <Button 
               className="bg-[#F2CED0] hover:bg-[#F2CED0]/90 text-black"
-              onClick={() => navigate("/dashboard")}
+              onClick={() => navigate("/auth")}
             >
               Começar Agora
             </Button>
@@ -89,7 +89,7 @@ const Landing = () => {
                 <Button 
                   size="lg"
                   className="bg-[#F2CED0] hover:bg-[#F2CED0]/90 text-black"
-                  onClick={() => navigate("/dashboard")}
+                  onClick={() => navigate("/auth")}
                 >
                   Comece Gratuitamente
                 </Button>
