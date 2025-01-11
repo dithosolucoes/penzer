@@ -10,8 +10,15 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 import { Link } from "react-router-dom"
+import { useAuth } from "@/hooks/useAuth"
 
 const menuItems = [
   {
@@ -85,6 +92,8 @@ const ListItem = React.forwardRef<
 ListItem.displayName = "ListItem"
 
 export function TopNavigation() {
+  const { signOut } = useAuth()
+
   return (
     <div className="w-full border-b bg-background">
       <div className="container flex h-16 items-center justify-between">
@@ -115,14 +124,32 @@ export function TopNavigation() {
             <HelpCircle className="h-5 w-5" />
             <span className="sr-only">Suporte</span>
           </Button>
-          <Button 
-            variant="ghost" 
-            size="icon"
-            className="hover:text-[#F2CED0]"
-          >
-            <User className="h-5 w-5" />
-            <span className="sr-only">Perfil</span>
-          </Button>
+          
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon"
+                className="hover:text-[#F2CED0]"
+              >
+                <User className="h-5 w-5" />
+                <span className="sr-only">Perfil</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-48">
+              <DropdownMenuItem asChild>
+                <Link to="/perfil" className="w-full cursor-pointer">
+                  Minha Conta
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => signOut()}
+                className="cursor-pointer"
+              >
+                Sair
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </div>
