@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { BookOpen, Plus } from "lucide-react"
-import { LoginForm } from "@/components/auth/LoginForm"
+import { AuthUI } from "@/components/auth/AuthUI"
 import { useAuth } from "@/hooks/useAuth"
 
 const Index = () => {
@@ -11,7 +11,7 @@ const Index = () => {
       <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-[#E8E8E8]/10">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-8">Bem-vindo ao Sistema de Estudos</h1>
-          <LoginForm />
+          <AuthUI />
         </div>
       </div>
     )
