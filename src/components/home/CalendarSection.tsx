@@ -57,7 +57,7 @@ export const CalendarSection = () => {
     const sessions = studySessionsByDate?.[dateKey]
 
     if (!sessions?.length) {
-      return format(day, 'd')
+      return <div>{format(day, 'd')}</div>
     }
 
     return (
