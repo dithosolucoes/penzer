@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useAuth } from "@/hooks/useAuth"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -14,6 +14,32 @@ export default function Perfil() {
   const [currentPassword, setCurrentPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+
+  useEffect(() => {
+    if (user) {
+      fetchProfile()
+    }
+  }, [user])
+
+  const fetchProfile = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("username")
+        .eq("id", user?.id)
+        .single()
+
+      if (error) throw error
+      if (data) setUsername(data.username || "")
+    } catch (error) {
+      console.error("Error fetching profile:", error)
+      toast({
+        variant: "destructive",
+        title: "Erro ao carregar perfil",
+        description: "Ocorreu um erro ao carregar suas informações.",
+      })
+    }
+  }
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,6 +58,7 @@ export default function Perfil() {
         description: "Suas informações foram atualizadas com sucesso.",
       })
     } catch (error) {
+      console.error("Error updating profile:", error)
       toast({
         variant: "destructive",
         title: "Erro ao atualizar perfil",
@@ -72,6 +99,7 @@ export default function Perfil() {
       setNewPassword("")
       setConfirmPassword("")
     } catch (error) {
+      console.error("Error updating password:", error)
       toast({
         variant: "destructive",
         title: "Erro ao alterar senha",
