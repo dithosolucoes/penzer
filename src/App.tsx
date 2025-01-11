@@ -12,25 +12,12 @@ import Estatisticas from "./pages/Estatisticas"
 import CicloEstudos from "./pages/CicloEstudos"
 import Editais from "./pages/Editais"
 import { AuthTest } from "./components/AuthTest"
-import { useAuth } from "@/hooks/useAuth"
 
 const queryClient = new QueryClient()
 
-const AppContent = () => {
-  const { loading, user } = useAuth()
-
-  // Não renderiza absolutamente nada enquanto verifica a autenticação
-  if (loading) return null
-
-  // Se não estiver carregando e não tiver usuário, renderiza apenas o Index
-  // que contém a tela de login
-  if (!user) {
-    return <Index />
-  }
-
-  // Se tiver usuário, renderiza a aplicação completa
-  return (
-    <>
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
       <AuthTest />
       <Toaster />
       <Sonner />
@@ -47,14 +34,6 @@ const AppContent = () => {
           </Routes>
         </MainLayout>
       </BrowserRouter>
-    </>
-  )
-}
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <AppContent />
     </TooltipProvider>
   </QueryClientProvider>
 )

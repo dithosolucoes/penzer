@@ -1,103 +1,125 @@
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Settings2, AlertTriangle } from "lucide-react"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { AddStudyDialog } from "@/components/AddStudyDialog"
-import { Card, CardContent } from "@/components/ui/card"
 import { ReviewSettingsDialog } from "@/components/ReviewSettingsDialog"
-import { useState } from "react"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 const Revisoes = () => {
-  const [settingsOpen, setSettingsOpen] = useState(false)
-
   return (
-    <div className="container py-8">
-      <div className="flex justify-between items-center mb-8">
-        <h1 className="text-2xl font-bold">AGENDA DE REVISÕES</h1>
-        <div className="flex gap-2">
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={() => setSettingsOpen(true)}
-          >
-            CONFIGURAÇÕES
-          </Button>
-          <AddStudyDialog>
-            <Button variant="secondary" size="sm">
-              ADICIONAR ESTUDO
-            </Button>
-          </AddStudyDialog>
+    <div className="min-h-[calc(100vh-4rem)] bg-background">
+      <div className="container py-8">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-bold">REVISÕES</h1>
+          <div className="flex items-center gap-3">
+            <ReviewSettingsDialog>
+              <Button 
+                variant="secondary" 
+                size="sm"
+                className="font-medium flex items-center gap-2"
+              >
+                <Settings2 className="h-4 w-4" />
+                CONFIGURAÇÕES
+              </Button>
+            </ReviewSettingsDialog>
+            <AddStudyDialog>
+              <Button 
+                variant="secondary" 
+                size="sm"
+                className="font-medium"
+              >
+                ADICIONAR ESTUDO
+              </Button>
+            </AddStudyDialog>
+          </div>
         </div>
+
+        <Tabs defaultValue="todas" className="w-full">
+          <TabsList>
+            <TabsTrigger value="todas">Todas</TabsTrigger>
+            <TabsTrigger value="pendentes">Pendentes</TabsTrigger>
+            <TabsTrigger value="concluidas">Concluídas</TabsTrigger>
+          </TabsList>
+          <TabsContent value="todas">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Disciplina</TableHead>
+                  <TableHead>Data</TableHead>
+                  <TableHead>Ações</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {/* Example data, replace with actual data */}
+                <TableRow>
+                  <TableCell>Matemática</TableCell>
+                  <TableCell>01/01/2023</TableCell>
+                  <TableCell>
+                    <Button variant="secondary" size="sm">Revisar</Button>
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>História</TableCell>
+                  <TableCell>02/01/2023</TableCell>
+                  <TableCell>
+                    <Button variant="secondary" size="sm">Revisar</Button>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TabsContent>
+          <TabsContent value="pendentes">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Disciplina</TableHead>
+                  <TableHead>Data</TableHead>
+                  <TableHead>Ações</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {/* Example data, replace with actual data */}
+                <TableRow>
+                  <TableCell>Química</TableCell>
+                  <TableCell>03/01/2023</TableCell>
+                  <TableCell>
+                    <Button variant="secondary" size="sm">Revisar</Button>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TabsContent>
+          <TabsContent value="concluidas">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Disciplina</TableHead>
+                  <TableHead>Data</TableHead>
+                  <TableHead>Ações</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {/* Example data, replace with actual data */}
+                <TableRow>
+                  <TableCell>Física</TableCell>
+                  <TableCell>04/01/2023</TableCell>
+                  <TableCell>
+                    <Button variant="secondary" size="sm">Revisar</Button>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TabsContent>
+        </Tabs>
       </div>
-
-      <div className="mb-8">
-        <h2 className="text-lg font-semibold mb-4">FILTROS</h2>
-        <Card>
-          <CardContent className="p-6">
-            <div className="space-y-4">
-              <div>
-                <h3 className="text-sm font-medium mb-2">DISCIPLINAS DO EDITAL</h3>
-                <div className="flex gap-2">
-                  <Badge variant="secondary" className="cursor-pointer">MAT</Badge>
-                </div>
-              </div>
-              <div className="flex justify-end">
-                <Button variant="secondary" size="sm">FILTRAR</Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      <Tabs defaultValue="todo" className="w-full">
-        <TabsList className="mb-4">
-          <TabsTrigger value="todo">PARA FAZER</TabsTrigger>
-          <TabsTrigger value="done">CONCLUÍDAS</TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="todo">
-          <Card>
-            <CardContent className="p-6">
-              <div className="text-sm text-gray-500">
-                <table className="w-full">
-                  <thead>
-                    <tr className="text-left border-b">
-                      <th className="pb-2">AGENDADO P/</th>
-                      <th className="pb-2">ESTUDADO EM</th>
-                      <th className="pb-2">EDITAL</th>
-                      <th className="pb-2">DISCIPLINA/CAPÍTULO</th>
-                      <th className="pb-2">ASSUNTOS</th>
-                      <th className="pb-2">STATUS</th>
-                      <th className="pb-2">HISTÓRICO DE REVISÕES</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td colSpan={7} className="text-center py-4">
-                        Ainda sem revisões programadas, faça um estudo e agende suas revisões!
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="done">
-          <Card>
-            <CardContent className="p-6">
-              <div className="text-sm text-gray-500 text-center py-4">
-                Nenhuma revisão concluída
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-
-      <ReviewSettingsDialog
-        open={settingsOpen}
-        onOpenChange={setSettingsOpen}
-      />
     </div>
   )
 }
