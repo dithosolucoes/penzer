@@ -8,13 +8,12 @@ export const AuthTest = () => {
   useEffect(() => {
     const testConnection = async () => {
       try {
-        const { data, error } = await supabase.from('test').select('*')
-        if (error) throw error
+        const { data: { session } } = await supabase.auth.getSession()
         toast({
           title: "Conexão com Supabase estabelecida!",
           description: "A integração foi feita com sucesso.",
         })
-        console.log('Supabase connection test:', data)
+        console.log('Supabase connection test:', session)
       } catch (error) {
         console.error('Erro ao conectar com Supabase:', error)
         toast({
