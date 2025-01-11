@@ -1,11 +1,33 @@
 import { Button } from "@/components/ui/button"
-import { BookOpen } from "lucide-react"
+import { BookOpen, Calendar as CalendarIcon } from "lucide-react"
 import { AuthUI } from "@/components/auth/AuthUI"
 import { useAuth } from "@/hooks/useAuth"
 import { AddStudyDialog } from "@/components/AddStudyDialog"
+import { Calendar } from "@/components/ui/calendar"
+import { useState } from "react"
+import { format } from "date-fns"
+import { ptBR } from "date-fns/locale"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { useToast } from "@/components/ui/use-toast"
 
 const Index = () => {
   const { user } = useAuth()
+  const { toast } = useToast()
+  const [date, setDate] = useState<Date>(new Date())
+
+  const handleGoogleCalendarConnect = () => {
+    // TODO: Implement Google Calendar OAuth
+    toast({
+      title: "Em breve!",
+      description: "A integração com o Google Agenda estará disponível em breve.",
+    })
+  }
 
   if (!user) {
     return (
@@ -20,7 +42,7 @@ const Index = () => {
           <AuthUI />
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -99,6 +121,52 @@ const Index = () => {
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+
+        {/* Calendar Section */}
+        <div className="mt-8">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-semibold">CALENDÁRIO</h2>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleGoogleCalendarConnect}
+              className="gap-2"
+            >
+              <CalendarIcon className="h-4 w-4" />
+              Conectar Google Agenda
+            </Button>
+          </div>
+          <div className="bg-white p-4 rounded-lg shadow-sm border">
+            <div className="flex gap-4 items-start">
+              <Select
+                value={format(date, 'MMMM', { locale: ptBR })}
+                onValueChange={(value) => {
+                  const newDate = new Date(date)
+                  newDate.setMonth(parseInt(value))
+                  setDate(newDate)
+                }}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <SelectItem key={i} value={i.toString()}>
+                      {format(new Date(2024, i, 1), 'MMMM', { locale: ptBR })}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={(newDate) => newDate && setDate(newDate)}
+                className="rounded-md border"
+                locale={ptBR}
+              />
+            </div>
           </div>
         </div>
       </div>
