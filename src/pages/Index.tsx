@@ -60,7 +60,7 @@ const Index = () => {
   }, {} as Record<string, typeof studySessions>)
 
   // Custom day render function for the calendar
-  const renderDay = (day: Date, selected: boolean, props: React.HTMLProps<HTMLButtonElement> = {}) => {
+  const renderDay = (day: Date, props: React.HTMLProps<HTMLButtonElement> = {}) => {
     const dateKey = format(day, 'yyyy-MM-dd')
     const sessions = studySessionsByDate?.[dateKey]
 
@@ -117,6 +117,7 @@ const Index = () => {
             <Button 
               variant="secondary" 
               size="sm"
+              type="button"
               className="font-medium"
             >
               ADICIONAR ESTUDO
@@ -191,6 +192,7 @@ const Index = () => {
             <Button
               variant="outline"
               size="sm"
+              type="button"
               onClick={() => setCalendarDialogOpen(true)}
               className="gap-2"
             >
@@ -226,7 +228,7 @@ const Index = () => {
                 className="rounded-md border"
                 locale={ptBR}
                 components={{
-                  Day: ({ date: dayDate, selected, ...props }) => renderDay(dayDate, selected, props),
+                  Day: ({ date: dayDate, ...props }) => renderDay(dayDate, props),
                 }}
               />
             </div>

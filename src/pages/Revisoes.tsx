@@ -24,6 +24,7 @@ const Revisoes = () => {
               <Button 
                 variant="secondary" 
                 size="sm"
+                type="button"
                 className="font-medium flex items-center gap-2"
               >
                 <Settings2 className="h-4 w-4" />
@@ -34,6 +35,7 @@ const Revisoes = () => {
               <Button 
                 variant="secondary" 
                 size="sm"
+                type="button"
                 className="font-medium"
               >
                 ADICIONAR ESTUDO
