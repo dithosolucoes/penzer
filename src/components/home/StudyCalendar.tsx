@@ -16,7 +16,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { DayContent } from "react-day-picker"
+import { DayContent, DayContentProps } from "react-day-picker"
 
 interface StudyCalendarProps {
   date: Date
@@ -31,12 +31,12 @@ export const StudyCalendar = ({
   studySessionsByDate,
   setCalendarDialogOpen 
 }: StudyCalendarProps) => {
-  const renderDay = (day: Date, props: typeof DayContent) => {
-    const dateKey = format(day, 'yyyy-MM-dd')
+  const renderDay = (props: DayContentProps) => {
+    const dateKey = format(props.date, 'yyyy-MM-dd')
     const sessions = studySessionsByDate?.[dateKey]
 
     if (!sessions?.length) {
-      return <div {...props}>{format(day, 'd')}</div>
+      return <div {...props}>{format(props.date, 'd')}</div>
     }
 
     return (
@@ -44,7 +44,7 @@ export const StudyCalendar = ({
         <Tooltip>
           <TooltipTrigger asChild>
             <div {...props} className="relative">
-              {format(day, 'd')}
+              {format(props.date, 'd')}
               <div className="w-2 h-2 bg-green-500 rounded-full absolute bottom-1 left-1/2 transform -translate-x-1/2" />
             </div>
           </TooltipTrigger>
@@ -106,7 +106,7 @@ export const StudyCalendar = ({
             className="rounded-md border"
             locale={ptBR}
             components={{
-              Day: ({ date: dayDate, ...props }) => renderDay(dayDate, props),
+              DayContent: renderDay
             }}
           />
         </div>
