@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/carousel"
 import { Input } from "@/components/ui/input"
 import { EditEditalSheet } from "@/components/EditEditalSheet"
+import { EditalDetailsDialog } from "@/components/EditalDetailsDialog"
 import { useState } from "react"
 
 interface Edital {
@@ -154,13 +155,7 @@ const Editais = () => {
                         <p className="text-sm text-gray-500">{edital.organization} ({edital.year})</p>
                         <p className="text-sm">Vagas: {edital.vagas}</p>
                       </div>
-                      <Button 
-                        variant="secondary"
-                        size="sm" 
-                        className="w-full bg-[#E8E8E8] hover:bg-[#E8E8E8]/80"
-                      >
-                        {edital.type}
-                      </Button>
+                      <EditalDetailsDialog edital={edital} />
                     </div>
                   </div>
                 </CarouselItem>
