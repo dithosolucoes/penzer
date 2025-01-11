@@ -12,61 +12,58 @@ import { EditEditalSheet } from "@/components/EditEditalSheet"
 import { EditalDetailsDialog } from "@/components/EditalDetailsDialog"
 import { AddEditalDialog } from "@/components/AddEditalDialog"
 import { useState } from "react"
+import { useQuery } from "@tanstack/react-query"
+import { supabase } from "@/integrations/supabase/client"
+import { useAuth } from "@/hooks/useAuth"
 
 interface Edital {
-  id: number
-  title: string
-  organization: string
-  year: string
-  image: string
-  vagas: number
-  type: string
+  id: string;
+  title: string;
+  organization: string;
+  year: number;
+  image: string;
+  vagas: number;
+  type: string;
 }
 
-const editais: Edital[] = [
-  {
-    id: 1,
-    title: "Soldado Policial Militar",
-    organization: "PM - SC",
-    year: "2023",
-    image: "/lovable-uploads/4779a1dc-2de6-4ba8-88ec-142fce9a87ed.png",
-    vagas: 500,
-    type: "VER EDITAL"
-  },
-  {
-    id: 2,
-    title: "Agente Federal de Execução Penal",
-    organization: "DEPEN",
-    year: "2021",
-    image: "/lovable-uploads/0eef9811-3cc1-4291-a151-b065413c0f44.png",
-    vagas: 294,
-    type: "VER EDITAL"
-  },
-]
-
-const myEditais: Edital[] = [
-  {
-    id: 1,
-    title: "REVALIDA - INEP",
-    organization: "Personalizado",
-    year: "2024",
-    image: "",
-    vagas: 0,
-    type: "EDITAR EDITAL"
-  },
-  {
-    id: 2,
-    title: "SEGUNDO ANO - MEDICINA",
-    organization: "Personalizado",
-    year: "2024",
-    image: "",
-    vagas: 0,
-    type: "EDITAR EDITAL"
-  }
-]
-
 const Editais = () => {
+  const { user } = useAuth()
   const [editingEdital, setEditingEdital] = useState<Edital | null>(null)
+  const [searchTerm, setSearchTerm] = useState("")
+
+  const { data: myEditais = [], isLoading: isLoadingMyEditais } = useQuery({
+    queryKey: ['editals', user?.id],
+    queryFn: async () => {
+      if (!user) return []
+      
+      const { data, error } = await supabase
+        .from('editals')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+
+      if (error) {
+        console.error('Error fetching editals:', error)
+        return []
+      }
+
+      return data.map(edital => ({
+        id: edital.id,
+        title: edital.title,
+        organization: edital.organization,
+        year: edital.year,
+        image: edital.logo_url || "",
+        vagas: edital.vagas || 0,
+        type: "EDITAR EDITAL"
+      }))
+    },
+    enabled: !!user
+  })
+
+  const filteredEditais = myEditais.filter(edital => 
+    edital.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    edital.organization.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-[#E8E8E8]/10">
@@ -79,7 +76,7 @@ const Editais = () => {
         <div className="mb-12">
           <h2 className="text-xl font-semibold mb-6">MEUS EDITAIS</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {myEditais.map((edital) => (
+            {filteredEditais.map((edital) => (
               <div key={edital.id} className="bg-white rounded-lg shadow-sm overflow-hidden">
                 {/* Header */}
                 <div className="bg-[#E8E8E8] px-6 py-4">
@@ -89,10 +86,18 @@ const Editais = () => {
                 {/* Content */}
                 <div className="p-6 flex flex-col items-center gap-4">
                   <div className="w-12 h-12 flex items-center justify-center">
-                    <div className="relative">
-                      <Settings className="w-8 h-8 text-gray-500" />
-                      <Pencil className="w-4 h-4 text-gray-500 absolute bottom-0 right-0" />
-                    </div>
+                    {edital.image ? (
+                      <img 
+                        src={edital.image} 
+                        alt={edital.organization}
+                        className="w-full h-full object-contain"
+                      />
+                    ) : (
+                      <div className="relative">
+                        <Settings className="w-8 h-8 text-gray-500" />
+                        <Pencil className="w-4 h-4 text-gray-500 absolute bottom-0 right-0" />
+                      </div>
+                    )}
                   </div>
                   <p className="text-sm text-gray-500">{edital.organization}</p>
                   <Button 
@@ -117,6 +122,8 @@ const Editais = () => {
               <Input 
                 placeholder="Pesquisar" 
                 className="pl-10 bg-white"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
           </div>
@@ -131,7 +138,7 @@ const Editais = () => {
             className="w-full"
           >
             <CarouselContent className="-ml-2 md:-ml-4">
-              {editais.map((edital) => (
+              {myEditais.map((edital) => (
                 <CarouselItem key={edital.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
                   <div className="bg-white p-6 rounded-lg shadow-sm border hover:border-[#F2CED0] transition-colors">
                     <div className="flex flex-col items-center gap-4">
@@ -155,7 +162,9 @@ const Editais = () => {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden md:flex" />
+            <Carou
+
+selPrevious className="hidden md:flex" />
             <CarouselNext className="hidden md:flex" />
           </Carousel>
         </div>

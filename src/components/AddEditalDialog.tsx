@@ -12,6 +12,10 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Plus, Upload, X, Save } from "lucide-react"
 import { useState } from "react"
+import { useAuth } from "@/hooks/useAuth"
+import { supabase } from "@/integrations/supabase/client"
+import { useToast } from "@/components/ui/use-toast"
+import { useQueryClient } from "@tanstack/react-query"
 
 interface Discipline {
   id: string;
@@ -20,7 +24,11 @@ interface Discipline {
 }
 
 export function AddEditalDialog() {
+  const { user } = useAuth()
+  const { toast } = useToast()
+  const queryClient = useQueryClient()
   const [isOpen, setIsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [logo, setLogo] = useState<File | null>(null)
   const [logoPreview, setLogoPreview] = useState<string>("")
   const [disciplines, setDisciplines] = useState<Discipline[]>([])
@@ -86,10 +94,114 @@ export function AddEditalDialog() {
     }))
   }
 
-  const handleSave = () => {
-    // Here we would handle saving the edital data
-    console.log("Saving edital:", { ...editalData, disciplines, logo })
-    setIsOpen(false)
+  const handleSave = async () => {
+    if (!user) {
+      toast({
+        title: "Erro",
+        description: "Você precisa estar logado para criar um edital",
+        variant: "destructive",
+      })
+      return
+    }
+
+    setIsLoading(true)
+    try {
+      let logoUrl = null
+      if (logo) {
+        const fileExt = logo.name.split('.').pop()
+        const filePath = `${crypto.randomUUID()}.${fileExt}`
+        
+        const { error: uploadError } = await supabase.storage
+          .from('logos')
+          .upload(filePath, logo)
+
+        if (uploadError) throw uploadError
+
+        const { data: { publicUrl } } = supabase.storage
+          .from('logos')
+          .getPublicUrl(filePath)
+
+        logoUrl = publicUrl
+      }
+
+      // Inserir o edital
+      const { data: edital, error: editalError } = await supabase
+        .from('editals')
+        .insert({
+          user_id: user.id,
+          title: editalData.title,
+          organization: editalData.organization,
+          year: parseInt(editalData.year),
+          vagas: editalData.vagas ? parseInt(editalData.vagas) : null,
+          salary: editalData.salary ? parseFloat(editalData.salary.replace('R$', '').replace('.', '').replace(',', '.')) : null,
+          exam_date: editalData.examDate || null,
+          logo_url: logoUrl,
+        })
+        .select()
+        .single()
+
+      if (editalError) throw editalError
+
+      // Inserir as disciplinas e tópicos
+      for (const discipline of disciplines) {
+        const { data: disc, error: discError } = await supabase
+          .from('edital_disciplines')
+          .insert({
+            edital_id: edital.id,
+            name: discipline.name,
+          })
+          .select()
+          .single()
+
+        if (discError) throw discError
+
+        // Inserir os tópicos
+        for (const topicName of discipline.topics) {
+          const { error: topicError } = await supabase
+            .from('discipline_topics')
+            .insert({
+              discipline_id: disc.id,
+              name: topicName,
+            })
+
+          if (topicError) throw topicError
+        }
+      }
+
+      toast({
+        title: "Sucesso!",
+        description: "Edital criado com sucesso",
+      })
+
+      // Resetar o formulário
+      setEditalData({
+        title: "",
+        organization: "",
+        year: new Date().getFullYear().toString(),
+        vagas: "",
+        salary: "",
+        examDate: "",
+      })
+      setDisciplines([])
+      setLogo(null)
+      setLogoPreview("")
+      
+      // Fechar o diálogo
+      setIsOpen(false)
+      
+      // Invalidar as queries para recarregar os dados
+      queryClient.invalidateQueries({ queryKey: ['editals'] })
+
+    } catch (error) {
+      console.error('Erro ao salvar edital:', error)
+      toast({
+        title: "Erro",
+        description: "Ocorreu um erro ao criar o edital",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -276,9 +388,9 @@ export function AddEditalDialog() {
           <Button variant="outline" onClick={() => setIsOpen(false)}>
             Cancelar
           </Button>
-          <Button onClick={handleSave}>
+          <Button onClick={handleSave} disabled={isLoading}>
             <Save className="w-4 h-4 mr-2" />
-            Salvar Edital
+            {isLoading ? "Salvando..." : "Salvar Edital"}
           </Button>
         </DialogFooter>
       </DialogContent>

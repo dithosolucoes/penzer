@@ -9,6 +9,117 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      discipline_topics: {
+        Row: {
+          created_at: string
+          discipline_id: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          discipline_id: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          discipline_id?: string
+          id?: string
+          name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "discipline_topics_discipline_id_fkey"
+            columns: ["discipline_id"]
+            isOneToOne: false
+            referencedRelation: "edital_disciplines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      edital_disciplines: {
+        Row: {
+          code: string | null
+          created_at: string
+          edital_id: string
+          id: string
+          name: string
+          weight: number | null
+        }
+        Insert: {
+          code?: string | null
+          created_at?: string
+          edital_id: string
+          id?: string
+          name: string
+          weight?: number | null
+        }
+        Update: {
+          code?: string | null
+          created_at?: string
+          edital_id?: string
+          id?: string
+          name?: string
+          weight?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "edital_disciplines_edital_id_fkey"
+            columns: ["edital_id"]
+            isOneToOne: false
+            referencedRelation: "editals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      editals: {
+        Row: {
+          created_at: string
+          exam_date: string | null
+          id: string
+          logo_url: string | null
+          organization: string
+          salary: number | null
+          title: string
+          user_id: string
+          vagas: number | null
+          year: number
+        }
+        Insert: {
+          created_at?: string
+          exam_date?: string | null
+          id?: string
+          logo_url?: string | null
+          organization: string
+          salary?: number | null
+          title: string
+          user_id: string
+          vagas?: number | null
+          year: number
+        }
+        Update: {
+          created_at?: string
+          exam_date?: string | null
+          id?: string
+          logo_url?: string | null
+          organization?: string
+          salary?: number | null
+          title?: string
+          user_id?: string
+          vagas?: number | null
+          year?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "editals_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -109,6 +220,35 @@ export type Database = {
             columns: ["user_id"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      topic_subtopics: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          topic_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          topic_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          topic_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "topic_subtopics_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "discipline_topics"
             referencedColumns: ["id"]
           },
         ]
