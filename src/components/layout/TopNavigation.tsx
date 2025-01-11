@@ -1,3 +1,4 @@
+import React from "react"
 import { Button } from "@/components/ui/button"
 import { Logo } from "./Logo"
 import { HelpCircle, User, Home, History, BookOpen, FileText, BarChart2, Book } from "lucide-react"
