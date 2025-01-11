@@ -10,15 +10,8 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
-import { Link, useNavigate } from "react-router-dom"
-import { useAuth } from "@/hooks/useAuth"
+import { Link } from "react-router-dom"
 
 const menuItems = [
   {
@@ -92,13 +85,6 @@ const ListItem = React.forwardRef<
 ListItem.displayName = "ListItem"
 
 export function TopNavigation() {
-  const { signOut } = useAuth()
-  const navigate = useNavigate()
-
-  const handleSignOut = async () => {
-    await signOut()
-  }
-
   return (
     <div className="w-full border-b bg-background">
       <div className="container flex h-16 items-center justify-between">
@@ -129,27 +115,14 @@ export function TopNavigation() {
             <HelpCircle className="h-5 w-5" />
             <span className="sr-only">Suporte</span>
           </Button>
-          
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="icon"
-                className="hover:text-[#F2CED0]"
-              >
-                <User className="h-5 w-5" />
-                <span className="sr-only">Perfil</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-40">
-              <DropdownMenuItem onClick={() => navigate("/minha-conta")}>
-                Minha Conta
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleSignOut}>
-                Sair
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Button 
+            variant="ghost" 
+            size="icon"
+            className="hover:text-[#F2CED0]"
+          >
+            <User className="h-5 w-5" />
+            <span className="sr-only">Perfil</span>
+          </Button>
         </div>
       </div>
     </div>
