@@ -14,6 +14,7 @@ export function StudyTimerDialog({ open, onOpenChange }: StudyTimerDialogProps) 
   const [time, setTime] = useState(0)
   const [selectedSubject, setSelectedSubject] = useState("")
   const [selectedTopic, setSelectedTopic] = useState("")
+  const [showMiniTimer, setShowMiniTimer] = useState(false)
 
   useEffect(() => {
     let interval: NodeJS.Timeout
@@ -41,87 +42,121 @@ export function StudyTimerDialog({ open, onOpenChange }: StudyTimerDialogProps) 
 
   const handleStartStop = () => {
     setIsRunning(!isRunning)
+    if (!isRunning && selectedSubject && selectedTopic) {
+      onOpenChange(false)
+      setShowMiniTimer(true)
+    }
   }
 
   const handleFinishStudy = () => {
     setIsRunning(false)
     setTime(0)
+    setShowMiniTimer(false)
     onOpenChange(false)
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle className="text-center">
-            {isRunning ? "ESTUDO EM ANDAMENTO" : "INICIAR ESTUDO"}
-          </DialogTitle>
-        </DialogHeader>
-        <div className="flex flex-col gap-4">
-          <Select value={selectedSubject} onValueChange={setSelectedSubject}>
-            <SelectTrigger>
-              <SelectValue placeholder="NOME DA DISCIPLINA" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="microbiologia">MICROBIOLOGIA MÉDICA</SelectItem>
-              <SelectItem value="anatomia">ANATOMIA</SelectItem>
-              <SelectItem value="fisiologia">FISIOLOGIA</SelectItem>
-            </SelectContent>
-          </Select>
+    <>
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center">
+              {isRunning ? "ESTUDO EM ANDAMENTO" : "INICIAR ESTUDO"}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="flex flex-col gap-4">
+            <Select value={selectedSubject} onValueChange={setSelectedSubject}>
+              <SelectTrigger>
+                <SelectValue placeholder="NOME DA DISCIPLINA" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="microbiologia">MICROBIOLOGIA MÉDICA</SelectItem>
+                <SelectItem value="anatomia">ANATOMIA</SelectItem>
+                <SelectItem value="fisiologia">FISIOLOGIA</SelectItem>
+              </SelectContent>
+            </Select>
 
-          <Select value={selectedTopic} onValueChange={setSelectedTopic}>
-            <SelectTrigger>
-              <SelectValue placeholder="TÓPICO" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="topic1">CONTEÚDO 1</SelectItem>
-              <SelectItem value="topic2">CONTEÚDO 2</SelectItem>
-              <SelectItem value="topic3">CONTEÚDO 3</SelectItem>
-            </SelectContent>
-          </Select>
+            <Select value={selectedTopic} onValueChange={setSelectedTopic}>
+              <SelectTrigger>
+                <SelectValue placeholder="TÓPICO" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="topic1">CONTEÚDO 1</SelectItem>
+                <SelectItem value="topic2">CONTEÚDO 2</SelectItem>
+                <SelectItem value="topic3">CONTEÚDO 3</SelectItem>
+              </SelectContent>
+            </Select>
 
-          <div className="relative bg-gray-100 rounded-lg p-8">
-            <div className="absolute top-2 right-2">
-              <Info className="h-5 w-5 text-gray-500" />
+            <div className="relative bg-gray-100 rounded-lg p-8">
+              <div className="absolute top-2 right-2">
+                <Info className="h-5 w-5 text-gray-500" />
+              </div>
+              <div className="text-4xl font-mono text-center">
+                {formatTime(time)}
+              </div>
+              <div className="flex justify-center mt-4">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full"
+                  onClick={handleStartStop}
+                >
+                  {isRunning ? (
+                    <Pause className="h-8 w-8" />
+                  ) : (
+                    <Play className="h-8 w-8" />
+                  )}
+                </Button>
+              </div>
             </div>
-            <div className="text-4xl font-mono text-center">
-              {formatTime(time)}
-            </div>
-            <div className="flex justify-center mt-4">
+
+            <div className="flex justify-end gap-2">
+              {isRunning && (
+                <Button
+                  variant="outline"
+                  onClick={() => onOpenChange(false)}
+                >
+                  CANCELAR
+                </Button>
+              )}
               <Button
-                variant="ghost"
-                size="icon"
-                className="rounded-full"
-                onClick={handleStartStop}
+                variant="secondary"
+                onClick={handleFinishStudy}
+                className="bg-[#E8E8E8] hover:bg-[#E8E8E8]/80"
               >
-                {isRunning ? (
-                  <Pause className="h-8 w-8" />
-                ) : (
-                  <Play className="h-8 w-8" />
-                )}
+                FINALIZAR ESTUDO
               </Button>
             </div>
           </div>
+        </DialogContent>
+      </Dialog>
 
-          <div className="flex justify-end gap-2">
-            {isRunning && (
-              <Button
-                variant="outline"
-                onClick={() => onOpenChange(false)}
-              >
-                CANCELAR
-              </Button>
-            )}
-            <Button
-              variant="secondary"
-              onClick={handleFinishStudy}
-              className="bg-[#E8E8E8] hover:bg-[#E8E8E8]/80"
-            >
-              FINALIZAR ESTUDO
-            </Button>
+      {/* Mini Timer */}
+      {showMiniTimer && (
+        <div className="fixed bottom-20 right-4 z-50 bg-black text-white p-4 rounded-lg shadow-lg min-w-[200px]">
+          <div className="text-sm font-semibold mb-1">
+            {selectedSubject === "microbiologia" ? "MICROBIOLOGIA MÉDICA" : 
+             selectedSubject === "anatomia" ? "ANATOMIA" : 
+             selectedSubject === "fisiologia" ? "FISIOLOGIA" : ""}
           </div>
+          <div className="text-xs text-gray-400 mb-2">
+            {selectedTopic === "topic1" ? "CONTEÚDO 1" : 
+             selectedTopic === "topic2" ? "CONTEÚDO 2" : 
+             selectedTopic === "topic3" ? "CONTEÚDO 3" : ""}
+          </div>
+          <div className="text-2xl font-mono">
+            {formatTime(time)}
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="mt-2 w-full text-white hover:text-black"
+            onClick={handleFinishStudy}
+          >
+            finalizar
+          </Button>
         </div>
-      </DialogContent>
-    </Dialog>
+      )}
+    </>
   )
 }
