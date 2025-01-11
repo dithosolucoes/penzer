@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button"
-import { BookOpen, Plus } from "lucide-react"
+import { BookOpen } from "lucide-react"
 import { AuthUI } from "@/components/auth/AuthUI"
 import { useAuth } from "@/hooks/useAuth"
+import { AddStudyDialog } from "@/components/AddStudyDialog"
 
 const Index = () => {
   const { user } = useAuth()
@@ -23,14 +24,7 @@ const Index = () => {
         {/* Page Header */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">MEU DIA</h1>
-          <Button 
-            variant="secondary" 
-            size="sm"
-            className="bg-[#E8E8E8] hover:bg-[#E8E8E8]/80"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            ADICIONAR ESTUDO
-          </Button>
+          <AddStudyDialog />
         </div>
 
         {/* Two Column Layout */}
