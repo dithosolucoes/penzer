@@ -41,69 +41,59 @@ const Revisoes = () => {
           </div>
         </div>
 
-        <div className="mb-8">
-          <h2 className="text-lg font-medium mb-4">DISCIPLINAS DO EDITAL</h2>
-          {/* Filter section will be implemented later */}
-        </div>
-
         <Tabs defaultValue="para-fazer" className="w-full">
           <TabsList>
             <TabsTrigger value="para-fazer">PARA FAZER</TabsTrigger>
             <TabsTrigger value="concluidas">CONCLUÍDAS</TabsTrigger>
           </TabsList>
           <TabsContent value="para-fazer">
-            <div className="rounded-lg border">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>AGENDADO P/</TableHead>
-                    <TableHead>ESTUDADO EM</TableHead>
-                    <TableHead>EDITAL</TableHead>
-                    <TableHead>DISCIPLINA/CAPÍTULO</TableHead>
-                    <TableHead>ASSUNTOS</TableHead>
-                    <TableHead>STATUS</TableHead>
-                    <TableHead>HISTÓRICO DE REVISÕES</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8">
-                      <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                        <AlertTriangle className="h-4 w-4" />
-                        <span>Ainda sem revisões programadas, faça um estudo e agende suas revisões!</span>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </div>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Disciplina</TableHead>
+                  <TableHead>Data</TableHead>
+                  <TableHead>Ações</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {/* Example data, replace with actual data */}
+                <TableRow>
+                  <TableCell>Matemática</TableCell>
+                  <TableCell>01/01/2023</TableCell>
+                  <TableCell>
+                    <Button variant="secondary" size="sm">Revisar</Button>
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>História</TableCell>
+                  <TableCell>02/01/2023</TableCell>
+                  <TableCell>
+                    <Button variant="secondary" size="sm">Revisar</Button>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
           </TabsContent>
           <TabsContent value="concluidas">
-            <div className="rounded-lg border">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>AGENDADO P/</TableHead>
-                    <TableHead>ESTUDADO EM</TableHead>
-                    <TableHead>EDITAL</TableHead>
-                    <TableHead>DISCIPLINA/CAPÍTULO</TableHead>
-                    <TableHead>ASSUNTOS</TableHead>
-                    <TableHead>STATUS</TableHead>
-                    <TableHead>HISTÓRICO DE REVISÕES</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8">
-                      <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                        <AlertTriangle className="h-4 w-4" />
-                        <span>Ainda sem revisões concluídas!</span>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </div>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Disciplina</TableHead>
+                  <TableHead>Data</TableHead>
+                  <TableHead>Ações</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {/* Example data, replace with actual data */}
+                <TableRow>
+                  <TableCell>Física</TableCell>
+                  <TableCell>04/01/2023</TableCell>
+                  <TableCell>
+                    <Button variant="secondary" size="sm">Revisar</Button>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
           </TabsContent>
         </Tabs>
       </div>
