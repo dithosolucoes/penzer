@@ -1,5 +1,15 @@
 import { Button } from "@/components/ui/button"
-import { BookOpen, Plus } from "lucide-react"
+import { Plus, AlertTriangle } from "lucide-react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Input } from "@/components/ui/input"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 const Revisoes = () => {
   return (
@@ -18,30 +28,98 @@ const Revisoes = () => {
           </Button>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
-          <table className="w-full text-sm">
-            <thead className="bg-[#E8E8E8]/30">
-              <tr>
-                <th className="px-4 py-3 text-left font-medium">DATA</th>
-                <th className="px-4 py-3 text-left font-medium">DISCIPLINA</th>
-                <th className="px-4 py-3 text-left font-medium">CAPÍTULO</th>
-                <th className="px-4 py-3 text-left font-medium">CICLO</th>
-                <th className="px-4 py-3 text-left font-medium">STATUS</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border-t">
-                <td className="px-4 py-3">15/03/2024</td>
-                <td className="px-4 py-3">Microbiologia Médica</td>
-                <td className="px-4 py-3">Capítulo 1</td>
-                <td className="px-4 py-3">1º Ciclo</td>
-                <td className="px-4 py-3">
-                  <span className="px-2 py-1 rounded-full bg-yellow-100 text-yellow-800">Pendente</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        {/* Filters Section */}
+        <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
+          <h2 className="text-lg font-semibold mb-4">FILTROS</h2>
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium mb-2 block">
+                DISCIPLINAS DO EDITAL
+              </label>
+              <div className="flex gap-2">
+                <Input 
+                  placeholder="Buscar disciplina..." 
+                  className="max-w-sm"
+                />
+                <Button variant="secondary" size="sm">
+                  FILTRAR
+                </Button>
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* Tabs and Content */}
+        <Tabs defaultValue="para-fazer" className="space-y-4">
+          <TabsList className="grid w-full grid-cols-2 max-w-[400px]">
+            <TabsTrigger value="para-fazer">PARA FAZER</TabsTrigger>
+            <TabsTrigger value="concluidas">CONCLUÍDAS</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="para-fazer">
+            <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+              <h3 className="text-lg font-semibold p-4 border-b">
+                PRÓXIMAS REVISÕES PROGRAMADAS
+              </h3>
+              
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>AGENDADO P/</TableHead>
+                    <TableHead>ESTUDADO EM</TableHead>
+                    <TableHead>EDITAL</TableHead>
+                    <TableHead>DISCIPLINA/CAPÍTULO</TableHead>
+                    <TableHead>ASSUNTOS</TableHead>
+                    <TableHead>STATUS</TableHead>
+                    <TableHead>HISTÓRICO DE REVISÕES</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell colSpan={7} className="text-center py-8">
+                      <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                        <AlertTriangle className="w-6 h-6" />
+                        <p>Ainda sem revisões programadas, faça um estudo e agende suas revisões!</p>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="concluidas">
+            <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+              <h3 className="text-lg font-semibold p-4 border-b">
+                REVISÕES CONCLUÍDAS
+              </h3>
+              
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>AGENDADO P/</TableHead>
+                    <TableHead>ESTUDADO EM</TableHead>
+                    <TableHead>EDITAL</TableHead>
+                    <TableHead>DISCIPLINA/CAPÍTULO</TableHead>
+                    <TableHead>ASSUNTOS</TableHead>
+                    <TableHead>STATUS</TableHead>
+                    <TableHead>HISTÓRICO DE REVISÕES</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  <TableRow>
+                    <TableCell colSpan={7} className="text-center py-8">
+                      <div className="flex flex-col items-center gap-2 text-muted-foreground">
+                        <AlertTriangle className="w-6 h-6" />
+                        <p>Nenhuma revisão concluída ainda.</p>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   )
