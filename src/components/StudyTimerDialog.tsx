@@ -131,9 +131,22 @@ export function StudyTimerDialog({ open, onOpenChange }: StudyTimerDialogProps) 
         </DialogContent>
       </Dialog>
 
-      {/* Mini Timer - Updated to be more horizontal and discreet */}
+      {/* Mini Timer - Updated with pink color and reorganized layout */}
       {showMiniTimer && (
         <div className="fixed bottom-4 right-4 z-50 bg-black/80 backdrop-blur-sm text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-4 max-w-[400px]">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="text-white hover:text-white/80 hover:bg-white/10 p-1 h-8 w-8"
+            onClick={handleStartStop}
+          >
+            {isRunning ? (
+              <Pause className="h-5 w-5" />
+            ) : (
+              <Play className="h-5 w-5" />
+            )}
+          </Button>
+
           <div className="flex-1 min-w-0">
             <div className="text-xs font-medium truncate">
               {selectedSubject === "microbiologia" ? "MICROBIOLOGIA MÉDICA" : 
@@ -143,10 +156,11 @@ export function StudyTimerDialog({ open, onOpenChange }: StudyTimerDialogProps) 
                selectedTopic === "topic2" ? "CONTEÚDO 2" : 
                selectedTopic === "topic3" ? "CONTEÚDO 3" : ""}
             </div>
-            <div className="text-lg font-mono">
+            <div className="text-lg font-mono text-[#FFDEE2]">
               {formatTime(time)}
             </div>
           </div>
+
           <Button
             variant="ghost"
             size="sm"
