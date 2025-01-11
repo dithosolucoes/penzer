@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { EditEditalSheet } from "@/components/EditEditalSheet"
 import { EditalDetailsDialog } from "@/components/EditalDetailsDialog"
+import { AddEditalDialog } from "@/components/AddEditalDialog"
 import { useState } from "react"
 
 interface Edital {
@@ -72,14 +73,7 @@ const Editais = () => {
       <div className="container py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">LOJA DE EDITAIS</h1>
-          <Button 
-            variant="secondary" 
-            size="sm"
-            className="bg-[#E8E8E8] hover:bg-[#E8E8E8]/80"
-          >
-            <Plus className="w-4 h-4" />
-            ADICIONAR EDITAL
-          </Button>
+          <AddEditalDialog />
         </div>
 
         <div className="mb-12">
