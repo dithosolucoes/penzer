@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { BookOpen, Plus } from "lucide-react"
+import { BookOpen, Plus, Home, History, FileText, BarChart2, Book } from "lucide-react"
 
 const Index = () => {
   return (
