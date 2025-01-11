@@ -19,16 +19,7 @@ const Revisoes = () => {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">REVISÕES</h1>
           <div className="flex items-center gap-3">
-            <ReviewSettingsDialog>
-              <Button 
-                variant="secondary" 
-                size="sm"
-                className="font-medium flex items-center gap-2"
-              >
-                <Settings2 className="h-4 w-4" />
-                CONFIGURAÇÕES
-              </Button>
-            </ReviewSettingsDialog>
+            <ReviewSettingsDialog />
             <AddStudyDialog>
               <Button 
                 variant="secondary" 
@@ -47,53 +38,56 @@ const Revisoes = () => {
             <TabsTrigger value="concluidas">CONCLUÍDAS</TabsTrigger>
           </TabsList>
           <TabsContent value="para-fazer">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Disciplina</TableHead>
-                  <TableHead>Data</TableHead>
-                  <TableHead>Ações</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {/* Example data, replace with actual data */}
-                <TableRow>
-                  <TableCell>Matemática</TableCell>
-                  <TableCell>01/01/2023</TableCell>
-                  <TableCell>
-                    <Button variant="secondary" size="sm">Revisar</Button>
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>História</TableCell>
-                  <TableCell>02/01/2023</TableCell>
-                  <TableCell>
-                    <Button variant="secondary" size="sm">Revisar</Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+            <div className="rounded-md border">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Disciplina</TableHead>
+                    <TableHead>Data</TableHead>
+                    <TableHead>Ações</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {/* Empty state */}
+                  <TableRow>
+                    <TableCell colSpan={3}>
+                      <div className="flex flex-col items-center justify-center py-6 text-center">
+                        <AlertTriangle className="h-10 w-10 text-muted-foreground mb-2" />
+                        <p className="text-muted-foreground">
+                          Nenhuma revisão para fazer no momento
+                        </p>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
           </TabsContent>
           <TabsContent value="concluidas">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Disciplina</TableHead>
-                  <TableHead>Data</TableHead>
-                  <TableHead>Ações</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {/* Example data, replace with actual data */}
-                <TableRow>
-                  <TableCell>Física</TableCell>
-                  <TableCell>04/01/2023</TableCell>
-                  <TableCell>
-                    <Button variant="secondary" size="sm">Revisar</Button>
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
+            <div className="rounded-md border">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Disciplina</TableHead>
+                    <TableHead>Data</TableHead>
+                    <TableHead>Ações</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {/* Empty state */}
+                  <TableRow>
+                    <TableCell colSpan={3}>
+                      <div className="flex flex-col items-center justify-center py-6 text-center">
+                        <AlertTriangle className="h-10 w-10 text-muted-foreground mb-2" />
+                        <p className="text-muted-foreground">
+                          Nenhuma revisão concluída
+                        </p>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
           </TabsContent>
         </Tabs>
       </div>
