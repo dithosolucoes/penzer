@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { Toaster } from "@/components/ui/sonner"
-import { MainLayout } from "@/components/layout/MainLayout"
+import MainLayout from "@/components/layout/MainLayout"
 import Index from "@/pages/Index"
 import Historico from "@/pages/Historico"
 import Revisoes from "@/pages/Revisoes"
