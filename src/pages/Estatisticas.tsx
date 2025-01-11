@@ -1,12 +1,10 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { 
-  ChartContainer, 
-  ChartTooltip, 
-  ChartTooltipContent 
-} from "@/components/ui/chart"
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { AddStudyDialog } from "@/components/AddStudyDialog"
+import { useStatistics } from "@/hooks/useStatistics"
+import { format, startOfWeek, endOfWeek, isWithinInterval } from "date-fns"
 import { 
   BarChart,
   LineChart,
@@ -15,115 +13,61 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  ResponsiveContainer,
   PieChart,
   Pie,
-  Cell
+  Cell,
+  Tooltip
 } from "recharts"
 
 const Estatisticas = () => {
-  const mockData = {
-    horasEstudadas: [
-      { name: 'Seg', horas: 4 },
-      { name: 'Ter', horas: 3 },
-      { name: 'Qua', horas: 5 },
-      { name: 'Qui', horas: 2 },
-      { name: 'Sex', horas: 4 },
-      { name: 'Sab', horas: 6 },
-      { name: 'Dom', horas: 3 },
-    ],
-    divisaoEstudos: [
-      { name: 'Anatomia', value: 30 },
-      { name: 'Fisiologia', value: 25 },
-      { name: 'Bioquímica', value: 20 },
-      { name: 'Histologia', value: 25 },
-    ],
-    disciplinasHoras: [
-      { name: 'Anatomia', horas: 8 },
-      { name: 'Fisiologia', horas: 6 },
-      { name: 'Bioquímica', horas: 4 },
-      { name: 'Histologia', horas: 5 },
-    ],
-    paginasLidas: [
-      { name: 'Seg', paginas: 20 },
-      { name: 'Ter', paginas: 15 },
-      { name: 'Qua', paginas: 25 },
-      { name: 'Qui', paginas: 10 },
-      { name: 'Sex', paginas: 30 },
-      { name: 'Sab', paginas: 20 },
-      { name: 'Dom', paginas: 15 },
-    ],
-  }
+  const { data: studySessions, isLoading } = useStatistics()
 
-  // Mock data for total performance
-  const mockTotalData = {
-    dadosGerais: [
-      { title: "Total de Horas", value: "120h" },
-      { title: "Média Diária", value: "4h" },
-      { title: "Páginas Lidas", value: "450" },
-      { title: "Média de Acertos", value: "75%" }
-    ],
-    horasEstudo: [
-      { name: 'Anatomia', horas: 40 },
-      { name: 'Fisiologia', horas: 30 },
-      { name: 'Bioquímica', horas: 25 },
-      { name: 'Histologia', horas: 25 },
-    ],
-    divisaoEstudos: [
-      { name: 'Anatomia', value: 35 },
-      { name: 'Fisiologia', value: 25 },
-      { name: 'Bioquímica', value: 20 },
-      { name: 'Histologia', value: 20 },
-    ],
-    acertosErros: [
-      { name: 'Anatomia', acertos: 80, erros: 20 },
-      { name: 'Fisiologia', acertos: 75, erros: 25 },
-      { name: 'Bioquímica', acertos: 70, erros: 30 },
-      { name: 'Histologia', acertos: 85, erros: 15 },
-    ],
-    paginasLidas: [
-      { name: 'Anatomia', paginas: 150 },
-      { name: 'Fisiologia', paginas: 120 },
-      { name: 'Bioquímica', paginas: 90 },
-      { name: 'Histologia', paginas: 90 },
-    ],
-    conclusaoEdital: [
-      { name: 'Anatomia', concluido: 75 },
-      { name: 'Fisiologia', concluido: 60 },
-      { name: 'Bioquímica', concluido: 45 },
-      { name: 'Histologia', concluido: 55 },
-    ]
-  }
+  // Calcula o início e fim da semana atual
+  const weekStart = startOfWeek(new Date())
+  const weekEnd = endOfWeek(new Date())
 
-  // Mock data for evolution tab
-  const mockEvolutionData = {
-    dadosGerais: [
-      { title: "Total de Horas", value: "480h" },
-      { title: "Média Mensal", value: "120h" },
-      { title: "Total Páginas", value: "1800" },
-      { title: "Média Acertos", value: "78%" }
-    ],
-    horasEstudoMes: [
-      { name: 'Jan', horas: 100 },
-      { name: 'Fev', horas: 120 },
-      { name: 'Mar', horas: 90 },
-      { name: 'Abr', horas: 150 },
-    ],
-    paginasLidasMes: [
-      { name: 'Jan', paginas: 400 },
-      { name: 'Fev', paginas: 450 },
-      { name: 'Mar', paginas: 380 },
-      { name: 'Abr', paginas: 570 },
-    ],
-    acertosErrosMes: [
-      { name: 'Jan', acertos: 75, erros: 25 },
-      { name: 'Fev', acertos: 80, erros: 20 },
-      { name: 'Mar', acertos: 73, erros: 27 },
-      { name: 'Abr', acertos: 85, erros: 15 },
-    ]
-  }
+  // Filtra sessões da semana atual
+  const currentWeekSessions = studySessions?.filter(session => 
+    session.start_time && isWithinInterval(new Date(session.start_time), {
+      start: weekStart,
+      end: weekEnd
+    })
+  ) || []
 
-  // Updated color palette using project colors
+  // Agrupa horas estudadas por dia da semana
+  const hoursPerDay = currentWeekSessions.reduce((acc, session) => {
+    if (session.start_time && session.end_time) {
+      const day = format(new Date(session.start_time), 'EEE')
+      const hours = (new Date(session.end_time).getTime() - new Date(session.start_time).getTime()) / (1000 * 60 * 60)
+      acc[day] = (acc[day] || 0) + hours
+    }
+    return acc
+  }, {} as Record<string, number>)
+
+  const weeklyData = [
+    { name: 'Seg', horas: hoursPerDay['Mon'] || 0 },
+    { name: 'Ter', horas: hoursPerDay['Tue'] || 0 },
+    { name: 'Qua', horas: hoursPerDay['Wed'] || 0 },
+    { name: 'Qui', horas: hoursPerDay['Thu'] || 0 },
+    { name: 'Sex', horas: hoursPerDay['Fri'] || 0 },
+    { name: 'Sab', horas: hoursPerDay['Sat'] || 0 },
+    { name: 'Dom', horas: hoursPerDay['Sun'] || 0 },
+  ]
+
+  // Agrupa páginas lidas por disciplina
+  const pagesPerSubject = currentWeekSessions.reduce((acc, session) => {
+    if (session.subject && session.pages_read) {
+      acc[session.subject] = (acc[session.subject] || 0) + session.pages_read
+    }
+    return acc
+  }, {} as Record<string, number>)
+
+  const subjectsData = Object.entries(pagesPerSubject).map(([name, pages]) => ({
+    name,
+    paginas: pages
+  }))
+
+  // Cores do tema
   const COLORS = [
     'hsl(var(--primary))',
     'hsl(var(--accent))',
@@ -131,17 +75,21 @@ const Estatisticas = () => {
     'hsl(var(--muted))'
   ]
 
+  if (isLoading) {
+    return (
+      <div className="min-h-[calc(100vh-4rem)] bg-background flex items-center justify-center">
+        <div className="text-lg">Carregando estatísticas...</div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-background">
       <div className="container py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold text-foreground">ESTATÍSTICAS</h1>
           <AddStudyDialog>
-            <Button 
-              variant="secondary" 
-              size="sm"
-              className="font-medium"
-            >
+            <Button variant="secondary" size="sm" className="font-medium">
               ADICIONAR ESTUDO
             </Button>
           </AddStudyDialog>
@@ -162,91 +110,33 @@ const Estatisticas = () => {
                   <CardTitle className="text-lg">HORAS ESTUDADAS (SEMANA ATUAL)</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ChartContainer className="h-[300px]" config={{}}>
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={mockData.horasEstudadas}>
-                        <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
-                        <XAxis dataKey="name" className="text-muted-foreground" />
-                        <YAxis className="text-muted-foreground" />
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                        <Bar dataKey="horas" fill="hsl(var(--primary))" />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </ChartContainer>
-                </CardContent>
-              </Card>
-
-              {/* Divisão Estudos Chart */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">DIVISÃO ESTUDOS (SEMANA ATUAL)</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ChartContainer className="h-[300px]" config={{}}>
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={mockData.divisaoEstudos}
-                          cx="50%"
-                          cy="50%"
-                          labelLine={false}
-                          outerRadius={80}
-                          fill="hsl(var(--primary))"
-                          dataKey="value"
-                        >
-                          {mockData.divisaoEstudos.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                          ))}
-                        </Pie>
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </ChartContainer>
-                </CardContent>
-              </Card>
-
-              {/* Disciplinas x Horas Chart */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">DISCIPLINAS X HORAS DE ESTUDO (SEMANA ATUAL)</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ChartContainer className="h-[300px]" config={{}}>
-                    <ResponsiveContainer width="100%" height="100%">
-                      <BarChart data={mockData.disciplinasHoras} layout="vertical">
-                        <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
-                        <XAxis type="number" className="text-muted-foreground" />
-                        <YAxis dataKey="name" type="category" className="text-muted-foreground" />
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                        <Bar dataKey="horas" fill="hsl(var(--accent))" />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </ChartContainer>
+                  <div className="h-[300px]">
+                    <BarChart width={500} height={300} data={weeklyData}>
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                      <XAxis dataKey="name" className="text-muted-foreground" />
+                      <YAxis className="text-muted-foreground" />
+                      <Tooltip content={<ChartTooltipContent />} />
+                      <Bar dataKey="horas" fill="hsl(var(--primary))" />
+                    </BarChart>
+                  </div>
                 </CardContent>
               </Card>
 
               {/* Páginas Lidas Chart */}
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">PÁGINAS LIDAS (SEMANA ATUAL)</CardTitle>
+                  <CardTitle className="text-lg">PÁGINAS LIDAS POR DISCIPLINA</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ChartContainer className="h-[300px]" config={{}}>
-                    <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={mockData.paginasLidas}>
-                        <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
-                        <XAxis dataKey="name" className="text-muted-foreground" />
-                        <YAxis className="text-muted-foreground" />
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                        <Line 
-                          type="monotone" 
-                          dataKey="paginas" 
-                          stroke="hsl(var(--primary))"
-                          strokeWidth={2}
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  </ChartContainer>
+                  <div className="h-[300px]">
+                    <BarChart width={500} height={300} data={subjectsData} layout="vertical">
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-border/50" />
+                      <XAxis type="number" className="text-muted-foreground" />
+                      <YAxis dataKey="name" type="category" className="text-muted-foreground" />
+                      <Tooltip content={<ChartTooltipContent />} />
+                      <Bar dataKey="paginas" fill="hsl(var(--accent))" />
+                    </BarChart>
+                  </div>
                 </CardContent>
               </Card>
             </div>
