@@ -8,6 +8,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { Input } from "@/components/ui/input"
+import { EditEditalSheet } from "@/components/EditEditalSheet"
+import { useState } from "react"
 
 interface Edital {
   id: number
@@ -38,7 +40,6 @@ const editais: Edital[] = [
     vagas: 294,
     type: "VER EDITAL"
   },
-  // Add more editais as needed
 ]
 
 const myEditais: Edital[] = [
@@ -63,6 +64,8 @@ const myEditais: Edital[] = [
 ]
 
 const Editais = () => {
+  const [editingEdital, setEditingEdital] = useState<Edital | null>(null)
+
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-[#E8E8E8]/10">
       <div className="container py-8">
@@ -93,6 +96,7 @@ const Editais = () => {
                     variant="secondary"
                     size="sm" 
                     className="w-full bg-[#E8E8E8] hover:bg-[#E8E8E8]/80"
+                    onClick={() => setEditingEdital(edital)}
                   >
                     {edital.type}
                   </Button>
@@ -159,6 +163,12 @@ const Editais = () => {
           </Carousel>
         </div>
       </div>
+
+      <EditEditalSheet 
+        open={!!editingEdital}
+        onOpenChange={(open) => !open && setEditingEdital(null)}
+        editalTitle={editingEdital?.title || ""}
+      />
     </div>
   )
 }
