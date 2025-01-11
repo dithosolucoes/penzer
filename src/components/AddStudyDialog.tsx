@@ -2,7 +2,7 @@ import { useState } from "react"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Plus, Bold, Italic, Underline } from "lucide-react"
-import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
@@ -32,6 +32,7 @@ const formSchema = z.object({
   material: z.string().optional(),
   videos: z.string().optional(),
   comments: z.string().optional(),
+  minutesStudied: z.number().min(0).default(0),
 })
 
 type FormValues = z.infer<typeof formSchema>
@@ -52,6 +53,7 @@ export function AddStudyDialog() {
       exercisesTotal: 0,
       pagesStart: 0,
       pagesEnd: 0,
+      minutesStudied: 0,
     },
   })
 
@@ -64,8 +66,7 @@ export function AddStudyDialog() {
         subject: data.subject,
         chapter: data.topic,
         pages_read: data.pagesEnd - data.pagesStart,
-        start_time: data.date,
-        // Additional fields will be added here
+        start_time: data.date.toISOString(), // Convert Date to ISO string
       })
 
       if (error) throw error
@@ -94,9 +95,9 @@ export function AddStudyDialog() {
           ADICIONAR ESTUDO
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="sm:max-w-[600px] bg-white">
         <DialogHeader>
-          <DialogTitle className="text-center">O QUE FOI ESTUDADO</DialogTitle>
+          <DialogTitle className="text-center font-medium">O QUE FOI ESTUDADO</DialogTitle>
         </DialogHeader>
 
         <Form {...form}>
@@ -128,41 +129,59 @@ export function AddStudyDialog() {
                     ONTEM
                   </Button>
                 </div>
-                <FormField
-                  control={form.control}
-                  name="date"
-                  render={({ field }) => (
-                    <FormItem>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              className={cn(
-                                "w-full pl-3 text-left font-normal",
-                                !field.value && "text-muted-foreground"
-                              )}
-                            >
-                              {field.value ? (
-                                format(field.value, "dd/MM/yyyy", { locale: ptBR })
-                              ) : (
-                                <span>Selecione uma data</span>
-                              )}
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <Calendar
-                            mode="single"
-                            selected={field.value}
-                            onSelect={field.onChange}
-                            initialFocus
+                <div className="grid grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="date"
+                    render={({ field }) => (
+                      <FormItem>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant="outline"
+                                className={cn(
+                                  "w-full pl-3 text-left font-normal",
+                                  !field.value && "text-muted-foreground"
+                                )}
+                              >
+                                {field.value ? (
+                                  format(field.value, "dd/MM/yyyy", { locale: ptBR })
+                                ) : (
+                                  <span>Selecione uma data</span>
+                                )}
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                              mode="single"
+                              selected={field.value}
+                              onSelect={field.onChange}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="minutesStudied"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            type="number"
+                            placeholder="MINUTOS ESTUDADOS"
+                            {...field}
+                            onChange={e => field.onChange(parseInt(e.target.value))}
                           />
-                        </PopoverContent>
-                      </Popover>
-                    </FormItem>
-                  )}
-                />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
@@ -223,7 +242,10 @@ export function AddStudyDialog() {
 
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <h3 className="font-medium">EXERCÍCIOS FEITOS</h3>
+                  <h3 className="font-medium flex items-center gap-2">
+                    EXERCÍCIOS FEITOS
+                    <span className="text-xs text-gray-500">(opcional)</span>
+                  </h3>
                   <div className="grid grid-cols-2 gap-2">
                     <div>
                       <div className="text-xs text-gray-500 mb-1">ACERTOS/ERROS</div>
@@ -285,7 +307,10 @@ export function AddStudyDialog() {
                 </div>
 
                 <div className="space-y-2">
-                  <h3 className="font-medium">PÁGINAS LIDAS</h3>
+                  <h3 className="font-medium flex items-center gap-2">
+                    PÁGINAS LIDAS
+                    <span className="text-xs text-gray-500">(opcional)</span>
+                  </h3>
                   <div className="grid grid-cols-2 gap-2">
                     <div>
                       <div className="text-xs text-gray-500 mb-1">DE</div>
@@ -331,7 +356,10 @@ export function AddStudyDialog() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <h3 className="font-medium">MATERIAL UTILIZADO</h3>
+                  <h3 className="font-medium flex items-center gap-2">
+                    MATERIAL UTILIZADO
+                    <span className="text-xs text-gray-500">(opcional)</span>
+                  </h3>
                   <FormField
                     control={form.control}
                     name="material"
@@ -339,7 +367,7 @@ export function AddStudyDialog() {
                       <FormItem>
                         <FormControl>
                           <Input
-                            placeholder="Digite aqui o material utilizado (opcional)..."
+                            placeholder="Digite aqui o material utilizado..."
                             {...field}
                           />
                         </FormControl>
@@ -349,7 +377,10 @@ export function AddStudyDialog() {
                 </div>
 
                 <div className="space-y-2">
-                  <h3 className="font-medium">VÍDEOS ASSISTIDOS</h3>
+                  <h3 className="font-medium flex items-center gap-2">
+                    VÍDEOS ASSISTIDOS
+                    <span className="text-xs text-gray-500">(opcional)</span>
+                  </h3>
                   <FormField
                     control={form.control}
                     name="videos"
@@ -357,7 +388,7 @@ export function AddStudyDialog() {
                       <FormItem>
                         <FormControl>
                           <Input
-                            placeholder="Digite aqui o nome/link dos vídeos assistidos (opcional)..."
+                            placeholder="Digite aqui o nome/link dos vídeos..."
                             {...field}
                           />
                         </FormControl>
@@ -368,7 +399,10 @@ export function AddStudyDialog() {
               </div>
 
               <div className="space-y-2">
-                <h3 className="font-medium">COMENTÁRIO SOBRE O ESTUDO</h3>
+                <h3 className="font-medium flex items-center gap-2">
+                  COMENTÁRIO SOBRE O ESTUDO
+                  <span className="text-xs text-gray-500">(recomendado)</span>
+                </h3>
                 <div className="flex gap-2 mb-2">
                   <Button variant="outline" size="icon" type="button">
                     <Bold className="h-4 w-4" />
@@ -387,7 +421,7 @@ export function AddStudyDialog() {
                     <FormItem>
                       <FormControl>
                         <Textarea
-                          placeholder="Digite aqui um comentário sobre o estudo (recomendado)..."
+                          placeholder="Digite aqui um comentário sobre o estudo..."
                           className="min-h-[100px]"
                           {...field}
                         />
