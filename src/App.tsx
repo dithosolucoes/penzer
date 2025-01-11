@@ -14,7 +14,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route element={<MainLayout />}>
+        <Route path="/" element={<MainLayout />}>
           <Route path="/dashboard" element={<Index />} />
           <Route path="/editais" element={<Editais />} />
           <Route path="/edital-verticalizado" element={<EditalVerticalizado />} />
