@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { BookOpen, Plus, Home, History, FileText, BarChart2, Book } from "lucide-react"
+import { BookOpen, Plus } from "lucide-react"
 
 const Index = () => {
   return (
@@ -18,6 +18,7 @@ const Index = () => {
           </Button>
         </div>
 
+        {/* Two Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Tasks Section */}
           <div>
