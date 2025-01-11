@@ -59,20 +59,20 @@ const Index = () => {
     return acc
   }, {} as Record<string, typeof studySessions>)
 
-  // Custom day render function for the calendar
-  const renderDay = (day: Date) => {
+  // Custom day render function for the calendar with proper TypeScript types
+  const renderDay = (day: Date, cellProps: { [key: string]: any }) => {
     const dateKey = format(day, 'yyyy-MM-dd')
     const sessions = studySessionsByDate?.[dateKey]
 
     if (!sessions?.length) {
-      return format(day, 'd')
+      return <div {...cellProps}>{format(day, 'd')}</div>
     }
 
     return (
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="relative">
+            <div {...cellProps} className="relative">
               {format(day, 'd')}
               <div className="w-2 h-2 bg-green-500 rounded-full absolute bottom-1 left-1/2 transform -translate-x-1/2" />
             </div>
@@ -228,7 +228,7 @@ const Index = () => {
                 className="rounded-md border"
                 locale={ptBR}
                 components={{
-                  Day: ({ date: dayDate }) => renderDay(dayDate),
+                  Day: ({ date: dayDate, ...props }) => renderDay(dayDate, props),
                 }}
               />
             </div>
