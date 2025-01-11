@@ -7,14 +7,14 @@ import { Input } from "@/components/ui/input"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/lib/supabase"
 import { useAuth } from "@/hooks/useAuth"
 
 const formSchema = z.object({
   subject: z.string().min(1, "A disciplina é obrigatória"),
   chapter: z.string().optional(),
-  pages_read: z.string().transform(val => parseInt(val) || 0).optional(),
+  pages_read: z.coerce.number().min(0, "O número de páginas não pode ser negativo").optional(),
 })
 
 export function AddStudyDialog() {
@@ -27,7 +27,7 @@ export function AddStudyDialog() {
     defaultValues: {
       subject: "",
       chapter: "",
-      pages_read: "",
+      pages_read: 0,
     },
   })
 
@@ -114,7 +114,12 @@ export function AddStudyDialog() {
                 <FormItem>
                   <FormLabel>Páginas lidas (opcional)</FormLabel>
                   <FormControl>
-                    <Input type="number" placeholder="Ex: 10" {...field} />
+                    <Input 
+                      type="number" 
+                      placeholder="Ex: 10" 
+                      {...field}
+                      onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
