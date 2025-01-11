@@ -54,6 +54,7 @@ const CicloEstudos = () => {
   }
 
   const handleSaveCycle = () => {
+    setIsEditing(false)
     toast.success("Ciclo Salvo!", {
       description: "Seu ciclo de estudos foi salvo com sucesso!"
     })
@@ -86,7 +87,7 @@ const CicloEstudos = () => {
           {isEditing ? (
             <Button 
               variant="secondary"
-              onClick={() => setIsEditing(false)}
+              onClick={handleSaveCycle}
               className="bg-[#E8E8E8] hover:bg-[#E8E8E8]/80"
             >
               ATUALIZAR/SALVAR CICLO
@@ -180,15 +181,6 @@ const CicloEstudos = () => {
             </div>
           </div>
         </div>
-
-        {/* Success Toast */}
-        {!isEditing && (
-          <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2">
-            <div className="bg-[#B4C6E4] text-black px-6 py-2 rounded-md flex items-center gap-2">
-              Ciclo Salvo!
-            </div>
-          </div>
-        )}
       </div>
     </div>
   )
