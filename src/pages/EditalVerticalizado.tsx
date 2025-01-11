@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
-import { Clock, Percent, Target } from "lucide-react"
+import { Clock, Percent, Target, Plus, Settings } from "lucide-react"
+import { AddStudyDialog } from "@/components/AddStudyDialog"
 
 interface Topic {
   id: number
@@ -67,13 +68,13 @@ const EditalVerticalizado = () => {
         {/* Page Header */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">EDITAL VERTICALIZADO</h1>
-          <Button 
-            variant="secondary" 
-            size="sm"
-            className="bg-[#E8E8E8] hover:bg-[#E8E8E8]/80"
-          >
-            ADICIONAR ESTUDO
-          </Button>
+          <div className="flex items-center gap-2">
+            <AddStudyDialog />
+            <Button variant="secondary" size="sm" className="gap-2">
+              <Settings className="h-4 w-4" />
+              CONFIGURAÇÕES
+            </Button>
+          </div>
         </div>
 
         <h2 className="text-lg font-semibold mb-4">DADOS GERAIS</h2>
