@@ -131,26 +131,26 @@ export function StudyTimerDialog({ open, onOpenChange }: StudyTimerDialogProps) 
         </DialogContent>
       </Dialog>
 
-      {/* Mini Timer */}
+      {/* Mini Timer - Updated to be more horizontal and discreet */}
       {showMiniTimer && (
-        <div className="fixed bottom-20 right-4 z-50 bg-black text-white p-4 rounded-lg shadow-lg min-w-[200px]">
-          <div className="text-sm font-semibold mb-1">
-            {selectedSubject === "microbiologia" ? "MICROBIOLOGIA MÉDICA" : 
-             selectedSubject === "anatomia" ? "ANATOMIA" : 
-             selectedSubject === "fisiologia" ? "FISIOLOGIA" : ""}
-          </div>
-          <div className="text-xs text-gray-400 mb-2">
-            {selectedTopic === "topic1" ? "CONTEÚDO 1" : 
-             selectedTopic === "topic2" ? "CONTEÚDO 2" : 
-             selectedTopic === "topic3" ? "CONTEÚDO 3" : ""}
-          </div>
-          <div className="text-2xl font-mono">
-            {formatTime(time)}
+        <div className="fixed bottom-4 right-4 z-50 bg-black/80 backdrop-blur-sm text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-4 max-w-[400px]">
+          <div className="flex-1 min-w-0">
+            <div className="text-xs font-medium truncate">
+              {selectedSubject === "microbiologia" ? "MICROBIOLOGIA MÉDICA" : 
+               selectedSubject === "anatomia" ? "ANATOMIA" : 
+               selectedSubject === "fisiologia" ? "FISIOLOGIA" : ""} •{" "}
+              {selectedTopic === "topic1" ? "CONTEÚDO 1" : 
+               selectedTopic === "topic2" ? "CONTEÚDO 2" : 
+               selectedTopic === "topic3" ? "CONTEÚDO 3" : ""}
+            </div>
+            <div className="text-lg font-mono">
+              {formatTime(time)}
+            </div>
           </div>
           <Button
             variant="ghost"
             size="sm"
-            className="mt-2 w-full text-white hover:text-black"
+            className="text-white hover:text-white/80 hover:bg-white/10 px-2 py-1 h-auto text-xs"
             onClick={handleFinishStudy}
           >
             finalizar
