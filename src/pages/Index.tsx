@@ -23,13 +23,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { GoogleCalendarDialog } from "@/components/GoogleCalendarDialog"
 
 const Index = () => {
   const { user } = useAuth()
   const { toast } = useToast()
   const [date, setDate] = useState<Date>(new Date())
+  const [calendarDialogOpen, setCalendarDialogOpen] = useState(false)
 
-  // Fetch study sessions for the current month
   const { data: studySessions } = useQuery({
     queryKey: ['study-sessions', format(date, 'yyyy-MM')],
     queryFn: async () => {
@@ -48,13 +49,6 @@ const Index = () => {
     enabled: !!user
   })
 
-  const handleGoogleCalendarConnect = () => {
-    toast({
-      title: "Em breve!",
-      description: "A integração com o Google Agenda estará disponível em breve.",
-    })
-  }
-
   // Create a map of dates to study sessions for easier lookup
   const studySessionsByDate = studySessions?.reduce((acc, session) => {
     const dateKey = format(new Date(session.start_time), 'yyyy-MM-dd')
@@ -66,28 +60,35 @@ const Index = () => {
   }, {} as Record<string, typeof studySessions>)
 
   // Custom day render function for the calendar
-  const renderDay = (day: Date) => {
+  const renderDay = (day: Date, selected: boolean, props: React.HTMLProps<HTMLButtonElement> = {}) => {
     const dateKey = format(day, 'yyyy-MM-dd')
     const sessions = studySessionsByDate?.[dateKey]
 
-    if (!sessions?.length) return null
+    if (!sessions?.length) {
+      return <button {...props}>{format(day, 'd')}</button>
+    }
 
     return (
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <div className="w-2 h-2 bg-green-500 rounded-full absolute bottom-1 left-1/2 transform -translate-x-1/2" />
-        </TooltipTrigger>
-        <TooltipContent>
-          <div className="text-sm">
-            <p className="font-medium">{sessions.length} estudo(s)</p>
-            {sessions.map((session, i) => (
-              <p key={i} className="text-xs text-gray-500">
-                {session.subject} - {session.chapter}
-              </p>
-            ))}
-          </div>
-        </TooltipContent>
-      </Tooltip>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <button {...props} className={`${props.className} relative`}>
+              {format(day, 'd')}
+              <div className="w-2 h-2 bg-green-500 rounded-full absolute bottom-1 left-1/2 transform -translate-x-1/2" />
+            </button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <div className="text-sm">
+              <p className="font-medium">{sessions.length} estudo(s)</p>
+              {sessions.map((session, i) => (
+                <p key={i} className="text-xs text-gray-500">
+                  {session.subject} - {session.chapter}
+                </p>
+              ))}
+            </div>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     )
   }
 
@@ -190,7 +191,7 @@ const Index = () => {
             <Button
               variant="outline"
               size="sm"
-              onClick={handleGoogleCalendarConnect}
+              onClick={() => setCalendarDialogOpen(true)}
               className="gap-2"
             >
               <CalendarIcon className="h-4 w-4" />
@@ -218,27 +219,26 @@ const Index = () => {
                   ))}
                 </SelectContent>
               </Select>
-              <TooltipProvider>
-                <Calendar
-                  mode="single"
-                  selected={date}
-                  onSelect={(newDate) => newDate && setDate(newDate)}
-                  className="rounded-md border"
-                  locale={ptBR}
-                  components={{
-                    Day: ({ date: dayDate, ...props }) => (
-                      <div className="relative">
-                        <Calendar.Day date={dayDate} {...props} />
-                        {renderDay(dayDate)}
-                      </div>
-                    ),
-                  }}
-                />
-              </TooltipProvider>
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={(newDate) => newDate && setDate(newDate)}
+                className="rounded-md border"
+                locale={ptBR}
+                components={{
+                  Day: ({ date: dayDate, selected, ...props }) => renderDay(dayDate, selected, props),
+                }}
+              />
             </div>
           </div>
         </div>
       </div>
+
+      {/* Google Calendar Dialog */}
+      <GoogleCalendarDialog
+        open={calendarDialogOpen}
+        onOpenChange={setCalendarDialogOpen}
+      />
     </div>
   )
 }
