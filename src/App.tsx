@@ -11,6 +11,7 @@ import EditalVerticalizado from "./pages/EditalVerticalizado"
 import Estatisticas from "./pages/Estatisticas"
 import CicloEstudos from "./pages/CicloEstudos"
 import Editais from "./pages/Editais"
+import Perfil from "./pages/Perfil"
 import { AuthTest } from "./components/AuthTest"
 
 const queryClient = new QueryClient()
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/estatisticas" element={<Estatisticas />} />
             <Route path="/ciclo" element={<CicloEstudos />} />
             <Route path="/editais" element={<Editais />} />
+            <Route path="/perfil" element={<Perfil />} />
           </Routes>
         </MainLayout>
       </BrowserRouter>
