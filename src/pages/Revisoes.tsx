@@ -1,7 +1,4 @@
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Input } from "@/components/ui/input"
-import { AlertTriangle } from "lucide-react"
 import {
   Table,
   TableBody,

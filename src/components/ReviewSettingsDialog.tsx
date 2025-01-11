@@ -30,8 +30,9 @@ export function ReviewSettingsDialog() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" size="icon">
+        <Button variant="secondary" size="sm" className="gap-2">
           <Settings className="h-4 w-4" />
+          CONFIGURAÇÕES
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
