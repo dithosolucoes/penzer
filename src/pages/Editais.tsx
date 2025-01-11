@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { FileText, Plus, Search } from "lucide-react"
+import { FileText, Plus, Search, Timer } from "lucide-react"
 import {
   Carousel,
   CarouselContent,
@@ -8,6 +8,8 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { Input } from "@/components/ui/input"
+import { StudyTimerDialog } from "@/components/StudyTimerDialog"
+import { useState } from "react"
 
 interface Edital {
   id: number
@@ -63,10 +65,11 @@ const myEditais: Edital[] = [
 ]
 
 const Editais = () => {
+  const [timerDialogOpen, setTimerDialogOpen] = useState(false)
+
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-[#E8E8E8]/10">
       <div className="container py-8">
-        {/* Page Header */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">LOJA DE EDITAIS</h1>
           <Button 
@@ -79,7 +82,6 @@ const Editais = () => {
           </Button>
         </div>
 
-        {/* My Editais Section */}
         <div className="mb-12">
           <h2 className="text-xl font-semibold mb-6">MEUS EDITAIS</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -104,7 +106,6 @@ const Editais = () => {
           </div>
         </div>
 
-        {/* Select Edital Section */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold">SELECIONE SEU EDITAL</h2>
@@ -161,6 +162,24 @@ const Editais = () => {
             <CarouselNext className="hidden md:flex" />
           </Carousel>
         </div>
+
+        {/* Timer Button */}
+        <div className="fixed bottom-4 right-4">
+          <Button
+            variant="secondary"
+            size="icon"
+            className="rounded-full shadow-lg bg-white hover:bg-gray-100"
+            onClick={() => setTimerDialogOpen(true)}
+          >
+            <Timer className="h-5 w-5" />
+          </Button>
+        </div>
+
+        {/* Timer Dialog */}
+        <StudyTimerDialog
+          open={timerDialogOpen}
+          onOpenChange={setTimerDialogOpen}
+        />
       </div>
     </div>
   )
