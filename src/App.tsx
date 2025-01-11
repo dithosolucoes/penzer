@@ -11,12 +11,14 @@ import EditalVerticalizado from "./pages/EditalVerticalizado"
 import Estatisticas from "./pages/Estatisticas"
 import CicloEstudos from "./pages/CicloEstudos"
 import Editais from "./pages/Editais"
+import { AuthTest } from "./components/AuthTest"
 
 const queryClient = new QueryClient()
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      <AuthTest />
       <Toaster />
       <Sonner />
       <BrowserRouter>
