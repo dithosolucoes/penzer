@@ -6,6 +6,7 @@ import {
   ChartTooltipContent 
 } from "@/components/ui/chart"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { AddStudyDialog } from "@/components/AddStudyDialog"
 import { 
   BarChart,
   LineChart,
@@ -135,12 +136,15 @@ const Estatisticas = () => {
       <div className="container py-8">
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold text-foreground">ESTATÍSTICAS</h1>
-          <Button 
-            variant="secondary" 
-            size="sm"
-          >
-            ADICIONAR ESTUDO
-          </Button>
+          <AddStudyDialog>
+            <Button 
+              variant="secondary" 
+              size="sm"
+              className="font-medium"
+            >
+              ADICIONAR ESTUDO
+            </Button>
+          </AddStudyDialog>
         </div>
 
         <Tabs defaultValue="semanal" className="mb-8">

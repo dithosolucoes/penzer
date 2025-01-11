@@ -1,7 +1,9 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { AlertTriangle } from "lucide-react"
+import { Settings2, AlertTriangle } from "lucide-react"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { AddStudyDialog } from "@/components/AddStudyDialog"
+import { ReviewSettingsDialog } from "@/components/ReviewSettingsDialog"
 import {
   Table,
   TableBody,
@@ -10,123 +12,111 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { ReviewSettingsDialog } from "@/components/ReviewSettingsDialog"
-import { AddStudyDialog } from "@/components/AddStudyDialog"
 
 const Revisoes = () => {
   return (
-    <div className="min-h-[calc(100vh-4rem)] bg-[#f8f9fa]">
+    <div className="min-h-[calc(100vh-4rem)] bg-background">
       <div className="container py-8">
-        {/* Seção de Filtros */}
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold">FILTROS</h2>
-            <div className="flex items-center gap-2">
-              <ReviewSettingsDialog />
-              <AddStudyDialog />
-            </div>
-          </div>
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <div className="space-y-4">
-              <div>
-                <label className="font-medium mb-2 block">
-                  DISCIPLINAS DO EDITAL
-                </label>
-                <div className="flex gap-4">
-                  <Input 
-                    type="text" 
-                    placeholder="Buscar disciplinas..."
-                    className="max-w-md"
-                  />
-                  <Button variant="secondary">
-                    FILTRAR
-                  </Button>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className="rounded-full"
-                >
-                  MM1
-                </Button>
-              </div>
-            </div>
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-2xl font-bold">REVISÕES</h1>
+          <div className="flex items-center gap-3">
+            <ReviewSettingsDialog>
+              <Button 
+                variant="secondary" 
+                size="sm"
+                className="font-medium flex items-center gap-2"
+              >
+                <Settings2 className="h-4 w-4" />
+                CONFIGURAÇÕES
+              </Button>
+            </ReviewSettingsDialog>
+            <AddStudyDialog>
+              <Button 
+                variant="secondary" 
+                size="sm"
+                className="font-medium"
+              >
+                ADICIONAR ESTUDO
+              </Button>
+            </AddStudyDialog>
           </div>
         </div>
 
-        {/* Tabs e Tabela de Revisões */}
-        <Tabs defaultValue="para-fazer" className="space-y-4">
-          <TabsList className="w-full justify-start border-b rounded-none p-0 h-auto bg-transparent">
-            <TabsTrigger 
-              value="para-fazer"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
-            >
-              PARA FAZER
-            </TabsTrigger>
-            <TabsTrigger 
-              value="concluidas"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent"
-            >
-              CONCLUÍDAS
-            </TabsTrigger>
+        <Tabs defaultValue="todas" className="w-full">
+          <TabsList>
+            <TabsTrigger value="todas">Todas</TabsTrigger>
+            <TabsTrigger value="pendentes">Pendentes</TabsTrigger>
+            <TabsTrigger value="concluidas">Concluídas</TabsTrigger>
           </TabsList>
-
-          <TabsContent value="para-fazer">
-            <div className="bg-white rounded-lg shadow-sm">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-[#f8f9fa]">
-                    <TableHead>AGENDADO P/</TableHead>
-                    <TableHead>ESTUDADO EM</TableHead>
-                    <TableHead>EDITAL</TableHead>
-                    <TableHead>DISCIPLINA/CAPÍTULO</TableHead>
-                    <TableHead>ASSUNTOS</TableHead>
-                    <TableHead>STATUS</TableHead>
-                    <TableHead>HISTÓRICO DE REVISÕES</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8">
-                      <div className="flex flex-col items-center gap-2 text-muted-foreground">
-                        <AlertTriangle className="w-6 h-6" />
-                        <p>Ainda sem revisões programadas, faça um estudo e agende suas revisões!</p>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </div>
+          <TabsContent value="todas">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Disciplina</TableHead>
+                  <TableHead>Data</TableHead>
+                  <TableHead>Ações</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {/* Example data, replace with actual data */}
+                <TableRow>
+                  <TableCell>Matemática</TableCell>
+                  <TableCell>01/01/2023</TableCell>
+                  <TableCell>
+                    <Button variant="secondary" size="sm">Revisar</Button>
+                  </TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>História</TableCell>
+                  <TableCell>02/01/2023</TableCell>
+                  <TableCell>
+                    <Button variant="secondary" size="sm">Revisar</Button>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
           </TabsContent>
-
+          <TabsContent value="pendentes">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Disciplina</TableHead>
+                  <TableHead>Data</TableHead>
+                  <TableHead>Ações</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {/* Example data, replace with actual data */}
+                <TableRow>
+                  <TableCell>Química</TableCell>
+                  <TableCell>03/01/2023</TableCell>
+                  <TableCell>
+                    <Button variant="secondary" size="sm">Revisar</Button>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TabsContent>
           <TabsContent value="concluidas">
-            <div className="bg-white rounded-lg shadow-sm">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-[#f8f9fa]">
-                    <TableHead>AGENDADO P/</TableHead>
-                    <TableHead>ESTUDADO EM</TableHead>
-                    <TableHead>EDITAL</TableHead>
-                    <TableHead>DISCIPLINA/CAPÍTULO</TableHead>
-                    <TableHead>ASSUNTOS</TableHead>
-                    <TableHead>STATUS</TableHead>
-                    <TableHead>HISTÓRICO DE REVISÕES</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell colSpan={7} className="text-center py-8">
-                      <div className="flex flex-col items-center gap-2 text-muted-foreground">
-                        <AlertTriangle className="w-6 h-6" />
-                        <p>Ainda sem revisões concluídas!</p>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </div>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Disciplina</TableHead>
+                  <TableHead>Data</TableHead>
+                  <TableHead>Ações</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {/* Example data, replace with actual data */}
+                <TableRow>
+                  <TableCell>Física</TableCell>
+                  <TableCell>04/01/2023</TableCell>
+                  <TableCell>
+                    <Button variant="secondary" size="sm">Revisar</Button>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
           </TabsContent>
         </Tabs>
       </div>

@@ -26,10 +26,17 @@ const Index = () => {
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-[#E8E8E8]/10">
       <div className="container py-8">
-        {/* Page Header */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">MEU DIA</h1>
-          <AddStudyDialog />
+          <AddStudyDialog>
+            <Button 
+              variant="secondary" 
+              size="sm"
+              className="font-medium"
+            >
+              ADICIONAR ESTUDO
+            </Button>
+          </AddStudyDialog>
         </div>
 
         {/* Two Column Layout */}
