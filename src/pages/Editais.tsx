@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { FileText, Plus, Search } from "lucide-react"
+import { FileText, Plus, Search, Settings, Pencil } from "lucide-react"
 import {
   Carousel,
   CarouselContent,
@@ -85,17 +85,25 @@ const Editais = () => {
           <h2 className="text-xl font-semibold mb-6">MEUS EDITAIS</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {myEditais.map((edital) => (
-              <div key={edital.id} className="bg-white p-6 rounded-lg shadow-sm border hover:border-[#F2CED0] transition-colors">
-                <div className="flex flex-col items-center gap-4">
-                  <FileText className="w-12 h-12 text-gray-500" />
-                  <div className="text-center">
-                    <h3 className="font-semibold">{edital.title}</h3>
-                    <p className="text-sm text-gray-500">{edital.organization}</p>
+              <div key={edital.id} className="bg-white rounded-lg shadow-sm overflow-hidden">
+                {/* Header */}
+                <div className="bg-[#E8E8E8] px-6 py-4">
+                  <h3 className="font-semibold text-black">{edital.title}</h3>
+                </div>
+                
+                {/* Content */}
+                <div className="p-6 flex flex-col items-center gap-4">
+                  <div className="w-12 h-12 flex items-center justify-center">
+                    <div className="relative">
+                      <Settings className="w-8 h-8 text-gray-500" />
+                      <Pencil className="w-4 h-4 text-gray-500 absolute bottom-0 right-0" />
+                    </div>
                   </div>
+                  <p className="text-sm text-gray-500">{edital.organization}</p>
                   <Button 
                     variant="secondary"
                     size="sm" 
-                    className="w-full bg-[#E8E8E8] hover:bg-[#E8E8E8]/80"
+                    className="w-full bg-[#E8E8E8] hover:bg-[#E8E8E8]/80 font-medium"
                     onClick={() => setEditingEdital(edital)}
                   >
                     {edital.type}
