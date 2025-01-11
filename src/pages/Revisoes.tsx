@@ -20,16 +20,7 @@ const Revisoes = () => {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-bold">REVISÕES</h1>
           <div className="flex items-center gap-3">
-            <ReviewSettingsDialog>
-              <Button 
-                variant="secondary" 
-                size="sm"
-                className="font-medium flex items-center gap-2"
-              >
-                <Settings2 className="h-4 w-4" />
-                CONFIGURAÇÕES
-              </Button>
-            </ReviewSettingsDialog>
+            <ReviewSettingsDialog />
             <AddStudyDialog>
               <Button 
                 variant="secondary" 
