@@ -11,8 +11,6 @@ import { TaskList } from "@/components/home/TaskList"
 import { StudyCycle } from "@/components/home/StudyCycle"
 import { ReviewTable } from "@/components/home/ReviewTable"
 import { StudyCalendar } from "@/components/home/StudyCalendar"
-import { PointsDisplay } from "@/components/home/PointsDisplay"
-import { TransactionsList } from "@/components/home/TransactionsList"
 import { BookOpen } from "lucide-react"
 import { motion } from "framer-motion"
 
@@ -139,10 +137,6 @@ const Index = () => {
           </AddStudyDialog>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
-          <PointsDisplay />
-        </div>
-
         <TaskList />
         <StudyCycle />
         <ReviewTable />
@@ -154,7 +148,6 @@ const Index = () => {
             studySessionsByDate={studySessionsByDate || {}}
             setCalendarDialogOpen={setCalendarDialogOpen}
           />
-          <TransactionsList />
         </div>
       </div>
 
