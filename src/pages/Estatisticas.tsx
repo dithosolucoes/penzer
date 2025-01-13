@@ -16,8 +16,77 @@ import {
   PieChart,
   Pie,
   Cell,
-  Tooltip
+  Tooltip,
+  ResponsiveContainer
 } from "recharts"
+
+// Mock data for total statistics
+const mockTotalData = {
+  dadosGerais: [
+    { title: "Total Horas Estudadas", value: "120h" },
+    { title: "Média Diária", value: "2.5h" },
+    { title: "Total Páginas Lidas", value: "1500" },
+    { title: "Média Acertos", value: "75%" }
+  ],
+  horasEstudo: [
+    { name: "Jan", horas: 20 },
+    { name: "Fev", horas: 25 },
+    { name: "Mar", horas: 30 },
+    { name: "Abr", horas: 45 }
+  ],
+  divisaoEstudos: [
+    { name: "Direito", value: 40 },
+    { name: "Português", value: 30 },
+    { name: "Matemática", value: 20 },
+    { name: "Informática", value: 10 }
+  ],
+  acertosErros: [
+    { name: "Direito", acertos: 80, erros: 20 },
+    { name: "Português", acertos: 70, erros: 30 },
+    { name: "Matemática", acertos: 60, erros: 40 },
+    { name: "Informática", acertos: 75, erros: 25 }
+  ],
+  paginasLidas: [
+    { name: "Direito", paginas: 500 },
+    { name: "Português", paginas: 400 },
+    { name: "Matemática", paginas: 300 },
+    { name: "Informática", paginas: 300 }
+  ],
+  conclusaoEdital: [
+    { name: "Direito", concluido: 75 },
+    { name: "Português", concluido: 60 },
+    { name: "Matemática", concluido: 45 },
+    { name: "Informática", concluido: 80 }
+  ]
+}
+
+// Mock data for evolution statistics
+const mockEvolutionData = {
+  dadosGerais: [
+    { title: "Progresso Total", value: "65%" },
+    { title: "Dias Seguidos", value: "15" },
+    { title: "Meta Semanal", value: "90%" },
+    { title: "Evolução", value: "+15%" }
+  ],
+  horasEstudoMes: [
+    { name: "Jan", horas: 80 },
+    { name: "Fev", horas: 95 },
+    { name: "Mar", horas: 120 },
+    { name: "Abr", horas: 150 }
+  ],
+  paginasLidasMes: [
+    { name: "Jan", paginas: 300 },
+    { name: "Fev", paginas: 450 },
+    { name: "Mar", paginas: 600 },
+    { name: "Abr", paginas: 800 }
+  ],
+  acertosErrosMes: [
+    { name: "Jan", acertos: 65, erros: 35 },
+    { name: "Fev", acertos: 70, erros: 30 },
+    { name: "Mar", acertos: 75, erros: 25 },
+    { name: "Abr", acertos: 80, erros: 20 }
+  ]
+}
 
 const Estatisticas = () => {
   const { data: studySessions, isLoading } = useStatistics()
