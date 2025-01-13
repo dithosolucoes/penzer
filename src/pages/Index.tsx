@@ -11,7 +11,7 @@ import { TaskList } from "@/components/home/TaskList"
 import { StudyCycle } from "@/components/home/StudyCycle"
 import { ReviewTable } from "@/components/home/ReviewTable"
 import { StudyCalendar } from "@/components/home/StudyCalendar"
-import { BookOpen, GraduationCap, Brain, Target } from "lucide-react"
+import { BookOpen } from "lucide-react"
 import { motion } from "framer-motion"
 
 const Index = () => {
@@ -48,67 +48,58 @@ const Index = () => {
 
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#F2FCE2] to-[#E5DEFF]">
-        <div className="w-full max-w-md p-8 space-y-8">
-          <div className="flex flex-col items-center justify-center space-y-6">
-            {/* Animated Logo */}
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="p-4 bg-white rounded-full shadow-xl"
-            >
-              <BookOpen className="w-16 h-16 text-[#8B5CF6]" />
-            </motion.div>
+      <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#F2CED0]">
+        {/* Animated background circles */}
+        <motion.div
+          className="absolute w-[500px] h-[500px] rounded-full bg-[#9b87f5]/20 blur-3xl"
+          animate={{
+            scale: [1, 1.2, 1],
+            x: [0, 100, 0],
+            y: [0, -50, 0],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
+        <motion.div
+          className="absolute w-[400px] h-[400px] rounded-full bg-[#7E69AB]/20 blur-3xl"
+          animate={{
+            scale: [1.2, 1, 1.2],
+            x: [-100, 0, -100],
+            y: [50, 0, 50],
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            ease: "linear"
+          }}
+        />
 
-            {/* Animated Title */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-3xl font-bold text-[#1A1F2C] text-center"
-            >
-              Bem-vindo ao seu Caminho de Estudos
-            </motion.h1>
-
-            {/* Animated Subtitle */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="text-muted-foreground text-center max-w-sm"
-            >
-              Organize, acompanhe e alcance seus objetivos de estudo com nossa plataforma inteligente
-            </motion.p>
-
-            {/* Study Features */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-              className="grid grid-cols-3 gap-4 w-full mt-4"
-            >
-              <div className="flex flex-col items-center p-3 bg-white/50 rounded-lg">
-                <GraduationCap className="w-6 h-6 text-[#9b87f5] mb-2" />
-                <span className="text-xs text-center">Plano de Estudos</span>
-              </div>
-              <div className="flex flex-col items-center p-3 bg-white/50 rounded-lg">
-                <Brain className="w-6 h-6 text-[#7E69AB] mb-2" />
-                <span className="text-xs text-center">Revisão Inteligente</span>
-              </div>
-              <div className="flex flex-col items-center p-3 bg-white/50 rounded-lg">
-                <Target className="w-6 h-6 text-[#6E59A5] mb-2" />
-                <span className="text-xs text-center">Metas Diárias</span>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Auth UI with animation */}
+        <div className="w-full max-w-md p-8 relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9 }}
-            className="bg-white/80 backdrop-blur-sm p-6 rounded-xl shadow-lg"
+            initial={{ y: -20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col items-center mb-8"
+          >
+            <div className="p-3 bg-white rounded-xl shadow-lg mb-4">
+              <BookOpen className="w-10 h-10 text-[#9b87f5]" />
+            </div>
+            <h1 className="text-2xl font-bold text-[#1A1F2C] mb-2">
+              Bem-vindo a Penzer
+            </h1>
+            <p className="text-sm text-[#6E59A5] text-center">
+              Sua jornada de estudos começa aqui
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-lg"
           >
             <AuthUI />
           </motion.div>
