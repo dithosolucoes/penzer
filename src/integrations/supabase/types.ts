@@ -120,6 +120,73 @@ export type Database = {
           },
         ]
       }
+      point_transactions: {
+        Row: {
+          cash_value: number
+          created_at: string
+          id: string
+          points: number
+          transaction_type: string
+          user_id: string
+        }
+        Insert: {
+          cash_value: number
+          created_at?: string
+          id?: string
+          points: number
+          transaction_type: string
+          user_id: string
+        }
+        Update: {
+          cash_value?: number
+          created_at?: string
+          id?: string
+          points?: number
+          transaction_type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "point_transactions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      points: {
+        Row: {
+          cash_value: number | null
+          created_at: string
+          id: string
+          points: number | null
+          user_id: string
+        }
+        Insert: {
+          cash_value?: number | null
+          created_at?: string
+          id?: string
+          points?: number | null
+          user_id: string
+        }
+        Update: {
+          cash_value?: number | null
+          created_at?: string
+          id?: string
+          points?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "points_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string

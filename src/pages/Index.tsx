@@ -11,6 +11,8 @@ import { TaskList } from "@/components/home/TaskList"
 import { StudyCycle } from "@/components/home/StudyCycle"
 import { ReviewTable } from "@/components/home/ReviewTable"
 import { StudyCalendar } from "@/components/home/StudyCalendar"
+import { PointsDisplay } from "@/components/home/PointsDisplay"
+import { TransactionsList } from "@/components/home/TransactionsList"
 import { BookOpen } from "lucide-react"
 import { motion } from "framer-motion"
 
@@ -49,7 +51,6 @@ const Index = () => {
   if (!user) {
     return (
       <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#F2CED0]">
-        {/* Animated background circles */}
         <motion.div
           className="absolute w-[500px] h-[500px] rounded-full bg-[#F2CED0]/20 blur-3xl"
           animate={{
@@ -77,7 +78,6 @@ const Index = () => {
           }}
         />
 
-        {/* Logo and content container */}
         <div className="absolute top-8 left-8">
           <motion.div
             initial={{ x: -20, opacity: 0 }}
@@ -139,15 +139,23 @@ const Index = () => {
           </AddStudyDialog>
         </div>
 
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
+          <PointsDisplay />
+        </div>
+
         <TaskList />
         <StudyCycle />
         <ReviewTable />
-        <StudyCalendar 
-          date={date}
-          setDate={setDate}
-          studySessionsByDate={studySessionsByDate || {}}
-          setCalendarDialogOpen={setCalendarDialogOpen}
-        />
+
+        <div className="grid gap-6 md:grid-cols-2 mt-8">
+          <StudyCalendar 
+            date={date}
+            setDate={setDate}
+            studySessionsByDate={studySessionsByDate || {}}
+            setCalendarDialogOpen={setCalendarDialogOpen}
+          />
+          <TransactionsList />
+        </div>
       </div>
 
       <GoogleCalendarDialog
