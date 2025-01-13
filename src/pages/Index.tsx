@@ -51,7 +51,7 @@ const Index = () => {
       <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#F2CED0]">
         {/* Animated background circles */}
         <motion.div
-          className="absolute w-[500px] h-[500px] rounded-full bg-[#9b87f5]/20 blur-3xl"
+          className="absolute w-[500px] h-[500px] rounded-full bg-[#F2CED0]/20 blur-3xl"
           animate={{
             scale: [1, 1.2, 1],
             x: [0, 100, 0],
@@ -64,7 +64,7 @@ const Index = () => {
           }}
         />
         <motion.div
-          className="absolute w-[400px] h-[400px] rounded-full bg-[#7E69AB]/20 blur-3xl"
+          className="absolute w-[400px] h-[400px] rounded-full bg-[#e6b5b7]/20 blur-3xl"
           animate={{
             scale: [1.2, 1, 1.2],
             x: [-100, 0, -100],
@@ -77,20 +77,34 @@ const Index = () => {
           }}
         />
 
-        <div className="w-full max-w-md p-8 relative z-10">
+        {/* Logo and content container */}
+        <div className="absolute top-8 left-8">
+          <motion.div
+            initial={{ x: -20, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center gap-2"
+          >
+            <div className="p-2 bg-[#F2CED0] rounded-lg shadow-lg">
+              <BookOpen className="w-8 h-8 text-black" />
+            </div>
+            <span className="text-3xl font-bold bg-gradient-to-r from-black to-[#F2CED0] bg-clip-text text-transparent">
+              Penzer
+            </span>
+          </motion.div>
+        </div>
+
+        <div className="w-full max-w-[380px] p-6 relative z-10">
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="flex flex-col items-center mb-8"
+            className="flex flex-col items-center mb-6"
           >
-            <div className="p-3 bg-white rounded-xl shadow-lg mb-4">
-              <BookOpen className="w-10 h-10 text-[#9b87f5]" />
-            </div>
             <h1 className="text-2xl font-bold text-[#1A1F2C] mb-2">
               Bem-vindo a Penzer
             </h1>
-            <p className="text-sm text-[#6E59A5] text-center">
+            <p className="text-sm text-[#1A1F2C]/70 text-center">
               Sua jornada de estudos começa aqui
             </p>
           </motion.div>
