@@ -120,6 +120,47 @@ export type Database = {
           },
         ]
       }
+      pomodoro_settings: {
+        Row: {
+          break_duration: number | null
+          created_at: string
+          id: string
+          long_break_duration: number | null
+          sessions_until_long_break: number | null
+          updated_at: string
+          user_id: string | null
+          work_duration: number | null
+        }
+        Insert: {
+          break_duration?: number | null
+          created_at?: string
+          id?: string
+          long_break_duration?: number | null
+          sessions_until_long_break?: number | null
+          updated_at?: string
+          user_id?: string | null
+          work_duration?: number | null
+        }
+        Update: {
+          break_duration?: number | null
+          created_at?: string
+          id?: string
+          long_break_duration?: number | null
+          sessions_until_long_break?: number | null
+          updated_at?: string
+          user_id?: string | null
+          work_duration?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pomodoro_settings_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
