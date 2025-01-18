@@ -7,6 +7,8 @@ import {
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Calendar as CalendarIcon } from "lucide-react"
+import { useState } from "react"
+import { useToast } from "@/components/ui/use-toast"
 
 interface GoogleCalendarDialogProps {
   open: boolean
@@ -17,9 +19,31 @@ export const GoogleCalendarDialog = ({
   open,
   onOpenChange,
 }: GoogleCalendarDialogProps) => {
+  const [isConnecting, setIsConnecting] = useState(false)
+  const { toast } = useToast()
+
+  const handleConnect = async () => {
+    setIsConnecting(true)
+    try {
+      // Aqui iremos implementar a conexão com o Google Calendar
+      toast({
+        title: "Em desenvolvimento",
+        description: "A integração com o Google Calendar será implementada em breve.",
+      })
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Erro ao conectar",
+        description: "Não foi possível conectar com o Google Calendar.",
+      })
+    } finally {
+      setIsConnecting(false)
+    }
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] dark:bg-gray-900">
         <DialogHeader>
           <DialogTitle>Conectar com Google Agenda</DialogTitle>
           <DialogDescription>
@@ -28,13 +52,13 @@ export const GoogleCalendarDialog = ({
         </DialogHeader>
 
         <div className="flex flex-col gap-6 py-4">
-          <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-lg">
+          <div className="flex items-center gap-4 p-4 bg-secondary rounded-lg dark:bg-gray-800">
             <div className="flex-shrink-0">
-              <CalendarIcon className="h-8 w-8 text-gray-400" />
+              <CalendarIcon className="h-8 w-8 text-muted-foreground" />
             </div>
             <div className="flex-1">
               <h4 className="font-medium text-sm">Benefícios da sincronização</h4>
-              <ul className="text-sm text-gray-500 list-disc ml-4 mt-2">
+              <ul className="text-sm text-muted-foreground list-disc ml-4 mt-2">
                 <li>Visualize seus estudos em qualquer dispositivo</li>
                 <li>Receba lembretes de revisões</li>
                 <li>Compartilhe seu calendário de estudos</li>
@@ -43,11 +67,16 @@ export const GoogleCalendarDialog = ({
           </div>
 
           <div className="space-y-2">
-            <Button className="w-full" variant="outline">
+            <Button 
+              className="w-full" 
+              variant="outline"
+              onClick={handleConnect}
+              disabled={isConnecting}
+            >
               <CalendarIcon className="mr-2 h-4 w-4" />
-              Conectar com Google Agenda
+              {isConnecting ? "Conectando..." : "Conectar com Google Agenda"}
             </Button>
-            <p className="text-xs text-center text-gray-500">
+            <p className="text-xs text-center text-muted-foreground">
               Você poderá desconectar a qualquer momento
             </p>
           </div>
