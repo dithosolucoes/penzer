@@ -5,7 +5,11 @@ import { useState } from 'react'
 const mockUser: User = {
   id: 'mock-user-id',
   app_metadata: {},
-  user_metadata: {},
+  user_metadata: {
+    avatar_url: 'https://github.com/shadcn.png',
+    full_name: 'John Doe',
+    profile_type: 'concurseiro'
+  },
   aud: 'authenticated',
   created_at: new Date().toISOString(),
   role: 'authenticated',
@@ -14,11 +18,10 @@ const mockUser: User = {
 
 export function useAuth() {
   const [user] = useState<User | null>(mockUser)
-  const [loading] = useState(false)
 
   return {
     user,
-    loading,
+    loading: false,
     signIn: async () => {
       console.log('Mock sign in')
     },
