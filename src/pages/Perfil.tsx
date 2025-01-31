@@ -6,6 +6,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useToast } from "@/components/ui/use-toast"
 import { supabase } from "@/integrations/supabase/client"
 import { PomodoroTimer } from "@/components/PomodoroTimer"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Camera } from "lucide-react"
 
 export default function Perfil() {
   const { user } = useAuth()
@@ -15,6 +18,8 @@ export default function Perfil() {
   const [currentPassword, setCurrentPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [profileType, setProfileType] = useState("concurseiro")
+  const [avatarUrl, setAvatarUrl] = useState("")
 
   useEffect(() => {
     if (user) {
@@ -26,12 +31,16 @@ export default function Perfil() {
     try {
       const { data, error } = await supabase
         .from("profiles")
-        .select("username")
+        .select("username, avatar_url, profile_type")
         .eq("id", user?.id)
         .single()
 
       if (error) throw error
-      if (data) setUsername(data.username || "")
+      if (data) {
+        setUsername(data.username || "")
+        setAvatarUrl(data.avatar_url || "")
+        setProfileType(data.profile_type || "concurseiro")
+      }
     } catch (error) {
       console.error("Error fetching profile:", error)
       toast({
@@ -49,7 +58,7 @@ export default function Perfil() {
     try {
       const { error } = await supabase
         .from("profiles")
-        .update({ username })
+        .update({ username, profile_type: profileType })
         .eq("id", user?.id)
 
       if (error) throw error
@@ -64,6 +73,49 @@ export default function Perfil() {
         variant: "destructive",
         title: "Erro ao atualizar perfil",
         description: "Ocorreu um erro ao atualizar suas informações.",
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+
+    try {
+      setIsLoading(true)
+      const fileExt = file.name.split('.').pop()
+      const filePath = `${user?.id}/avatar.${fileExt}`
+
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(filePath, file, { upsert: true })
+
+      if (uploadError) throw uploadError
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(filePath)
+
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ avatar_url: publicUrl })
+        .eq('id', user?.id)
+
+      if (updateError) throw updateError
+
+      setAvatarUrl(publicUrl)
+      toast({
+        title: "Foto atualizada",
+        description: "Sua foto de perfil foi atualizada com sucesso.",
+      })
+    } catch (error) {
+      console.error("Error uploading avatar:", error)
+      toast({
+        variant: "destructive",
+        title: "Erro ao atualizar foto",
+        description: "Ocorreu um erro ao atualizar sua foto de perfil.",
       })
     } finally {
       setIsLoading(false)
@@ -95,7 +147,6 @@ export default function Perfil() {
         description: "Sua senha foi alterada com sucesso.",
       })
       
-      // Clear password fields
       setCurrentPassword("")
       setNewPassword("")
       setConfirmPassword("")
@@ -123,6 +174,29 @@ export default function Perfil() {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleUpdateProfile} className="space-y-4">
+                <div className="flex flex-col items-center space-y-4 mb-6">
+                  <Avatar className="h-24 w-24">
+                    <AvatarImage src={avatarUrl} />
+                    <AvatarFallback>{username?.charAt(0)?.toUpperCase()}</AvatarFallback>
+                  </Avatar>
+                  <div className="flex items-center">
+                    <label htmlFor="avatar" className="cursor-pointer">
+                      <div className="flex items-center space-x-2">
+                        <Camera className="h-4 w-4" />
+                        <span>Alterar foto</span>
+                      </div>
+                      <input
+                        id="avatar"
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleAvatarUpload}
+                        disabled={isLoading}
+                      />
+                    </label>
+                  </div>
+                </div>
+
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Email</label>
                   <Input
@@ -132,6 +206,7 @@ export default function Perfil() {
                     className="bg-muted"
                   />
                 </div>
+
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Nome</label>
                   <Input
@@ -140,6 +215,21 @@ export default function Perfil() {
                     placeholder="Seu nome"
                   />
                 </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Tipo de Perfil</label>
+                  <Select value={profileType} onValueChange={setProfileType}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Selecione seu perfil" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="concurseiro">Concurseiro</SelectItem>
+                      <SelectItem value="vestibulando">Vestibulando</SelectItem>
+                      <SelectItem value="universitario">Universitário</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <Button type="submit" disabled={isLoading}>
                   ATUALIZAR INFORMAÇÕES
                 </Button>

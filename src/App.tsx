@@ -12,6 +12,7 @@ import Estatisticas from "./pages/Estatisticas"
 import CicloEstudos from "./pages/CicloEstudos"
 import Editais from "./pages/Editais"
 import Perfil from "./pages/Perfil"
+import Admin from "./pages/Admin"
 import { AuthTest } from "./components/AuthTest"
 
 const queryClient = new QueryClient()
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="/ciclo" element={<CicloEstudos />} />
             <Route path="/editais" element={<Editais />} />
             <Route path="/perfil" element={<Perfil />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </MainLayout>
       </BrowserRouter>
