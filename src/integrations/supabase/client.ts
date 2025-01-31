@@ -1,28 +1,79 @@
-// Mock Supabase client
+import { createClient } from '@supabase/supabase-js'
+import type { Database } from './types'
+
+const supabaseUrl = 'https://mock.supabase.co'
+const supabaseKey = 'mock-key'
+
+// Mock Supabase client that implements the required interface
 export const supabase = {
+  supabaseUrl,
+  supabaseKey,
+  realtime: {},
+  realtimeUrl: '',
+  authUrl: '',
+  storageUrl: '',
+  functionsUrl: '',
+  rest: {},
+  
   auth: {
     getSession: () => Promise.resolve({ data: { session: null }, error: null }),
     onAuthStateChange: () => ({
       data: { subscription: { unsubscribe: () => {} } }
     }),
-    signInWithPassword: () => Promise.resolve({ error: null }),
-    signUp: () => Promise.resolve({ error: null }),
-    signOut: () => Promise.resolve({ error: null })
+    signInWithPassword: (credentials: { email: string, password: string }) => 
+      Promise.resolve({ data: null, error: null }),
+    signUp: (credentials: { email: string, password: string }) => 
+      Promise.resolve({ data: null, error: null }),
+    signOut: () => Promise.resolve({ error: null }),
+    updateUser: (attributes: { password?: string }) =>
+      Promise.resolve({ data: null, error: null })
   },
+
   storage: {
-    from: () => ({
-      upload: () => Promise.resolve({ error: null }),
-      getPublicUrl: () => ({ data: { publicUrl: 'https://placehold.co/400' } })
+    from: (bucket: string) => ({
+      upload: (path: string, file: File) => 
+        Promise.resolve({ data: null, error: null }),
+      getPublicUrl: (path: string) => 
+        ({ data: { publicUrl: 'https://placehold.co/400' } })
     })
   },
+
   from: (table: string) => ({
-    insert: () => ({
+    select: (query?: string) => ({
+      eq: (column: string, value: any) => ({
+        single: () => Promise.resolve({ data: { id: 'mock-id' }, error: null }),
+        order: (column: string, options: { ascending: boolean }) => ({
+          data: [], 
+          error: null
+        }),
+        data: [],
+        error: null
+      }),
+      gte: (column: string, value: any) => ({
+        data: [],
+        error: null
+      }),
+      order: (column: string, options: { ascending: boolean }) => ({
+        data: [],
+        error: null
+      }),
+      data: [],
+      error: null
+    }),
+    insert: (data: any) => ({
       select: () => ({
         single: () => Promise.resolve({ data: { id: 'mock-id' }, error: null })
-      })
+      }),
+      error: null
     }),
-    select: () => Promise.resolve({ data: [], error: null }),
-    update: () => Promise.resolve({ error: null }),
-    delete: () => Promise.resolve({ error: null })
+    update: (data: any) => ({
+      eq: (column: string, value: any) => 
+        Promise.resolve({ error: null }),
+      error: null
+    }),
+    delete: () => ({
+      eq: (column: string, value: any) =>
+        Promise.resolve({ error: null })
+    })
   })
-}
+} as unknown as ReturnType<typeof createClient<Database>>
