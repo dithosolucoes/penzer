@@ -11,6 +11,9 @@ import EditalVerticalizado from "./pages/EditalVerticalizado"
 import Estatisticas from "./pages/Estatisticas"
 import CicloEstudos from "./pages/CicloEstudos"
 import Editais from "./pages/Editais"
+import Vestibulares from "./pages/Vestibulares"
+import Simulados from "./pages/Simulados"
+import Redacoes from "./pages/Redacoes"
 import Perfil from "./pages/Perfil"
 import Admin from "./pages/Admin"
 import { AuthTest } from "./components/AuthTest"
@@ -33,6 +36,9 @@ const App = () => (
             <Route path="/estatisticas" element={<Estatisticas />} />
             <Route path="/ciclo" element={<CicloEstudos />} />
             <Route path="/editais" element={<Editais />} />
+            <Route path="/vestibulares" element={<Vestibulares />} />
+            <Route path="/simulados" element={<Simulados />} />
+            <Route path="/redacoes" element={<Redacoes />} />
             <Route path="/perfil" element={<Perfil />} />
             <Route path="/admin" element={<Admin />} />
           </Routes>
