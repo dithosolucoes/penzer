@@ -34,7 +34,14 @@ export default function Perfil() {
     setIsLoading(true)
 
     try {
-      // Aqui você implementaria a atualização real do perfil
+      // Atualiza apenas o username na tabela profiles
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .update({ username })
+        .eq('id', user?.id)
+
+      if (profileError) throw profileError
+
       toast({
         title: "Perfil atualizado",
         description: "Suas informações foram atualizadas com sucesso.",
@@ -70,10 +77,10 @@ export default function Perfil() {
         .from('avatars')
         .getPublicUrl(filePath)
 
-      const { error: updateError } = await supabase
-        .from('profiles')
-        .update({ avatar_url: publicUrl })
-        .eq('id', user?.id)
+      // Atualiza o avatar_url nos metadados do usuário em vez da tabela profiles
+      const { error: updateError } = await supabase.auth.updateUser({
+        data: { avatar_url: publicUrl }
+      })
 
       if (updateError) throw updateError
 
