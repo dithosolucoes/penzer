@@ -25,20 +25,21 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <MainLayout>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/historico" element={<Historico />} />
-            <Route path="/revisoes" element={<Revisoes />} />
-            <Route path="/edital-verticalizado" element={<EditalVerticalizado />} />
-            <Route path="/estatisticas" element={<Estatisticas />} />
-            <Route path="/ciclo" element={<CicloEstudos />} />
-            <Route path="/editais" element={<Editais />} />
-            <Route path="/perfil" element={<Perfil />} />
-            <Route path="/admin" element={<Admin />} />
-          </Routes>
-        </MainLayout>
+        <Routes>
+          {/* Rotas públicas */}
+          <Route path="/login" element={<Login />} />
+
+          {/* Rotas protegidas com MainLayout */}
+          <Route path="/" element={<MainLayout><Index /></MainLayout>} />
+          <Route path="/historico" element={<MainLayout><Historico /></MainLayout>} />
+          <Route path="/revisoes" element={<MainLayout><Revisoes /></MainLayout>} />
+          <Route path="/edital-verticalizado" element={<MainLayout><EditalVerticalizado /></MainLayout>} />
+          <Route path="/estatisticas" element={<MainLayout><Estatisticas /></MainLayout>} />
+          <Route path="/ciclo" element={<MainLayout><CicloEstudos /></MainLayout>} />
+          <Route path="/editais" element={<MainLayout><Editais /></MainLayout>} />
+          <Route path="/perfil" element={<MainLayout><Perfil /></MainLayout>} />
+          <Route path="/admin" element={<MainLayout><Admin /></MainLayout>} />
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

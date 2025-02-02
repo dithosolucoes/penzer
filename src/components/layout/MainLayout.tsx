@@ -4,6 +4,7 @@ import { Timer, Sun, Moon } from "lucide-react"
 import { StudyTimerDialog } from "@/components/StudyTimerDialog"
 import { useState, useEffect } from "react"
 import { useAuth } from "@/hooks/useAuth"
+import { Navigate } from "react-router-dom"
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const [timerDialogOpen, setTimerDialogOpen] = useState(false)
@@ -26,9 +27,9 @@ const MainLayout = ({ children }: { children: React.ReactNode }) => {
     document.documentElement.classList.toggle('dark', newTheme === 'dark')
   }
 
-  // Se não houver usuário, renderiza apenas o conteúdo sem o layout
+  // Se não houver usuário, redireciona para o login
   if (!user) {
-    return <>{children}</>
+    return <Navigate to="/login" replace />
   }
 
   return (
