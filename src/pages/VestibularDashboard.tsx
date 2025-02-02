@@ -1,31 +1,6 @@
+import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { GraduationCap, BookOpen, Calendar, ChartBar } from "lucide-react"
-import { motion } from "framer-motion"
-
-const StatCard = ({ 
-  title, 
-  value, 
-  icon: Icon,
-  description 
-}: { 
-  title: string
-  value: string
-  icon: any
-  description: string
-}) => (
-  <Card className="hover:shadow-lg transition-shadow">
-    <CardHeader className="flex flex-row items-center justify-between pb-2">
-      <CardTitle className="text-sm font-medium text-muted-foreground">
-        {title}
-      </CardTitle>
-      <Icon className="h-4 w-4 text-muted-foreground" />
-    </CardHeader>
-    <CardContent>
-      <div className="text-2xl font-bold">{value}</div>
-      <p className="text-xs text-muted-foreground">{description}</p>
-    </CardContent>
-  </Card>
-)
 
 export default function VestibularDashboard() {
   return (
@@ -43,30 +18,57 @@ export default function VestibularDashboard() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <StatCard
-          title="Simulados Realizados"
-          value="12"
-          icon={GraduationCap}
-          description="3 simulados esta semana"
-        />
-        <StatCard
-          title="Matérias Estudadas"
-          value="8"
-          icon={BookOpen}
-          description="2 matérias hoje"
-        />
-        <StatCard
-          title="Próximo Vestibular"
-          value="45 dias"
-          icon={Calendar}
-          description="FUVEST 2024"
-        />
-        <StatCard
-          title="Média Geral"
-          value="7.8"
-          icon={ChartBar}
-          description="+0.5 desde o último mês"
-        />
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Simulados Realizados
+            </CardTitle>
+            <GraduationCap className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">12</div>
+            <p className="text-xs text-muted-foreground">3 simulados esta semana</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Matérias Estudadas
+            </CardTitle>
+            <BookOpen className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">8</div>
+            <p className="text-xs text-muted-foreground">2 matérias hoje</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Próximo Vestibular
+            </CardTitle>
+            <Calendar className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">45 dias</div>
+            <p className="text-xs text-muted-foreground">FUVEST 2024</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">
+              Média Geral
+            </CardTitle>
+            <ChartBar className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">7.8</div>
+            <p className="text-xs text-muted-foreground">+0.5 desde o último mês</p>
+          </CardContent>
+        </Card>
       </motion.div>
 
       <div className="grid gap-4 md:grid-cols-2">
