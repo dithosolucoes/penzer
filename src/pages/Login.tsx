@@ -1,8 +1,13 @@
-import { AuthUI } from "@/components/auth/AuthUI"
+import { useState } from "react"
+import { LoginForm } from "@/components/auth/LoginForm"
+import { SignUpForm } from "@/components/auth/SignUpForm"
 import { BookOpen } from "lucide-react"
 import { motion } from "framer-motion"
+import { Button } from "@/components/ui/button"
 
 const Login = () => {
+  const [isLogin, setIsLogin] = useState(true)
+
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#F2CED0]">
       <motion.div
@@ -56,10 +61,12 @@ const Login = () => {
           className="flex flex-col items-center mb-6"
         >
           <h1 className="text-2xl font-bold text-[#1A1F2C] mb-2">
-            Bem-vindo a Penzer
+            {isLogin ? "Bem-vindo de volta" : "Crie sua conta"}
           </h1>
           <p className="text-sm text-[#1A1F2C]/70 text-center">
-            Sua jornada de estudos começa aqui
+            {isLogin 
+              ? "Entre para continuar sua jornada de estudos" 
+              : "Comece sua jornada de estudos hoje"}
           </p>
         </motion.div>
 
@@ -69,7 +76,19 @@ const Login = () => {
           transition={{ delay: 0.2, duration: 0.5 }}
           className="bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-lg"
         >
-          <AuthUI />
+          {isLogin ? <LoginForm /> : <SignUpForm />}
+          
+          <div className="mt-4 text-center">
+            <Button
+              variant="link"
+              onClick={() => setIsLogin(!isLogin)}
+              className="text-sm"
+            >
+              {isLogin 
+                ? "Não tem uma conta? Cadastre-se" 
+                : "Já tem uma conta? Entre"}
+            </Button>
+          </div>
         </motion.div>
       </div>
     </div>
