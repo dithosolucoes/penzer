@@ -19,17 +19,26 @@ const mockUser: User = {
 export function useAuth() {
   const [user] = useState<User | null>(mockUser)
 
+  const signIn = async (email: string, password: string) => {
+    console.log('Mock sign in', { email, password })
+    // Implementar lógica real de login aqui
+  }
+
+  const signUp = async (email: string, password: string, metadata: { profile_type: string }) => {
+    console.log('Mock sign up', { email, password, metadata })
+    // Implementar lógica real de cadastro aqui
+  }
+
+  const signOut = async () => {
+    console.log('Mock sign out')
+    // Implementar lógica real de logout aqui
+  }
+
   return {
     user,
     loading: false,
-    signIn: async () => {
-      console.log('Mock sign in')
-    },
-    signUp: async () => {
-      console.log('Mock sign up')
-    },
-    signOut: async () => {
-      console.log('Mock sign out')
-    },
+    signIn,
+    signUp,
+    signOut,
   }
 }

@@ -18,51 +18,23 @@ export default function Perfil() {
   const [currentPassword, setCurrentPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const [profileType, setProfileType] = useState("concurseiro")
-  const [avatarUrl, setAvatarUrl] = useState("")
+  const [profileType, setProfileType] = useState(user?.user_metadata?.profile_type || "concurseiro")
+  const [avatarUrl, setAvatarUrl] = useState(user?.user_metadata?.avatar_url || "")
 
   useEffect(() => {
     if (user) {
-      fetchProfile()
+      setUsername(user.user_metadata?.full_name || "")
+      setAvatarUrl(user.user_metadata?.avatar_url || "")
+      setProfileType(user.user_metadata?.profile_type || "concurseiro")
     }
   }, [user])
-
-  const fetchProfile = async () => {
-    try {
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("username, avatar_url, profile_type")
-        .eq("id", user?.id)
-        .single()
-
-      if (error) throw error
-      if (data) {
-        setUsername(data.username || "")
-        setAvatarUrl(data.avatar_url || "")
-        setProfileType(data.profile_type || "concurseiro")
-      }
-    } catch (error) {
-      console.error("Error fetching profile:", error)
-      toast({
-        variant: "destructive",
-        title: "Erro ao carregar perfil",
-        description: "Ocorreu um erro ao carregar suas informações.",
-      })
-    }
-  }
 
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
 
     try {
-      const { error } = await supabase
-        .from("profiles")
-        .update({ username, profile_type: profileType })
-        .eq("id", user?.id)
-
-      if (error) throw error
-
+      // Aqui você implementaria a atualização real do perfil
       toast({
         title: "Perfil atualizado",
         description: "Suas informações foram atualizadas com sucesso.",
