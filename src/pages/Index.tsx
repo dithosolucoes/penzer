@@ -4,6 +4,8 @@ import { useAuth } from "@/hooks/useAuth"
 import { AddStudyDialog } from "@/components/AddStudyDialog"
 import { useState } from "react"
 import { format } from "date-fns"
+import { useQuery } from "@tanstack/react-query"
+import { supabase } from "@/integrations/supabase/client"
 import { GoogleCalendarDialog } from "@/components/GoogleCalendarDialog"
 import { TaskList } from "@/components/home/TaskList"
 import { StudyCycle } from "@/components/home/StudyCycle"
@@ -12,21 +14,37 @@ import { StudyCalendar } from "@/components/home/StudyCalendar"
 import { BookOpen } from "lucide-react"
 import { motion } from "framer-motion"
 
-// Mock data for development
-const mockStudySessions = {
-  "2024-03-20": [
-    { subject: "Direito Constitucional", chapter: "Princípios Fundamentais" },
-    { subject: "Português", chapter: "Análise Sintática" }
-  ],
-  "2024-03-22": [
-    { subject: "Matemática", chapter: "Álgebra Linear" }
-  ]
-}
-
 const Index = () => {
   const { user } = useAuth()
   const [date, setDate] = useState<Date>(new Date())
   const [calendarDialogOpen, setCalendarDialogOpen] = useState(false)
+
+  const { data: studySessions } = useQuery({
+    queryKey: ['study-sessions', format(date, 'yyyy-MM')],
+    queryFn: async () => {
+      const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1)
+      const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0)
+      
+      const { data, error } = await supabase
+        .from('study_sessions')
+        .select('*')
+        .gte('start_time', startOfMonth.toISOString())
+        .lte('start_time', endOfMonth.toISOString())
+      
+      if (error) throw error
+      return data
+    },
+    enabled: !!user
+  })
+
+  const studySessionsByDate = studySessions?.reduce((acc, session) => {
+    const dateKey = format(new Date(session.start_time), 'yyyy-MM-dd')
+    if (!acc[dateKey]) {
+      acc[dateKey] = []
+    }
+    acc[dateKey].push(session)
+    return acc
+  }, {} as Record<string, typeof studySessions>)
 
   if (!user) {
     return (
@@ -127,7 +145,7 @@ const Index = () => {
           <StudyCalendar 
             date={date}
             setDate={setDate}
-            studySessionsByDate={mockStudySessions}
+            studySessionsByDate={studySessionsByDate || {}}
             setCalendarDialogOpen={setCalendarDialogOpen}
           />
         </div>
