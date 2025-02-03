@@ -1,7 +1,20 @@
+import { Button } from "@/components/ui/button"
+import { Plus } from "lucide-react"
+
 export const ReviewTable = () => {
   return (
     <div className="mt-8">
-      <h2 className="text-lg font-semibold mb-4">PARA REVISAR HOJE</h2>
+      <div className="flex justify-between items-center mb-4">
+        <h2 className="text-lg font-semibold">PARA REVISAR HOJE</h2>
+        <Button 
+          variant="outline" 
+          size="sm"
+          className="gap-2"
+        >
+          <Plus className="h-4 w-4" />
+          Adicionar Revisão
+        </Button>
+      </div>
       <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
         <table className="w-full text-sm">
           <thead className="bg-[#E8E8E8]/30">
