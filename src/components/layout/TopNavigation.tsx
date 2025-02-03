@@ -1,7 +1,7 @@
 import React from "react"
 import { Button } from "@/components/ui/button"
 import { Logo } from "./Logo"
-import { HelpCircle, User, Home, History, BookOpen, FileText, BarChart2, Book, GraduationCap } from "lucide-react"
+import { HelpCircle, User, Home, History, BookOpen, FileText, BarChart2, Book } from "lucide-react"
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -26,12 +26,6 @@ const menuItems = [
     href: "/",
     icon: Home,
     description: "Visualize e gerencie suas tarefas do dia"
-  },
-  {
-    title: "VESTIBULANDO",
-    href: "/vestibulando",
-    icon: GraduationCap,
-    description: "Área exclusiva para vestibulandos"
   },
   {
     title: "HISTÓRICO",
