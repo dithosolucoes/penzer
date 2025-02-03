@@ -61,6 +61,7 @@ const App = () => (
           <Route path="/editais" element={<MainLayout><Editais /></MainLayout>} />
           <Route path="/perfil" element={<MainLayout><Perfil /></MainLayout>} />
           <Route path="/admin" element={<MainLayout><Admin /></MainLayout>} />
+          <Route path="/vestibulando" element={<MainLayout><VestibularDashboard /></MainLayout>} />
         </Routes>
       </BrowserRouter>
     </TooltipProvider>
