@@ -1,6 +1,7 @@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Plus } from "lucide-react"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
@@ -10,6 +11,7 @@ export function AddSimuladoDialog() {
   const [questions, setQuestions] = useState("")
   const [duration, setDuration] = useState("")
   const [date, setDate] = useState("")
+  const [category, setCategory] = useState("")
   const { toast } = useToast()
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -49,6 +51,26 @@ export function AddSimuladoDialog() {
               placeholder="Ex: Simulado ENEM 2024"
               required
             />
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="category" className="text-sm font-medium">
+              Categoria
+            </label>
+            <Select value={category} onValueChange={setCategory}>
+              <SelectTrigger>
+                <SelectValue placeholder="Selecione uma categoria" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="enem">ENEM</SelectItem>
+                <SelectItem value="fuvest">FUVEST</SelectItem>
+                <SelectItem value="unicamp">UNICAMP</SelectItem>
+                <SelectItem value="medicina">Medicina</SelectItem>
+                <SelectItem value="direito">Direito</SelectItem>
+                <SelectItem value="engenharia">Engenharia</SelectItem>
+                <SelectItem value="outros">Outros</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="space-y-2">
