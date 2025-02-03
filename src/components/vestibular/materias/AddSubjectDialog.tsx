@@ -1,7 +1,7 @@
 import { useState } from "react"
-import { Plus } from "lucide-react"
+import { BookOpen, GraduationCap, Plus, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -40,47 +40,74 @@ const AddSubjectDialog = () => {
         <Button 
           variant="secondary" 
           size="sm"
-          className="font-medium"
+          className="font-medium bg-[#F2CED0] hover:bg-[#F2CED0]/80 text-gray-800"
         >
           <Plus className="w-4 h-4 mr-2" />
           ADICIONAR MATÉRIA
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Adicionar Nova Matéria</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="flex items-center gap-2 text-xl">
+            <BookOpen className="w-5 h-5" />
+            Adicionar Nova Matéria
+          </DialogTitle>
+          <DialogDescription className="text-base">
             Adicione uma nova matéria ao seu plano de estudos.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit}>
-          <div className="space-y-4 py-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="nome">Nome da Matéria</Label>
-              <Input
-                id="nome"
-                placeholder="Ex: Matemática"
-                value={novaMateria}
-                onChange={(e) => setNovaMateria(e.target.value)}
-              />
+              <Label htmlFor="nome" className="text-sm font-medium">
+                Nome da Matéria
+              </Label>
+              <div className="relative">
+                <BookOpen className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
+                <Input
+                  id="nome"
+                  placeholder="Ex: Matemática"
+                  value={novaMateria}
+                  onChange={(e) => setNovaMateria(e.target.value)}
+                  className="pl-10"
+                />
+              </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="area">Área</Label>
+              <Label htmlFor="area" className="text-sm font-medium">
+                Área
+              </Label>
               <Select value={area} onValueChange={setArea}>
-                <SelectTrigger>
+                <SelectTrigger className="w-full pl-10 relative">
+                  <GraduationCap className="absolute left-3 top-2.5 h-5 w-5 text-gray-500" />
                   <SelectValue placeholder="Selecione uma área" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="exatas">Exatas</SelectItem>
-                  <SelectItem value="humanas">Humanas</SelectItem>
-                  <SelectItem value="biologicas">Biológicas</SelectItem>
+                  <SelectItem value="exatas" className="cursor-pointer">Exatas</SelectItem>
+                  <SelectItem value="humanas" className="cursor-pointer">Humanas</SelectItem>
+                  <SelectItem value="biologicas" className="cursor-pointer">Biológicas</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
-          <DialogFooter>
-            <Button type="submit">Adicionar Matéria</Button>
-          </DialogFooter>
+          <div className="flex justify-end gap-3">
+            <Button 
+              type="button" 
+              variant="outline"
+              onClick={() => setOpen(false)}
+              className="gap-2"
+            >
+              <X className="w-4 h-4" />
+              Cancelar
+            </Button>
+            <Button 
+              type="submit"
+              className="bg-[#F2CED0] hover:bg-[#F2CED0]/80 text-gray-800 gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              Adicionar Matéria
+            </Button>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
