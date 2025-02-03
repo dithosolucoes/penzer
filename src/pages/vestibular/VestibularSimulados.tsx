@@ -1,264 +1,150 @@
 import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Progress } from "@/components/ui/progress"
-import { TestTube, Timer, Award, ChartBar } from "lucide-react"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { SimuladoDetailsDialog } from "@/components/vestibular/simulados/SimuladoDetailsDialog"
+import { DeleteSimuladoDialog } from "@/components/vestibular/simulados/DeleteSimuladoDialog"
+import { Plus, Search, Filter } from "lucide-react"
+import { useToast } from "@/hooks/use-toast"
 
-// Tipos
-type Simulado = {
-  id: string
-  titulo: string
-  materia: string
-  tipo: "geral" | "especifico"
-  questoes: number
-  duracao: number
-  status: "pendente" | "em_andamento" | "concluido"
-  nota?: number
-}
-
-const simuladosMock: Simulado[] = [
+// Dados mockados para exemplo
+const simuladosMock = [
   {
-    id: "1",
-    titulo: "Simulado Geral ENEM",
-    materia: "Geral",
-    tipo: "geral",
-    questoes: 90,
-    duracao: 180,
-    status: "pendente"
+    id: 1,
+    title: "Simulado ENEM 1",
+    subject: "Geral",
+    duration: "5h30",
+    questions: 180,
+    date: "15/05/2024",
+    status: "pending"
   },
   {
-    id: "2",
-    titulo: "Matemática Básica",
-    materia: "Matemática",
-    tipo: "especifico",
-    questoes: 30,
-    duracao: 60,
-    status: "concluido",
-    nota: 8.5
-  },
-  {
-    id: "3",
-    titulo: "Física - Mecânica",
-    materia: "Física",
-    tipo: "especifico",
-    questoes: 25,
-    duracao: 45,
-    status: "em_andamento"
-  },
-  {
-    id: "4",
-    titulo: "Química Orgânica",
-    materia: "Química",
-    tipo: "especifico",
-    questoes: 20,
-    duracao: 40,
-    status: "concluido",
-    nota: 7.0
+    id: 2,
+    title: "Simulado FUVEST",
+    subject: "Geral",
+    duration: "5h",
+    questions: 150,
+    date: "20/05/2024",
+    status: "completed"
   }
 ]
 
-const VestibularSimulados = () => {
-  const [filtroMateria, setFiltroMateria] = useState<string>("todos")
-  const [filtroTipo, setFiltroTipo] = useState<string>("todos")
-  const [busca, setBusca] = useState("")
+export default function VestibularSimulados() {
+  const [search, setSearch] = useState("")
+  const [subject, setSubject] = useState("")
+  const { toast } = useToast()
 
-  const simuladosFiltrados = simuladosMock.filter(simulado => {
-    const matchMateria = filtroMateria === "todos" || simulado.materia === filtroMateria
-    const matchTipo = filtroTipo === "todos" || simulado.tipo === filtroTipo
-    const matchBusca = simulado.titulo.toLowerCase().includes(busca.toLowerCase())
-    return matchMateria && matchTipo && matchBusca
-  })
-
-  const getStatusColor = (status: Simulado["status"]) => {
-    switch (status) {
-      case "pendente":
-        return "bg-yellow-500"
-      case "em_andamento":
-        return "bg-blue-500"
-      case "concluido":
-        return "bg-green-500"
-      default:
-        return "bg-gray-500"
-    }
-  }
-
-  const getStatusText = (status: Simulado["status"]) => {
-    switch (status) {
-      case "pendente":
-        return "Pendente"
-      case "em_andamento":
-        return "Em Andamento"
-      case "concluido":
-        return "Concluído"
-      default:
-        return status
-    }
+  const handleDeleteSimulado = (id: number) => {
+    toast({
+      title: "Simulado excluído",
+      description: "O simulado foi excluído com sucesso.",
+    })
   }
 
   return (
-    <div className="container py-8 space-y-6">
-      <div className="flex flex-col gap-4">
-        <h1 className="text-3xl font-bold">SIMULADOS</h1>
-        
-        {/* Estatísticas Rápidas */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card>
-            <CardContent className="pt-4">
-              <div className="flex items-center gap-2">
-                <TestTube className="h-4 w-4 text-[#F2CED0]" />
-                <div className="flex flex-col">
-                  <p className="text-sm text-muted-foreground">Total Simulados</p>
-                  <p className="text-2xl font-bold">{simuladosMock.length}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="pt-4">
-              <div className="flex items-center gap-2">
-                <Award className="h-4 w-4 text-[#F2CED0]" />
-                <div className="flex flex-col">
-                  <p className="text-sm text-muted-foreground">Concluídos</p>
-                  <p className="text-2xl font-bold">
-                    {simuladosMock.filter(s => s.status === "concluido").length}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="pt-4">
-              <div className="flex items-center gap-2">
-                <Timer className="h-4 w-4 text-[#F2CED0]" />
-                <div className="flex flex-col">
-                  <p className="text-sm text-muted-foreground">Em Andamento</p>
-                  <p className="text-2xl font-bold">
-                    {simuladosMock.filter(s => s.status === "em_andamento").length}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="pt-4">
-              <div className="flex items-center gap-2">
-                <ChartBar className="h-4 w-4 text-[#F2CED0]" />
-                <div className="flex flex-col">
-                  <p className="text-sm text-muted-foreground">Média Geral</p>
-                  <p className="text-2xl font-bold">
-                    {(simuladosMock
-                      .filter(s => s.nota)
-                      .reduce((acc, curr) => acc + (curr.nota || 0), 0) / 
-                      simuladosMock.filter(s => s.nota).length
-                    ).toFixed(1)}
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+    <div className="container max-w-6xl py-6">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">SIMULADOS</h1>
+        <Button 
+          className="bg-[#F2CED0] hover:bg-[#F2CED0]/80 text-gray-800"
+        >
+          <Plus className="h-4 w-4 mr-2" />
+          NOVO SIMULADO
+        </Button>
+      </div>
 
-        {/* Filtros */}
-        <div className="flex flex-col md:flex-row gap-4">
-          <Input
-            placeholder="Buscar simulados..."
-            value={busca}
-            onChange={(e) => setBusca(e.target.value)}
-            className="md:w-1/3"
-          />
-          
-          <Select
-            value={filtroMateria}
-            onValueChange={setFiltroMateria}
-          >
-            <SelectTrigger className="md:w-1/4">
-              <SelectValue placeholder="Filtrar por matéria" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="todos">Todas as matérias</SelectItem>
-              <SelectItem value="Geral">Geral</SelectItem>
-              <SelectItem value="Matemática">Matemática</SelectItem>
-              <SelectItem value="Física">Física</SelectItem>
-              <SelectItem value="Química">Química</SelectItem>
-            </SelectContent>
-          </Select>
-          
-          <Select
-            value={filtroTipo}
-            onValueChange={setFiltroTipo}
-          >
-            <SelectTrigger className="md:w-1/4">
-              <SelectValue placeholder="Filtrar por tipo" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="todos">Todos os tipos</SelectItem>
-              <SelectItem value="geral">Geral</SelectItem>
-              <SelectItem value="especifico">Específico</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+      {/* Cards de Estatísticas */}
+      <div className="grid gap-4 md:grid-cols-4 mb-6">
+        <Card>
+          <CardHeader className="py-4">
+            <CardTitle className="text-sm font-medium">Total de Simulados</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">12</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="py-4">
+            <CardTitle className="text-sm font-medium">Concluídos</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">8</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="py-4">
+            <CardTitle className="text-sm font-medium">Em Andamento</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">4</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="py-4">
+            <CardTitle className="text-sm font-medium">Média Geral</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-2xl font-bold">7.8</p>
+          </CardContent>
+        </Card>
+      </div>
 
-        {/* Lista de Simulados */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {simuladosFiltrados.map((simulado) => (
-            <Card key={simulado.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <CardTitle className="text-lg">{simulado.titulo}</CardTitle>
-                    <CardDescription>{simulado.materia}</CardDescription>
-                  </div>
-                  <Badge className={getStatusColor(simulado.status)}>
-                    {getStatusText(simulado.status)}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Questões:</span>
-                    <span className="font-medium">{simulado.questoes}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Duração:</span>
-                    <span className="font-medium">{simulado.duracao} min</span>
-                  </div>
-                  {simulado.nota && (
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Nota:</span>
-                        <span className="font-medium">{simulado.nota}</span>
-                      </div>
-                      <Progress value={simulado.nota * 10} className="h-2" />
-                    </div>
-                  )}
-                  <Button 
-                    className="w-full"
-                    variant={simulado.status === "concluido" ? "secondary" : "default"}
-                  >
-                    {simulado.status === "concluido" ? "Ver Resultado" : "Iniciar Simulado"}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+      {/* Filtros */}
+      <div className="flex gap-4 mb-6">
+        <div className="flex-1">
+          <div className="relative">
+            <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Input
+              placeholder="Buscar simulado..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="pl-9"
+            />
+          </div>
         </div>
+        <Select value={subject} onValueChange={setSubject}>
+          <SelectTrigger className="w-[180px]">
+            <Filter className="h-4 w-4 mr-2" />
+            <SelectValue placeholder="Filtrar por" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">Todos</SelectItem>
+            <SelectItem value="enem">ENEM</SelectItem>
+            <SelectItem value="fuvest">FUVEST</SelectItem>
+            <SelectItem value="unicamp">UNICAMP</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Lista de Simulados */}
+      <div className="space-y-4">
+        {simuladosMock.map((simulado) => (
+          <Card key={simulado.id}>
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold mb-2">{simulado.title}</h3>
+                  <div className="flex gap-4 text-sm text-muted-foreground">
+                    <span>{simulado.questions} questões</span>
+                    <span>•</span>
+                    <span>{simulado.duration}</span>
+                    <span>•</span>
+                    <span>{simulado.date}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <SimuladoDetailsDialog simulado={simulado} />
+                  <DeleteSimuladoDialog 
+                    simuladoId={simulado.id}
+                    onDelete={handleDeleteSimulado}
+                  />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   )
 }
-
-export default VestibularSimulados
