@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { useAuth } from "@/hooks/useAuth"
 import MainLayout from "./components/layout/MainLayout"
+import VestibularLayout from "./components/layout/VestibularLayout"
 import Index from "./pages/Index"
 import Login from "./pages/Login"
 import Historico from "./pages/Historico"
@@ -16,6 +17,7 @@ import Editais from "./pages/Editais"
 import Perfil from "./pages/Perfil"
 import Admin from "./pages/Admin"
 import UniversitarioDashboard from "./pages/UniversitarioDashboard"
+import VestibularHome from "./pages/vestibular/VestibularHome"
 import { AuthTest } from "./components/AuthTest"
 
 const queryClient = new QueryClient()
@@ -27,6 +29,8 @@ const ProfileRouter = () => {
   if (!user) return <Navigate to="/login" replace />
   
   switch (user.user_metadata.profile_type) {
+    case "vestibulando":
+      return <Navigate to="/vestibular" replace />
     case "universitario":
       return <MainLayout><UniversitarioDashboard /></MainLayout>
     case "concurseiro":
@@ -48,6 +52,9 @@ const App = () => (
 
           {/* Rota inicial com redirecionamento baseado no perfil */}
           <Route path="/" element={<ProfileRouter />} />
+
+          {/* Rotas do vestibulando */}
+          <Route path="/vestibular" element={<VestibularLayout><VestibularHome /></VestibularLayout>} />
 
           {/* Rotas protegidas com MainLayout */}
           <Route path="/historico" element={<MainLayout><Historico /></MainLayout>} />
