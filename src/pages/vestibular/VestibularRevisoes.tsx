@@ -15,17 +15,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { ListCheck, AlertTriangle } from "lucide-react"
+import { AlertTriangle } from "lucide-react"
+import { AddReviewDialog } from "@/components/AddReviewDialog"
 
 const VestibularRevisoes = () => {
   return (
     <div className="container py-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-2xl font-bold">REVISÕES</h1>
-        <Button variant="outline" className="gap-2">
-          <ListCheck className="h-4 w-4" />
-          Adicionar Revisão
-        </Button>
+        <AddReviewDialog />
       </div>
 
       <Card className="p-6 mb-6">
