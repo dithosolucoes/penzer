@@ -17,7 +17,6 @@ import CicloEstudos from "./pages/CicloEstudos"
 import Editais from "./pages/Editais"
 import Perfil from "./pages/Perfil"
 import Admin from "./pages/Admin"
-import { AuthTest } from "./components/AuthTest"
 
 // Import Vestibular pages
 import VestibularHome from "./pages/vestibular/VestibularHome"
@@ -31,6 +30,7 @@ import VestibularPerfil from "./pages/vestibular/VestibularPerfil"
 
 // Import Universitario pages
 import UniversitarioHome from "./pages/universitario/UniversitarioHome"
+import UniversitarioDisciplinas from "./pages/universitario/UniversitarioDisciplinas"
 
 const queryClient = new QueryClient()
 
@@ -86,6 +86,7 @@ const App = () => (
             <UniversitarioLayout>
               <Routes>
                 <Route path="/" element={<UniversitarioHome />} />
+                <Route path="/disciplinas" element={<UniversitarioDisciplinas />} />
               </Routes>
             </UniversitarioLayout>
           } />
