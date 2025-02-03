@@ -1,7 +1,7 @@
 import React from "react"
 import { Button } from "@/components/ui/button"
 import { Logo } from "./Logo"
-import { HelpCircle, User, Home, BookOpen, FileText, BarChart2, Book, Calendar } from "lucide-react"
+import { HelpCircle, User, Home, Book, FileText, BarChart2, Calendar } from "lucide-react"
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -36,16 +36,16 @@ const menuItems = [
     description: "Organize seus trabalhos e projetos"
   },
   {
-    title: "CALENDÁRIO",
-    href: "/universitario/calendario",
+    title: "CRONOGRAMA",
+    href: "/universitario/cronograma",
     icon: Calendar,
-    description: "Acompanhe o calendário acadêmico"
+    description: "Acompanhe seu cronograma de estudos"
   },
   {
-    title: "NOTAS",
-    href: "/universitario/notas",
+    title: "ESTATÍSTICAS",
+    href: "/universitario/estatisticas",
     icon: BarChart2,
-    description: "Acompanhe suas notas"
+    description: "Acompanhe seu desempenho"
   },
 ]
 

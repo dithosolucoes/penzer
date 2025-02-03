@@ -33,6 +33,8 @@ import VestibularPerfil from "./pages/vestibular/VestibularPerfil"
 import UniversitarioHome from "./pages/universitario/UniversitarioHome"
 import UniversitarioDisciplinas from "./pages/universitario/UniversitarioDisciplinas"
 import UniversitarioTrabalhos from "./pages/universitario/UniversitarioTrabalhos"
+import UniversitarioCronograma from "./pages/universitario/UniversitarioCronograma"
+import UniversitarioEstatisticas from "./pages/universitario/UniversitarioEstatisticas"
 
 const queryClient = new QueryClient()
 
@@ -90,6 +92,8 @@ const App = () => (
                 <Route path="/" element={<UniversitarioHome />} />
                 <Route path="/disciplinas" element={<UniversitarioDisciplinas />} />
                 <Route path="/trabalhos" element={<UniversitarioTrabalhos />} />
+                <Route path="/cronograma" element={<UniversitarioCronograma />} />
+                <Route path="/estatisticas" element={<UniversitarioEstatisticas />} />
               </Routes>
             </UniversitarioLayout>
           } />
