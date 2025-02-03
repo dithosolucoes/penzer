@@ -5,10 +5,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { SimuladoDetailsDialog } from "@/components/vestibular/simulados/SimuladoDetailsDialog"
 import { DeleteSimuladoDialog } from "@/components/vestibular/simulados/DeleteSimuladoDialog"
-import { Plus, Search, Filter } from "lucide-react"
+import { AddSimuladoDialog } from "@/components/vestibular/simulados/AddSimuladoDialog"
+import { Search, Filter } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
-// Dados mockados para exemplo
 const simuladosMock = [
   {
     id: 1,
@@ -46,12 +46,7 @@ export default function VestibularSimulados() {
     <div className="container max-w-6xl py-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">SIMULADOS</h1>
-        <Button 
-          className="bg-[#F2CED0] hover:bg-[#F2CED0]/80 text-gray-800"
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          NOVO SIMULADO
-        </Button>
+        <AddSimuladoDialog />
       </div>
 
       {/* Cards de Estatísticas */}
