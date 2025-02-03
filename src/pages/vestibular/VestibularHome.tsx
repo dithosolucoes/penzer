@@ -75,7 +75,7 @@ const VestibularHome = () => {
                   </thead>
                   <tbody>
                     <tr>
-                      <td className="py-2">{format(date, 'dd/MM/yyyy')}</td>
+                      <td className="py-2">{format(date, "dd/MM/yyyy")}</td>
                       <td className="py-2">FUVEST 2024</td>
                       <td className="py-2">Microbiologia</td>
                       <td className="py-2">Bactérias e Vírus</td>

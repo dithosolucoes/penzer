@@ -18,6 +18,16 @@ import Perfil from "./pages/Perfil"
 import Admin from "./pages/Admin"
 import { AuthTest } from "./components/AuthTest"
 
+// Import Vestibular pages
+import VestibularHome from "./pages/vestibular/VestibularHome"
+import VestibularMaterias from "./pages/vestibular/VestibularMaterias"
+import VestibularSimulados from "./pages/vestibular/VestibularSimulados"
+import VestibularCronograma from "./pages/vestibular/VestibularCronograma"
+import VestibularRevisoes from "./pages/vestibular/VestibularRevisoes"
+import VestibularEstatisticas from "./pages/vestibular/VestibularEstatisticas"
+import VestibularRedacao from "./pages/vestibular/VestibularRedacao"
+import VestibularPerfil from "./pages/vestibular/VestibularPerfil"
+
 const queryClient = new QueryClient()
 
 // Componente para redirecionar baseado no tipo de perfil
