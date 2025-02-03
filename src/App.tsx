@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import { useAuth } from "@/hooks/useAuth"
 import MainLayout from "./components/layout/MainLayout"
 import VestibularLayout from "./components/layout/VestibularLayout"
+import UniversitarioLayout from "./components/layout/UniversitarioLayout"
 import Index from "./pages/Index"
 import Login from "./pages/Login"
 import Historico from "./pages/Historico"
@@ -27,6 +28,9 @@ import VestibularRevisoes from "./pages/vestibular/VestibularRevisoes"
 import VestibularEstatisticas from "./pages/vestibular/VestibularEstatisticas"
 import VestibularRedacao from "./pages/vestibular/VestibularRedacao"
 import VestibularPerfil from "./pages/vestibular/VestibularPerfil"
+
+// Import Universitario pages
+import UniversitarioHome from "./pages/universitario/UniversitarioHome"
 
 const queryClient = new QueryClient()
 
@@ -75,6 +79,15 @@ const App = () => (
                 <Route path="/perfil" element={<VestibularPerfil />} />
               </Routes>
             </VestibularLayout>
+          } />
+
+          {/* Rotas do universitário */}
+          <Route path="/universitario/*" element={
+            <UniversitarioLayout>
+              <Routes>
+                <Route path="/" element={<UniversitarioHome />} />
+              </Routes>
+            </UniversitarioLayout>
           } />
 
           {/* Rotas do concurseiro */}
