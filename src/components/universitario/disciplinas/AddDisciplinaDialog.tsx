@@ -54,7 +54,7 @@ const AddDisciplinaDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="gap-2 bg-[#9b87f5] hover:bg-[#7E69AB] text-white">
+        <Button className="gap-2 bg-[#F2CED0] hover:bg-[#F2CED0]/80 text-gray-800">
           <Plus className="h-4 w-4" />
           Nova Disciplina
         </Button>
@@ -150,7 +150,7 @@ const AddDisciplinaDialog = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full bg-[#9b87f5] hover:bg-[#7E69AB] text-white">
+            <Button type="submit" className="w-full bg-[#F2CED0] hover:bg-[#F2CED0]/80 text-gray-800">
               Adicionar
             </Button>
           </form>
