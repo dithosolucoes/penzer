@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Plus, BookOpen } from "lucide-react"
+import { Plus } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
@@ -54,20 +54,20 @@ const AddDisciplinaDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="default" className="gap-2">
+        <Button className="gap-2 bg-[#9b87f5] hover:bg-[#7E69AB] text-white">
           <Plus className="h-4 w-4" />
           Nova Disciplina
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] space-y-3">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <BookOpen className="h-5 w-5" />
+            <Plus className="h-5 w-5" />
             Adicionar Nova Disciplina
           </DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
             <FormField
               control={form.control}
               name="nome"
@@ -81,58 +81,62 @@ const AddDisciplinaDialog = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="professor"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Professor</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Nome do professor" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="horario"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Horário</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Ex: Segunda e Quarta, 19h-20:30h" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="sala"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Sala</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Ex: Bloco A - Sala 101" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="creditos"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Créditos</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Ex: 4" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-2 gap-3">
+              <FormField
+                control={form.control}
+                name="professor"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Professor</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Nome do professor" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="horario"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Horário</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ex: Seg/Qua 19h" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <FormField
+                control={form.control}
+                name="sala"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Sala</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ex: Bloco A-101" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="creditos"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Créditos</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ex: 4" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
               name="periodo"
@@ -146,7 +150,7 @@ const AddDisciplinaDialog = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full bg-[#9b87f5] hover:bg-[#7E69AB] text-white">
               Adicionar
             </Button>
           </form>
