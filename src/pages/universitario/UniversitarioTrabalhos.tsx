@@ -1,16 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Plus, FileText, Calendar, CheckCircle2 } from "lucide-react"
+import { FileText, Calendar, CheckCircle2 } from "lucide-react"
+import AddTrabalhoDialog from "@/components/universitario/trabalhos/AddTrabalhoDialog"
 
 export default function UniversitarioTrabalhos() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold">Meus Trabalhos</h1>
-        <Button className="gap-2 bg-[#F2CED0] hover:bg-[#F2CED0]/80 text-gray-800">
-          <Plus className="h-4 w-4" />
-          Novo Trabalho
-        </Button>
+        <AddTrabalhoDialog />
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
