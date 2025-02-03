@@ -1,22 +1,28 @@
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { GraduationCap, BookOpen, Calendar, ChartBar } from "lucide-react"
+import { Progress } from "@/components/ui/progress"
+import { GraduationCap, BookOpen, Calendar, ChartBar, Clock } from "lucide-react"
 
 export default function VestibularDashboard() {
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
+      <motion.div 
+        className="flex justify-between items-center"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <h1 className="text-3xl font-bold">Área do Vestibulando</h1>
         <div className="text-sm text-muted-foreground">
           Bem-vindo de volta!
         </div>
-      </div>
+      </motion.div>
 
       <motion.div 
         className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
       >
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
@@ -114,27 +120,21 @@ export default function VestibularDashboard() {
                   <span className="font-medium">Matemática</span>
                   <span className="text-sm">85%</span>
                 </div>
-                <div className="h-2 bg-secondary rounded-full">
-                  <div className="h-2 bg-[#F2CED0] rounded-full" style={{ width: '85%' }} />
-                </div>
+                <Progress value={85} className="h-2" />
               </li>
               <li className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="font-medium">Português</span>
                   <span className="text-sm">75%</span>
                 </div>
-                <div className="h-2 bg-secondary rounded-full">
-                  <div className="h-2 bg-[#F2CED0] rounded-full" style={{ width: '75%' }} />
-                </div>
+                <Progress value={75} className="h-2" />
               </li>
               <li className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="font-medium">História</span>
                   <span className="text-sm">90%</span>
                 </div>
-                <div className="h-2 bg-secondary rounded-full">
-                  <div className="h-2 bg-[#F2CED0] rounded-full" style={{ width: '90%' }} />
-                </div>
+                <Progress value={90} className="h-2" />
               </li>
             </ul>
           </CardContent>
