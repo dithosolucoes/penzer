@@ -33,7 +33,12 @@ const mockSubjectsData = [
   { name: 'Biologia', value: 10 },
 ]
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8']
+// Cores do branding
+const COLORS = ['#F2CED0', '#E8E8E8', '#000000', '#F2CED0', '#E8E8E8'].map(color => 
+  color === '#F2CED0' ? '#F2CED0' : 
+  color === '#E8E8E8' ? '#E8E8E8' : 
+  '#000000'
+)
 
 const VestibularEstatisticas = () => {
   return (
@@ -45,7 +50,7 @@ const VestibularEstatisticas = () => {
           <h2 className="text-lg font-semibold mb-4">Horas de Estudo por Dia</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={mockTimeData}>
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E8E8E8" />
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
@@ -66,7 +71,7 @@ const VestibularEstatisticas = () => {
                 labelLine={false}
                 label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                 outerRadius={80}
-                fill="#8884d8"
+                fill="#F2CED0"
                 dataKey="value"
               >
                 {mockSubjectsData.map((entry, index) => (
@@ -82,7 +87,7 @@ const VestibularEstatisticas = () => {
           <h2 className="text-lg font-semibold mb-4">Progresso nas Revisões</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={mockTimeData}>
-              <CartesianGrid strokeDasharray="3 3" />
+              <CartesianGrid strokeDasharray="3 3" stroke="#E8E8E8" />
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
