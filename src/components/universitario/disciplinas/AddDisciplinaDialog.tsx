@@ -54,11 +54,8 @@ const AddDisciplinaDialog = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button 
-          className="gap-2 bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] hover:from-[#7E69AB] hover:to-[#9b87f5] transition-all duration-300"
-        >
+        <Button variant="default" className="gap-2">
           <Plus className="h-4 w-4" />
-          <BookOpen className="h-4 w-4" />
           Nova Disciplina
         </Button>
       </DialogTrigger>
@@ -149,10 +146,7 @@ const AddDisciplinaDialog = () => {
                 </FormItem>
               )}
             />
-            <Button 
-              type="submit" 
-              className="w-full bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] hover:from-[#7E69AB] hover:to-[#9b87f5] transition-all duration-300"
-            >
+            <Button type="submit" className="w-full">
               Adicionar
             </Button>
           </form>
