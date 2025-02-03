@@ -16,8 +16,6 @@ import CicloEstudos from "./pages/CicloEstudos"
 import Editais from "./pages/Editais"
 import Perfil from "./pages/Perfil"
 import Admin from "./pages/Admin"
-import UniversitarioDashboard from "./pages/UniversitarioDashboard"
-import VestibularHome from "./pages/vestibular/VestibularHome"
 import { AuthTest } from "./components/AuthTest"
 
 const queryClient = new QueryClient()
@@ -32,7 +30,7 @@ const ProfileRouter = () => {
     case "vestibulando":
       return <Navigate to="/vestibular" replace />
     case "universitario":
-      return <MainLayout><UniversitarioDashboard /></MainLayout>
+      return <Navigate to="/universitario" replace />
     case "concurseiro":
     default:
       return <MainLayout><Index /></MainLayout>
@@ -54,9 +52,22 @@ const App = () => (
           <Route path="/" element={<ProfileRouter />} />
 
           {/* Rotas do vestibulando */}
-          <Route path="/vestibular" element={<VestibularLayout><VestibularHome /></VestibularLayout>} />
+          <Route path="/vestibular/*" element={
+            <VestibularLayout>
+              <Routes>
+                <Route path="/" element={<VestibularHome />} />
+                <Route path="/materias" element={<VestibularMaterias />} />
+                <Route path="/simulados" element={<VestibularSimulados />} />
+                <Route path="/cronograma" element={<VestibularCronograma />} />
+                <Route path="/revisoes" element={<VestibularRevisoes />} />
+                <Route path="/estatisticas" element={<VestibularEstatisticas />} />
+                <Route path="/redacao" element={<VestibularRedacao />} />
+                <Route path="/perfil" element={<VestibularPerfil />} />
+              </Routes>
+            </VestibularLayout>
+          } />
 
-          {/* Rotas protegidas com MainLayout */}
+          {/* Rotas do concurseiro */}
           <Route path="/historico" element={<MainLayout><Historico /></MainLayout>} />
           <Route path="/revisoes" element={<MainLayout><Revisoes /></MainLayout>} />
           <Route path="/edital-verticalizado" element={<MainLayout><EditalVerticalizado /></MainLayout>} />
