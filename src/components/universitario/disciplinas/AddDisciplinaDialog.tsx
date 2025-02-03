@@ -15,36 +15,59 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Plus } from "lucide-react"
+import { Plus, BookOpen } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
 
-interface FormValues {
-  nome: string
-  professor: string
-  horario: string
-}
+const formSchema = z.object({
+  nome: z.string().min(3, "O nome deve ter pelo menos 3 caracteres"),
+  professor: z.string().min(3, "O nome do professor deve ter pelo menos 3 caracteres"),
+  horario: z.string().min(3, "Informe um horário válido"),
+  sala: z.string().min(1, "Informe a sala"),
+  creditos: z.string().min(1, "Informe os créditos"),
+  periodo: z.string().min(1, "Informe o período")
+})
+
+type FormValues = z.infer<typeof formSchema>
 
 const AddDisciplinaDialog = () => {
-  const form = useForm<FormValues>()
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      nome: "",
+      professor: "",
+      horario: "",
+      sala: "",
+      creditos: "",
+      periodo: ""
+    }
+  })
 
   const onSubmit = (data: FormValues) => {
-    // Aqui você implementaria a lógica para salvar no banco de dados
     console.log(data)
     toast.success("Disciplina adicionada com sucesso!")
+    form.reset()
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="gap-2">
+        <Button 
+          className="gap-2 bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] hover:from-[#7E69AB] hover:to-[#9b87f5] transition-all duration-300"
+        >
           <Plus className="h-4 w-4" />
+          <BookOpen className="h-4 w-4" />
           Nova Disciplina
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Adicionar Nova Disciplina</DialogTitle>
+          <DialogTitle className="flex items-center gap-2">
+            <BookOpen className="h-5 w-5" />
+            Adicionar Nova Disciplina
+          </DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -87,7 +110,51 @@ const AddDisciplinaDialog = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">Adicionar</Button>
+            <FormField
+              control={form.control}
+              name="sala"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Sala</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Ex: Bloco A - Sala 101" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="creditos"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Créditos</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Ex: 4" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="periodo"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Período</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Ex: 2024.1" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button 
+              type="submit" 
+              className="w-full bg-gradient-to-r from-[#9b87f5] to-[#7E69AB] hover:from-[#7E69AB] hover:to-[#9b87f5] transition-all duration-300"
+            >
+              Adicionar
+            </Button>
           </form>
         </Form>
       </DialogContent>
