@@ -4,21 +4,12 @@ import { SignUpForm } from "@/components/auth/SignUpForm"
 import { BookOpen } from "lucide-react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { useAuth } from "@/hooks/useAuth"
-import { Navigate } from "react-router-dom"
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true)
-  const { user } = useAuth()
-
-  // Se já estiver logado, redireciona para a página inicial
-  if (user) {
-    return <Navigate to="/" replace />
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#F2CED0]">
-      {/* Elementos de design animados */}
       <motion.div
         className="absolute w-[500px] h-[500px] rounded-full bg-[#F2CED0]/20 blur-3xl"
         animate={{
@@ -46,7 +37,6 @@ const Login = () => {
         }}
       />
 
-      {/* Logo */}
       <div className="absolute top-8 left-8">
         <motion.div
           initial={{ x: -20, opacity: 0 }}
@@ -63,7 +53,6 @@ const Login = () => {
         </motion.div>
       </div>
 
-      {/* Formulário */}
       <div className="w-full max-w-[380px] p-6 relative z-10">
         <motion.div
           initial={{ y: -20, opacity: 0 }}
