@@ -37,6 +37,7 @@ import UniversitarioCronograma from "./pages/universitario/UniversitarioCronogra
 import UniversitarioEstatisticas from "./pages/universitario/UniversitarioEstatisticas"
 import UniversitarioNotas from "./pages/universitario/UniversitarioNotas"
 import UniversitarioPerfil from "./pages/universitario/UniversitarioPerfil"
+import UniversitarioCiclo from "./pages/universitario/UniversitarioCiclo"
 
 const queryClient = new QueryClient()
 
@@ -97,6 +98,7 @@ const App = () => (
                 <Route path="/notas" element={<UniversitarioNotas />} />
                 <Route path="/estatisticas" element={<UniversitarioEstatisticas />} />
                 <Route path="/perfil" element={<UniversitarioPerfil />} />
+                <Route path="/ciclo" element={<UniversitarioCiclo />} />
               </Routes>
             </UniversitarioLayout>
           } />
