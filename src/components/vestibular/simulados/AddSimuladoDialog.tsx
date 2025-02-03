@@ -20,8 +20,6 @@ export function AddSimuladoDialog() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     
-    // Aqui você faria a chamada para a API para salvar o simulado
-    // com todos os campos necessários para filtragem
     const simuladoData = {
       title,
       category,
@@ -65,7 +63,7 @@ export function AddSimuladoDialog() {
           NOVO SIMULADO
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle className="text-center text-xl font-bold">
             CRIAR NOVO SIMULADO
@@ -73,6 +71,7 @@ export function AddSimuladoDialog() {
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+          {/* Título em largura completa */}
           <div className="space-y-2">
             <label htmlFor="title" className="text-sm font-medium">
               Título
@@ -86,105 +85,109 @@ export function AddSimuladoDialog() {
             />
           </div>
 
-          <div className="space-y-2">
-            <label htmlFor="category" className="text-sm font-medium">
-              Categoria
-            </label>
-            <Select value={category} onValueChange={(value) => {
-              setCategory(value)
-              setSubcategory("")
-            }}>
-              <SelectTrigger>
-                <SelectValue placeholder="Selecione uma categoria" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="enem">ENEM</SelectItem>
-                <SelectItem value="fuvest">FUVEST</SelectItem>
-                <SelectItem value="unicamp">UNICAMP</SelectItem>
-                <SelectItem value="medicina">Medicina</SelectItem>
-                <SelectItem value="direito">Direito</SelectItem>
-                <SelectItem value="engenharia">Engenharia</SelectItem>
-                <SelectItem value="outros">Outros</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          {category && (
+          {/* Grid de 2 colunas para os demais campos */}
+          <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label htmlFor="subcategory" className="text-sm font-medium">
-                Subcategoria
+              <label htmlFor="category" className="text-sm font-medium">
+                Categoria
               </label>
-              <Select value={subcategory} onValueChange={setSubcategory}>
+              <Select value={category} onValueChange={(value) => {
+                setCategory(value)
+                setSubcategory("")
+              }}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Selecione uma subcategoria" />
+                  <SelectValue placeholder="Selecione uma categoria" />
                 </SelectTrigger>
                 <SelectContent>
-                  {getSubcategories().map((sub) => (
-                    <SelectItem key={sub} value={sub.toLowerCase()}>
-                      {sub}
-                    </SelectItem>
-                  ))}
+                  <SelectItem value="enem">ENEM</SelectItem>
+                  <SelectItem value="fuvest">FUVEST</SelectItem>
+                  <SelectItem value="unicamp">UNICAMP</SelectItem>
+                  <SelectItem value="medicina">Medicina</SelectItem>
+                  <SelectItem value="direito">Direito</SelectItem>
+                  <SelectItem value="engenharia">Engenharia</SelectItem>
+                  <SelectItem value="outros">Outros</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-          )}
 
-          <div className="space-y-2">
-            <label htmlFor="difficulty" className="text-sm font-medium">
-              Nível de Dificuldade
-            </label>
-            <Select value={difficulty} onValueChange={setDifficulty}>
-              <SelectTrigger>
-                <SelectValue placeholder="Selecione a dificuldade" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="facil">Fácil</SelectItem>
-                <SelectItem value="medio">Médio</SelectItem>
-                <SelectItem value="dificil">Difícil</SelectItem>
-              </SelectContent>
-            </Select>
+            {category ? (
+              <div className="space-y-2">
+                <label htmlFor="subcategory" className="text-sm font-medium">
+                  Subcategoria
+                </label>
+                <Select value={subcategory} onValueChange={setSubcategory}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione uma subcategoria" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {getSubcategories().map((sub) => (
+                      <SelectItem key={sub} value={sub.toLowerCase()}>
+                        {sub}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            ) : <div />}
+
+            <div className="space-y-2">
+              <label htmlFor="difficulty" className="text-sm font-medium">
+                Nível de Dificuldade
+              </label>
+              <Select value={difficulty} onValueChange={setDifficulty}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione a dificuldade" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="facil">Fácil</SelectItem>
+                  <SelectItem value="medio">Médio</SelectItem>
+                  <SelectItem value="dificil">Difícil</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="questions" className="text-sm font-medium">
+                Número de Questões
+              </label>
+              <Input
+                id="questions"
+                type="number"
+                value={questions}
+                onChange={(e) => setQuestions(e.target.value)}
+                placeholder="Ex: 180"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="duration" className="text-sm font-medium">
+                Duração
+              </label>
+              <Input
+                id="duration"
+                value={duration}
+                onChange={(e) => setDuration(e.target.value)}
+                placeholder="Ex: 5h30"
+                required
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="date" className="text-sm font-medium">
+                Data
+              </label>
+              <Input
+                id="date"
+                type="date"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                required
+              />
+            </div>
           </div>
 
-          <div className="space-y-2">
-            <label htmlFor="questions" className="text-sm font-medium">
-              Número de Questões
-            </label>
-            <Input
-              id="questions"
-              type="number"
-              value={questions}
-              onChange={(e) => setQuestions(e.target.value)}
-              placeholder="Ex: 180"
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="duration" className="text-sm font-medium">
-              Duração
-            </label>
-            <Input
-              id="duration"
-              value={duration}
-              onChange={(e) => setDuration(e.target.value)}
-              placeholder="Ex: 5h30"
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="date" className="text-sm font-medium">
-              Data
-            </label>
-            <Input
-              id="date"
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              required
-            />
-          </div>
-
+          {/* Tags em largura completa */}
           <div className="space-y-2">
             <label htmlFor="tags" className="text-sm font-medium">
               Tags (separadas por vírgula)
