@@ -15,7 +15,6 @@ import CicloEstudos from "./pages/CicloEstudos"
 import Editais from "./pages/Editais"
 import Perfil from "./pages/Perfil"
 import Admin from "./pages/Admin"
-import VestibularDashboard from "./pages/VestibularDashboard"
 import UniversitarioDashboard from "./pages/UniversitarioDashboard"
 import { AuthTest } from "./components/AuthTest"
 
@@ -28,8 +27,6 @@ const ProfileRouter = () => {
   if (!user) return <Navigate to="/login" replace />
   
   switch (user.user_metadata.profile_type) {
-    case "vestibulando":
-      return <MainLayout><VestibularDashboard /></MainLayout>
     case "universitario":
       return <MainLayout><UniversitarioDashboard /></MainLayout>
     case "concurseiro":
