@@ -12,16 +12,49 @@ export function AddSimuladoDialog() {
   const [duration, setDuration] = useState("")
   const [date, setDate] = useState("")
   const [category, setCategory] = useState("")
+  const [subcategory, setSubcategory] = useState("")
+  const [difficulty, setDifficulty] = useState("")
+  const [tags, setTags] = useState("")
   const { toast } = useToast()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     
-    // Here you would typically make an API call to save the simulado
+    // Aqui você faria a chamada para a API para salvar o simulado
+    // com todos os campos necessários para filtragem
+    const simuladoData = {
+      title,
+      category,
+      subcategory,
+      difficulty,
+      questions: Number(questions),
+      duration,
+      date,
+      tags: tags.split(',').map(tag => tag.trim()),
+      status: 'pending'
+    }
+
+    console.log('Dados do simulado:', simuladoData)
+    
     toast({
       title: "Simulado criado",
       description: "O novo simulado foi criado com sucesso.",
     })
+  }
+
+  const getSubcategories = () => {
+    switch (category) {
+      case "enem":
+        return ["Linguagens", "Matemática", "Ciências Humanas", "Ciências da Natureza", "Redação"]
+      case "medicina":
+        return ["Anatomia", "Bioquímica", "Fisiologia", "Genética"]
+      case "direito":
+        return ["Constitucional", "Civil", "Penal", "Administrativo"]
+      case "engenharia":
+        return ["Cálculo", "Física", "Química", "Geometria"]
+      default:
+        return []
+    }
   }
 
   return (
@@ -57,7 +90,10 @@ export function AddSimuladoDialog() {
             <label htmlFor="category" className="text-sm font-medium">
               Categoria
             </label>
-            <Select value={category} onValueChange={setCategory}>
+            <Select value={category} onValueChange={(value) => {
+              setCategory(value)
+              setSubcategory("")
+            }}>
               <SelectTrigger>
                 <SelectValue placeholder="Selecione uma categoria" />
               </SelectTrigger>
@@ -69,6 +105,42 @@ export function AddSimuladoDialog() {
                 <SelectItem value="direito">Direito</SelectItem>
                 <SelectItem value="engenharia">Engenharia</SelectItem>
                 <SelectItem value="outros">Outros</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          {category && (
+            <div className="space-y-2">
+              <label htmlFor="subcategory" className="text-sm font-medium">
+                Subcategoria
+              </label>
+              <Select value={subcategory} onValueChange={setSubcategory}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione uma subcategoria" />
+                </SelectTrigger>
+                <SelectContent>
+                  {getSubcategories().map((sub) => (
+                    <SelectItem key={sub} value={sub.toLowerCase()}>
+                      {sub}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          <div className="space-y-2">
+            <label htmlFor="difficulty" className="text-sm font-medium">
+              Nível de Dificuldade
+            </label>
+            <Select value={difficulty} onValueChange={setDifficulty}>
+              <SelectTrigger>
+                <SelectValue placeholder="Selecione a dificuldade" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="facil">Fácil</SelectItem>
+                <SelectItem value="medio">Médio</SelectItem>
+                <SelectItem value="dificil">Difícil</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -110,6 +182,18 @@ export function AddSimuladoDialog() {
               value={date}
               onChange={(e) => setDate(e.target.value)}
               required
+            />
+          </div>
+
+          <div className="space-y-2">
+            <label htmlFor="tags" className="text-sm font-medium">
+              Tags (separadas por vírgula)
+            </label>
+            <Input
+              id="tags"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              placeholder="Ex: vestibular, exatas, 2024"
             />
           </div>
 
