@@ -40,7 +40,6 @@ import UniversitarioPerfil from "./pages/universitario/UniversitarioPerfil"
 
 const queryClient = new QueryClient()
 
-// Componente para redirecionar baseado no tipo de perfil
 const ProfileRouter = () => {
   const { user } = useAuth()
   

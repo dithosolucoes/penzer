@@ -25,10 +25,8 @@ const UniversitarioLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="min-h-screen flex flex-col w-full bg-background text-foreground">
       <UniversitarioNavigation />
-      <main className="flex-1">
-        <div className="container py-6">
-          {children}
-        </div>
+      <main className="flex-1 w-full">
+        {children}
       </main>
 
       <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2">
