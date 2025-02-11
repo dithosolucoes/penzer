@@ -1,9 +1,9 @@
 
-import { User } from '@supabase/supabase-js'
 import { useState } from 'react'
 import { supabase } from '@/integrations/supabase/client'
 import { useNavigate } from 'react-router-dom'
 import { useToast } from './use-toast'
+import { User } from '@supabase/supabase-js'
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null)

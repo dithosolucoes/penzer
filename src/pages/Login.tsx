@@ -1,3 +1,4 @@
+
 import { useState } from "react"
 import { LoginForm } from "@/components/auth/LoginForm"
 import { SignUpForm } from "@/components/auth/SignUpForm"
@@ -10,6 +11,7 @@ const Login = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#F2CED0]">
+      {/* Background animations */}
       <motion.div
         className="absolute w-[500px] h-[500px] rounded-full bg-[#F2CED0]/20 blur-3xl"
         animate={{
@@ -37,6 +39,7 @@ const Login = () => {
         }}
       />
 
+      {/* Logo */}
       <div className="absolute top-8 left-8">
         <motion.div
           initial={{ x: -20, opacity: 0 }}
@@ -53,6 +56,7 @@ const Login = () => {
         </motion.div>
       </div>
 
+      {/* Login/Signup Form */}
       <div className="w-full max-w-[380px] p-6 relative z-10">
         <motion.div
           initial={{ y: -20, opacity: 0 }}
