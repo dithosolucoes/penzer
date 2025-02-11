@@ -1,42 +1,87 @@
+
 import { User } from '@supabase/supabase-js'
 import { useState } from 'react'
-
-// Mock user for development
-const mockUser: User = {
-  id: 'mock-user-id',
-  app_metadata: {},
-  user_metadata: {
-    avatar_url: 'https://github.com/shadcn.png',
-    full_name: 'John Doe',
-    profile_type: 'concurseiro'
-  },
-  aud: 'authenticated',
-  created_at: new Date().toISOString(),
-  role: 'authenticated',
-  email: 'mock@example.com',
-}
+import { supabase } from '@/integrations/supabase/client'
+import { useNavigate } from 'react-router-dom'
+import { useToast } from './use-toast'
 
 export function useAuth() {
-  const [user] = useState<User | null>(mockUser)
+  const [user, setUser] = useState<User | null>(null)
+  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate()
+  const { toast } = useToast()
 
   const signIn = async (email: string, password: string) => {
-    console.log('Mock sign in', { email, password })
-    // Implementar lógica real de login aqui
+    setLoading(true)
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      if (error) throw error
+      toast({
+        title: "Login realizado com sucesso!",
+        description: "Bem-vindo de volta."
+      })
+      navigate('/')
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Erro ao fazer login",
+        description: "Verifique suas credenciais e tente novamente."
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   const signUp = async (email: string, password: string, metadata: { profile_type: string }) => {
-    console.log('Mock sign up', { email, password, metadata })
-    // Implementar lógica real de cadastro aqui
+    setLoading(true)
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: metadata
+        }
+      })
+      if (error) throw error
+      toast({
+        title: "Cadastro realizado com sucesso!",
+        description: "Verifique seu email para confirmar o cadastro."
+      })
+      navigate('/login')
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Erro no cadastro",
+        description: "Verifique suas informações e tente novamente."
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   const signOut = async () => {
-    console.log('Mock sign out')
-    // Implementar lógica real de logout aqui
+    setLoading(true)
+    try {
+      await supabase.auth.signOut()
+      setUser(null)
+      toast({
+        title: "Logout realizado com sucesso"
+      })
+      navigate('/login')
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Erro ao fazer logout",
+        description: "Tente novamente."
+      })
+    } finally {
+      setLoading(false)
+    }
   }
 
   return {
     user,
-    loading: false,
+    loading,
     signIn,
     signUp,
     signOut,

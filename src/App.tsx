@@ -57,65 +57,72 @@ const ProfileRouter = () => {
   }
 }
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <AuthTest />
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          {/* Rotas públicas */}
-          <Route path="/login" element={<Login />} />
+const App = () => {
+  const { user } = useAuth()
 
-          {/* Rota inicial com redirecionamento baseado no perfil */}
-          <Route path="/" element={<ProfileRouter />} />
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <AuthTest />
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            {/* Rotas públicas */}
+            <Route 
+              path="/login" 
+              element={user ? <Navigate to="/" replace /> : <Login />} 
+            />
 
-          {/* Rotas do vestibulando */}
-          <Route path="/vestibular/*" element={
-            <VestibularLayout>
-              <Routes>
-                <Route path="/" element={<VestibularHome />} />
-                <Route path="/materias" element={<VestibularMaterias />} />
-                <Route path="/simulados" element={<VestibularSimulados />} />
-                <Route path="/cronograma" element={<VestibularCronograma />} />
-                <Route path="/revisoes" element={<VestibularRevisoes />} />
-                <Route path="/estatisticas" element={<VestibularEstatisticas />} />
-                <Route path="/redacao" element={<VestibularRedacao />} />
-                <Route path="/perfil" element={<VestibularPerfil />} />
-              </Routes>
-            </VestibularLayout>
-          } />
+            {/* Rota inicial com redirecionamento baseado no perfil */}
+            <Route path="/" element={<ProfileRouter />} />
 
-          {/* Rotas do universitário */}
-          <Route path="/universitario/*" element={
-            <UniversitarioLayout>
-              <Routes>
-                <Route path="/" element={<UniversitarioHome />} />
-                <Route path="/disciplinas" element={<UniversitarioDisciplinas />} />
-                <Route path="/trabalhos" element={<UniversitarioTrabalhos />} />
-                <Route path="/cronograma" element={<UniversitarioCronograma />} />
-                <Route path="/notas" element={<UniversitarioNotas />} />
-                <Route path="/estatisticas" element={<UniversitarioEstatisticas />} />
-                <Route path="/perfil" element={<UniversitarioPerfil />} />
-                <Route path="/ciclo" element={<UniversitarioCiclo />} />
-              </Routes>
-            </UniversitarioLayout>
-          } />
+            {/* Rotas do vestibulando */}
+            <Route path="/vestibular/*" element={
+              <VestibularLayout>
+                <Routes>
+                  <Route path="/" element={<VestibularHome />} />
+                  <Route path="/materias" element={<VestibularMaterias />} />
+                  <Route path="/simulados" element={<VestibularSimulados />} />
+                  <Route path="/cronograma" element={<VestibularCronograma />} />
+                  <Route path="/revisoes" element={<VestibularRevisoes />} />
+                  <Route path="/estatisticas" element={<VestibularEstatisticas />} />
+                  <Route path="/redacao" element={<VestibularRedacao />} />
+                  <Route path="/perfil" element={<VestibularPerfil />} />
+                </Routes>
+              </VestibularLayout>
+            } />
 
-          {/* Rotas do concurseiro */}
-          <Route path="/historico" element={<MainLayout><Historico /></MainLayout>} />
-          <Route path="/revisoes" element={<MainLayout><Revisoes /></MainLayout>} />
-          <Route path="/edital-verticalizado" element={<MainLayout><EditalVerticalizado /></MainLayout>} />
-          <Route path="/estatisticas" element={<MainLayout><Estatisticas /></MainLayout>} />
-          <Route path="/ciclo" element={<MainLayout><CicloEstudos /></MainLayout>} />
-          <Route path="/editais" element={<MainLayout><Editais /></MainLayout>} />
-          <Route path="/perfil" element={<MainLayout><Perfil /></MainLayout>} />
-          <Route path="/admin" element={<MainLayout><Admin /></MainLayout>} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-)
+            {/* Rotas do universitário */}
+            <Route path="/universitario/*" element={
+              <UniversitarioLayout>
+                <Routes>
+                  <Route path="/" element={<UniversitarioHome />} />
+                  <Route path="/disciplinas" element={<UniversitarioDisciplinas />} />
+                  <Route path="/trabalhos" element={<UniversitarioTrabalhos />} />
+                  <Route path="/cronograma" element={<UniversitarioCronograma />} />
+                  <Route path="/notas" element={<UniversitarioNotas />} />
+                  <Route path="/estatisticas" element={<UniversitarioEstatisticas />} />
+                  <Route path="/perfil" element={<UniversitarioPerfil />} />
+                  <Route path="/ciclo" element={<UniversitarioCiclo />} />
+                </Routes>
+              </UniversitarioLayout>
+            } />
+
+            {/* Rotas do concurseiro */}
+            <Route path="/historico" element={<MainLayout><Historico /></MainLayout>} />
+            <Route path="/revisoes" element={<MainLayout><Revisoes /></MainLayout>} />
+            <Route path="/edital-verticalizado" element={<MainLayout><EditalVerticalizado /></MainLayout>} />
+            <Route path="/estatisticas" element={<MainLayout><Estatisticas /></MainLayout>} />
+            <Route path="/ciclo" element={<MainLayout><CicloEstudos /></MainLayout>} />
+            <Route path="/editais" element={<MainLayout><Editais /></MainLayout>} />
+            <Route path="/perfil" element={<MainLayout><Perfil /></MainLayout>} />
+            <Route path="/admin" element={<MainLayout><Admin /></MainLayout>} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  )
+}
 
 export default App
