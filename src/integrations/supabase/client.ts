@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 import type { Database } from './types'
 
 const supabaseUrl = 'https://glugubilvxufzkqedtou.supabase.co'
-const supabaseKey = process.env.SUPABASE_ANON_KEY || 'mock-key'
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || 'mock-key'
 
 // Mock Supabase client that implements the required interface
 export const supabase = {
