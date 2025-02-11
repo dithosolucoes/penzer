@@ -1,8 +1,9 @@
+
 import { createClient } from '@supabase/supabase-js'
 import type { Database } from './types'
 
-const supabaseUrl = 'https://mock.supabase.co'
-const supabaseKey = 'mock-key'
+const supabaseUrl = 'https://glugubilvxufzkqedtou.supabase.co'
+const supabaseKey = process.env.SUPABASE_ANON_KEY || 'mock-key'
 
 // Mock Supabase client that implements the required interface
 export const supabase = {
